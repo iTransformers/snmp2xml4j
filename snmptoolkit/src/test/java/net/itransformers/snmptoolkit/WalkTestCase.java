@@ -13,7 +13,6 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 public class WalkTestCase {
@@ -55,7 +54,7 @@ public class WalkTestCase {
                 "statRadiusAccountingRspRate,statRadiusAuthReqRate,statRadiusAuthAcceptRate," +
                 "statNumberOfAllocatedSessions,statNumberOfStartedSessions," +
                 "statNumberOfActiveSessions";
-        String mibDir = "snmptoolkit/mibs";
+        String mibDir = "mibs";
 
         HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
         cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
@@ -78,7 +77,7 @@ public class WalkTestCase {
     @Test
     public void ciscoTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
         String oids = "ipv6Forwarding, ipv6IfIndex,ipv6AddrEntry,ipv6NetToMediaEntry,ipv6RouteEntry,cIpAddressEntry";
-        String mibDir = "snmptoolkit/mibs";
+        String mibDir = "mibs";
 
         HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
         cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
