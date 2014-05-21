@@ -6,7 +6,7 @@ A number of tools performing snmp queries to structured xml.
 Currently the tool is able to do snmpget, snmptset and snmpwalk.
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
-An Example for a structured snmpwalk in xml format is the one bellow.
+Junit test case
 ```
     public void ciscoTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
         String oids = "ipv6Forwarding, ipv6IfIndex,ipv6AddrEntry,ipv6NetToMediaEntry,ipv6RouteEntry,cIpAddressEntry";
@@ -31,6 +31,7 @@ An Example for a structured snmpwalk in xml format is the one bellow.
         Assert.assertEquals(expectedXML,xml);
     }
 ```
+SNMP2XML output
 ```
 <?xml version="1.0" ?>
 <root>
