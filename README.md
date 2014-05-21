@@ -8,6 +8,30 @@ It provides a bridge between MIBs and raw data received from the SNMP enabled de
 
 An Example for a structured snmpwalk in xml format is the one bellow.
 ```
+    public void ciscoTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
+        String oids = "ipv6Forwarding, ipv6IfIndex,ipv6AddrEntry,ipv6NetToMediaEntry,ipv6RouteEntry,cIpAddressEntry";
+        String mibDir = "mibs";
+
+        HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
+        cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
+        cmdOptions.put(CmdOptions.ADDRESS,"localhost/11161");
+        cmdOptions.put(CmdOptions.COMMUNITY,"ciscoIp");
+        cmdOptions.put(CmdOptions.VERSION,"2c");
+        cmdOptions.put(CmdOptions.TIMEOUT,"1000");
+        cmdOptions.put(CmdOptions.RETRIES,"100");
+        cmdOptions.put(CmdOptions.MAX_REPETITIONS,"100");
+        cmdOptions.put(CmdOptions.OIDS,oids);
+
+        Properties parameters = new Properties();
+        Walk.fillParams(cmdOptions, parameters);
+        Walk walker = new Walk(new File(mibDir), false, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+        Node root = walker.walk(oids.split(","), parameters);
+        String xml = Walk.printTreeAsXML(root, true);
+        String expectedXML = FileUtils.readFileToString(new File("snmptoolkit/src/test/java/resources/cisco_ipv6.xml"));
+        Assert.assertEquals(expectedXML,xml);
+    }
+```
+```
 <?xml version="1.0" ?>
 <root>
     <iso oid="1">
