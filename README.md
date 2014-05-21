@@ -41,9 +41,6 @@ An Example for a structured snmpwalk in xml format is the one bellow.
                                                 <cIpAddressTable oid="1.3.6.1.4.1.9.10.86.1.1.2">
                                                     <cIpAddressEntry oid="1.3.6.1.4.1.9.10.86.1.1.2.1">
                                                         <index name="cIpAddressAddrType" syntax="INTEGER" oid="1.3.6.1.4.1.9.10.86.1.1.2.1.1">2</index>
-                                                        <!--cIpAddressAddr ==2001:0470:1f0b:0abd:0000:0000:0000:0010-->
-                                                        <!--ne moga da razbera zashto pri nas zapochva s 10.... -->
-                                                        <!-- moje bi e dobre da se dobavi i Permission 	v sluchaia not-accessible-->
                                                         <index name="cIpAddressAddr" syntax="OCTET STRING" oid="1.3.6.1.4.1.9.10.86.1.1.2.1.2">10:20:01:04:70:1f:0b:0a:bd:00:00:00:00:00:00:00:10</index>
                                                         <instance instanceIndex="1" instanceName="cIpAddressAddrType.cIpAddressAddr">2.10:20:01:04:70:1f:0b:0a:bd:00:00:00:00:00:00:00:10</instance>
                                                         <cIpAddressIfIndex oid="1.3.6.1.4.1.9.10.86.1.1.2.1.3.2.16.32.1.4.112.31.11.10.189.0.0.0.0.0.0.0.16">1</cIpAddressIfIndex>
