@@ -1,0 +1,335 @@
+-- $Id$
+
+APTILO-ALE-IMCORE-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE, OBJECT-IDENTITY
+           FROM SNMPv2-SMI
+       DisplayString, TruthValue
+           FROM SNMPv2-TC
+       im
+           FROM APTILO-ALE-CORE-MIB;
+
+   imImcore MODULE-IDENTITY
+       LAST-UPDATED "201204251556Z"
+       ORGANIZATION "Aptilo Networks"
+       CONTACT-INFO
+           "Technical Support
+            support@aptilo.com"
+       DESCRIPTION
+           "This MIB includes information about the core framework of
+            Aptilo Network's IM system."
+	REVISION "200301131556Z"
+	DESCRIPTION
+		"Initial revision"
+       ::= { im 36 }
+
+-- Objects
+
+   imImcoreObjects OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Objects in the imImcore module."
+       ::= { imImcore 1 }
+
+   imImcoreVersion OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The version of IM."
+       ::= { imImcoreObjects 1 }
+
+   imImcoreBuildInfo OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Information about how IM was built."
+       ::= { imImcoreObjects 2 }
+
+   imImcoreModulesInfo OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Information about IM modules."
+       ::= { imImcoreObjects 3 }
+
+-- Table of IM modules.
+
+   imImcoreModuleTable OBJECT-TYPE
+       SYNTAX SEQUENCE OF ImImcoreModuleEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A list of installed IM modules."
+       ::= { imImcoreModulesInfo 1 }
+
+   imImcoreModuleEntry OBJECT-TYPE
+       SYNTAX     ImImcoreModuleEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "An IM module entry."
+
+       INDEX { imImcoreModuleName }
+       ::= { imImcoreModuleTable 1 }
+
+   ImImcoreModuleEntry ::= SEQUENCE {
+       imImcoreModuleName   DisplayString,
+       imImcoreModuleActive TruthValue
+   }
+
+   imImcoreModuleName OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Name of the IM module."
+       ::= { imImcoreModuleEntry 1 }
+
+   imImcoreModuleActive OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the IM module is active."
+       ::= { imImcoreModuleEntry 2 }
+
+-- End of IM modules table.
+
+-- Table of IM module collection programs.
+
+   imImcoreCollectProgTable OBJECT-TYPE
+       SYNTAX SEQUENCE OF ImImcoreCollectProgEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A list of collection programs run by IM modules."
+       ::= { imImcoreModulesInfo 2 }
+
+   imImcoreCollectProgEntry OBJECT-TYPE
+       SYNTAX     ImImcoreCollectProgEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A collection program entry."
+       INDEX { imImcoreCollectProgName }
+       ::= { imImcoreCollectProgTable 1 }
+
+   ImImcoreCollectProgEntry ::= SEQUENCE {
+       imImcoreCollectProgName    DisplayString,
+       imImcoreCollectProgWorking TruthValue
+   }
+
+   imImcoreCollectProgName OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Name of the collection program."
+       ::= { imImcoreCollectProgEntry 1 }
+
+   imImcoreCollectProgWorking OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the collection program works."
+       ::= { imImcoreCollectProgEntry 2 }
+
+-- End of IM module collection programs table.
+
+   imImcoreImalarmdInfo OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Information about the imalarmd daemon."
+       ::= { imImcoreObjects 4 }
+
+   imImcoreImalarmdAlive OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the alarm daemon imalarmd is alive."
+       ::= { imImcoreImalarmdInfo 1 }
+
+   imImcoreImalarmdLastTermCause OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Last termination cause of imalarmd."
+       ::= { imImcoreImalarmdInfo 2 }
+
+   imImcoreImlogreaderdInfo OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Information about the imlogreaderd daemon."
+       ::= { imImcoreObjects 5 }
+
+   imImcoreImlogreaderdAlive OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the imlogreaderd daemon is alive."
+       ::= { imImcoreImlogreaderdInfo 1 }
+
+-- Table of log files read by imlogreaderd.
+
+   imImcoreLogFileTable OBJECT-TYPE
+       SYNTAX SEQUENCE OF ImImcoreLogFileEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A list of log files read by imlogreaderd."
+       ::= { imImcoreImlogreaderdInfo 2 }
+
+   imImcoreLogFileEntry OBJECT-TYPE
+       SYNTAX     ImImcoreLogFileEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A log file entry."
+       INDEX { imImcoreLogFileName }
+       ::= { imImcoreLogFileTable 1 }
+
+   ImImcoreLogFileEntry ::= SEQUENCE {
+       imImcoreLogFileName    DisplayString,
+       imImcoreLogFileReadOK  TruthValue
+   }
+
+   imImcoreLogFileName OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Name of the log file."
+       ::= { imImcoreLogFileEntry 1 }
+
+   imImcoreLogFileReadOK OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the logfile could be read as expected."
+       ::= { imImcoreLogFileEntry 2 }
+
+-- End of table of read log files.
+
+   imImcoreImwatchdogdInfo OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Information about the imwatchdogd daemon."
+       ::= { imImcoreObjects 6 }
+
+   imImcoreImwatchdogdAlive OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the watchdog daemon that supervises the alarm
+           daemon is alive."
+       ::= { imImcoreImwatchdogdInfo 1 }
+
+   imImcoreSnmpdInfo OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Information about the snmpd daemon."
+       ::= { imImcoreObjects 7 }
+
+   imImcoreSnmpdAlive OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Whether the SNMP daemon is alive."
+       ::= { imImcoreSnmpdInfo 1 }
+
+-- Notifications
+
+   imImcoreEvents OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Events for the IM core."
+       ::= { imImcore 2 }
+
+   imImcoreImalarmdDown NOTIFICATION-TYPE
+       OBJECTS { imImcoreImalarmdLastTermCause }
+       STATUS current
+       DESCRIPTION
+           "imalarmd is not working."
+       ::= { imImcoreEvents 1 }
+
+   imImcoreImalarmdDownReset NOTIFICATION-TYPE
+       OBJECTS { imImcoreImalarmdLastTermCause }
+       STATUS current
+       DESCRIPTION
+           "Reset of imImcoreImalarmdDown."
+       ::= { imImcoreEvents 2 }
+
+   imImcoreImlogreaderdDown NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "imlogreaderd is not working."
+       ::= { imImcoreEvents 3 }
+
+   imImcoreImlogreaderdDownReset NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "Reset of imImcoreImlogreaderdDown."
+       ::= { imImcoreEvents 4 }
+
+   imImcoreLogReadingFailed NOTIFICATION-TYPE
+       OBJECTS { imImcoreLogFileName }
+       STATUS current
+       DESCRIPTION
+           "Failed to read log file."
+       ::= { imImcoreEvents 5 }
+
+   imImcoreLogReadingFailedReset NOTIFICATION-TYPE
+       OBJECTS { imImcoreLogFileName }
+       STATUS current
+       DESCRIPTION
+           "Reset of imImcoreLogReadingFailed."
+       ::= { imImcoreEvents 6 }
+
+   imImcoreImwatchdogdDown NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "imwatchdogd is not working."
+       ::= { imImcoreEvents 7 }
+
+   imImcoreImwatchdogdDownReset NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "Reset of imImcoreImwatchdogdDown."
+       ::= { imImcoreEvents 8 }
+
+   imImcoreSnmpdDown NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "snmpd is not working."
+       ::= { imImcoreEvents 9 }
+
+   imImcoreSnmpdDownReset NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "Reset of imImcoreSnmpdDown."
+       ::= { imImcoreEvents 10 }
+
+   imImcoreCollectProgNotWorking NOTIFICATION-TYPE
+       OBJECTS { imImcoreCollectProgName }
+       STATUS current
+       DESCRIPTION
+           "A collection program run by IM does not work."
+       ::= { imImcoreEvents 11 }
+
+   imImcoreCollectProgNotWorkingReset NOTIFICATION-TYPE
+       OBJECTS { imImcoreCollectProgName }
+       STATUS current
+       DESCRIPTION
+           "Reset of imImcoreCollectProgNotWorking."
+       ::= { imImcoreEvents 12 }
+
+END

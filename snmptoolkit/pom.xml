@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>iTransformers.iTransformer</groupId>
+    <artifactId>snmptoolkit</artifactId>
+    <version>0.7-SNAPSHOT</version><!--Change for new version-->
+
+    <parent>
+        <groupId>iTransformers</groupId>
+        <artifactId>iTransformer</artifactId>
+        <version>0.7-SNAPSHOT</version><!--Change for new version-->
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>snmp</groupId>
+            <artifactId>mibble-parser</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>snmp</groupId>
+            <artifactId>mibble-mibs</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>snmp</groupId>
+            <artifactId>grammatica</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.snmp4j</groupId>
+            <artifactId>snmp4j</artifactId>
+            <version>1.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.saxon</groupId>
+            <artifactId>saxon</artifactId>
+            <version>9.1.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+    
+</project>

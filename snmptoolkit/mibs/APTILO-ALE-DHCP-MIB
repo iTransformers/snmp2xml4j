@@ -1,0 +1,258 @@
+APTILO-ALE-DHCP-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, Counter64
+           FROM SNMPv2-SMI
+       OBJECT-GROUP
+           FROM SNMPv2-CONF
+       ale
+           FROM APTILO-MIB;
+
+   dhcp MODULE-IDENTITY
+       LAST-UPDATED
+                 "201304191540Z"
+       ORGANIZATION
+                 "Aptilo Networks AB"
+       CONTACT-INFO
+                 "Technical Support
+                 support@aptilo.com"
+       DESCRIPTION
+                 "This MIB has information about services related to the dhcp
+                 service on an ALE node."
+       REVISION  "201304191540Z"
+       DESCRIPTION
+                 "Initial revision"
+       ::= { ale 11 }
+
+   dhcpStats OBJECT IDENTIFIER
+       ::= { dhcp 1 }
+
+-- DHCPv4
+
+   dhcpv4NumDiscovers OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Discover messages received by server."
+       ::= { dhcpStats 1 }
+
+   dhcpv4NumRequests OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Request messages received by server."
+       ::= { dhcpStats 2 }
+
+   dhcpv4NumReleases OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Release messages received by server."
+       ::= { dhcpStats 3 }
+
+   dhcpv4NumOffers OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Offer messages sent by server."
+       ::= { dhcpStats 4 }
+
+   dhcpv4NumAcks OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Ack messages sent by server."
+       ::= { dhcpStats 5 }
+
+   dhcpv4NumNacks OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Nack messages sent by server."
+       ::= { dhcpStats 6 }
+
+   dhcpv4NumDeclines OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Decline messages received by server."
+       ::= { dhcpStats 7 }
+
+   dhcpv4NumInforms OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Inform messages received by server."
+       ::= { dhcpStats 8 }
+
+   dhcpv4NumInvalids OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of invalid messages received by server."
+       ::= { dhcpStats 9 }
+
+-- DHCPv6
+
+   dhcpv6NumSolicits OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Solicit messages received by server."
+       ::= { dhcpStats 10 }
+
+   dhcpv6NumAdvertises OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Advertise messages sent by server."
+       ::= { dhcpStats 11 }
+
+   dhcpv6NumRequests OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Request messages received by server."
+       ::= { dhcpStats 12 }
+
+   dhcpv6NumConfirms OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Confirm messages received by server."
+       ::= { dhcpStats 13 }
+
+   dhcpv6NumRenews OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Renew messages received by server."
+       ::= { dhcpStats 14 }
+
+   dhcpv6NumRebinds OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Rebind messages received by server."
+       ::= { dhcpStats 15 }
+
+   dhcpv6NumReplies OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Reply messages sent by server."
+       ::= { dhcpStats 16 }
+
+   dhcpv6NumReleases OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Release messages received by server."
+       ::= { dhcpStats 17 }
+
+   dhcpv6NumDeclines OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Decline messages received by server."
+       ::= { dhcpStats 18 }
+
+   dhcpv6NumReconfigures OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Reconfigure messages sent by server."
+       ::= { dhcpStats 19 }
+
+   dhcpv6NumInformationRequests OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Information-Request messages received by server."
+       ::= { dhcpStats 20 }
+
+   dhcpv6NumRelayForwards OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Relay-forward messages received by server."
+       ::= { dhcpStats 21 }
+
+   dhcpv6NumRelayReplies OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Relay-reply messages sent by server."
+       ::= { dhcpStats 22 }
+
+   dhcpv6NumInvalids OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of Invalid messages received by server."
+       ::= { dhcpStats 23 }
+
+-- Object groups
+
+   dhcpv4Group OBJECT-GROUP
+       OBJECTS { dhcpv4NumDiscovers,
+                 dhcpv4NumRequests,
+                 dhcpv4NumReleases,
+                 dhcpv4NumOffers,
+                 dhcpv4NumAcks,
+                 dhcpv4NumNacks,
+                 dhcpv4NumDeclines,
+                 dhcpv4NumInforms,
+                 dhcpv4NumInvalids }
+      STATUS   current
+      DESCRIPTION
+               "A collection of objects with statistical data related
+               to DHCP for IPv6"
+       ::= { dhcp 2 }
+
+   dhcpv6Group OBJECT-GROUP
+       OBJECTS { dhcpv6NumSolicits,
+                 dhcpv6NumAdvertises,
+                 dhcpv6NumRequests,
+                 dhcpv6NumConfirms,
+                 dhcpv6NumRenews,
+                 dhcpv6NumRebinds,
+                 dhcpv6NumReplies,
+                 dhcpv6NumReleases,
+                 dhcpv6NumDeclines,
+                 dhcpv6NumReconfigures,
+                 dhcpv6NumInformationRequests,
+                 dhcpv6NumRelayForwards,
+                 dhcpv6NumRelayReplies }
+      STATUS   current
+      DESCRIPTION
+               "A collection of objects with statistical data related
+               to DHCP for IPv6"
+       ::= { dhcp 3 }
+
+
+
+END
