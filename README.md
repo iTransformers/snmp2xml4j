@@ -7,7 +7,7 @@ Currently the tool is able to do snmpget, snmptset and snmpwalk.
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
 An Example for a structured snmpwalk in xml format is the one bellow.
-
+```
 <?xml version="1.0" ?>
 <root>
     <iso oid="1">
@@ -125,3 +125,4 @@ An Example for a structured snmpwalk in xml format is the one bellow.
         </org>
     </iso>
 </root>
+```
