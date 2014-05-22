@@ -32,7 +32,7 @@ Junit test case
     }
 ```
 SNMP2XML output
-```
+```xml
 <?xml version="1.0" ?>
 <root>
     <iso oid="1">
