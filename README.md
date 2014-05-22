@@ -1,7 +1,7 @@
 snmp2xml
 ========
 
-A number of tools performing snmp queries to structured xml.
+A number of Java Written tools performing snmp queries into a structured xml.
 
 Currently the tool is able to do snmpget, snmptset and snmpwalk.
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
