@@ -7,7 +7,7 @@ Currently the tool is able to do snmpget, snmptset and snmpwalk.
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
 Junit test case
-```
+```java
     public void ciscoTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
         String oids = "ipv6Forwarding, ipv6IfIndex,ipv6AddrEntry,ipv6NetToMediaEntry,ipv6RouteEntry,cIpAddressEntry";
         String mibDir = "mibs";
