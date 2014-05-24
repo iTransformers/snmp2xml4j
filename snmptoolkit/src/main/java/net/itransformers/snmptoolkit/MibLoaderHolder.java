@@ -1,5 +1,25 @@
 
 
+/*
+ * Copyright (c) 2014. iTransformers Labs http://itransformers.net
+ *
+ * snmp2xml is an open source tool written by Vasil Yordanov and Nikolay Milovanov
+ * in JAVA programing languadge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.itransformers.snmptoolkit;
 
 import net.percederberg.mibble.Mib;
@@ -57,6 +77,24 @@ public class MibLoaderHolder {
     public MibLoader getLoader() {
         return loader;
     }
+
+
+//    public String getSyntaxByName(String name){
+//        logger.debug("getSyntaxByName,  oid="+name);
+//        Mib mib = loader.getMib(name);
+//
+//        if (mib == null) {
+//            logger.error("Can not find symbol by mib, mibName="+mibName + ", oid="+oid);
+//        }
+//        final MibValueSymbol symbolByOid = mib.getSymbolByOid(oid);
+//        if (symbolByOid == null) {
+//            logger.error("Can not find symbol by OID, mibName="+mibName + ", oid="+oid);
+//            return null;
+//        }
+//        logger.info(symbolByOid.getName());
+//
+//        return symbolByOid.getName();
+//    }
 
     public String getSymbolByOid(String mibName, String oid){
         logger.debug("getSymbolByOid, mibName="+mibName + ", oid="+oid);

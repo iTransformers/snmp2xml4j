@@ -1,0 +1,266 @@
+APTILO-ALE-STAT-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+       IpAddress, Gauge32, Integer32
+           FROM SNMPv2-SMI
+       PhysAddress, DisplayString
+           FROM SNMPv2-TC
+       ale
+           FROM APTILO-MIB;
+
+    stat MODULE-IDENTITY
+       LAST-UPDATED "201203151230Z"
+       ORGANIZATION "Aptilo Networks"
+       CONTACT-INFO
+              "Technical Support
+               support@aptilo.com"
+       DESCRIPTION
+              "This MIB has information about services specific to ALE statistics."
+        REVISION "201203151230Z"
+        DESCRIPTION
+                "Initial revision"
+       ::= { ale 2 }
+
+-- IP Pool Table:
+
+   statIpPoolTable OBJECT-TYPE
+       SYNTAX     SEQUENCE OF POOLENTRY
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+                  "A table of provisioned IP pools."
+       ::= { stat 1 }
+
+   statIpPoolEntry OBJECT-TYPE
+       SYNTAX     POOLENTRY
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+                  "An IP pool entry with statistical information."
+       INDEX   { statIpPoolId }
+       ::= { statIpPoolTable 1 }
+
+   POOLENTRY ::=
+       SEQUENCE {
+          statIpPoolId
+             Gauge32,
+          statIpPoolTotal
+             Gauge32,
+          statIpPoolBusy
+             Gauge32,
+          statIpPoolWaitState
+             Gauge32,
+          statIpPoolTemp
+             Gauge32,
+          statIpPoolFree
+             Gauge32,
+          statIpPoolBusyPercentage
+             Integer32
+       }
+
+   statIpPoolId OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "ID (primary key) of this IP pool."
+       ::= { statIpPoolEntry 1 }
+
+   statIpPoolTotal OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of provisioned IP addresses in this pool."
+       ::= { statIpPoolEntry 2 }
+
+   statIpPoolBusy OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of busy (commited) IP addresses in this pool."
+       ::= { statIpPoolEntry 3 }
+       
+   statIpPoolWaitState OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of IP addresses in wait-state in this pool."
+       ::= { statIpPoolEntry 4 }
+
+   statIpPoolTemp OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of temporarily allocated IP addresses in this pool."
+       ::= { statIpPoolEntry 5 }
+
+   statIpPoolFree OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                   "Number of free IP addresses in this pool."
+       ::= { statIpPoolEntry 6 }
+
+   statIpPoolBusyPercentage OBJECT-TYPE
+       SYNTAX     Integer32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The ratio (in percent) of the number of busy
+                  IP addresses for this pool and the
+                  number of provisioned IP addresses for this pool."
+       ::= { statIpPoolEntry 7 }
+       
+   statIpPoolNumberOfEntries OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of pool entries in table."
+       ::= { stat 2 }
+       
+-- END IP Pool Table
+       
+-- LDAP
+    statLdapInputReqRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of LDAP requests per second."
+       ::= { stat 10 }
+
+   statLdapInputRspSuccessRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of successful LDAP responses per second."
+       ::= { stat 11 }
+
+-- END LDAP
+
+-- RADIUS
+
+   statRadiusAccountingReqRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of Radius Accounting requests per second."
+       ::= { stat 20 }
+
+   statRadiusAccountingRspRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of Radius Accounting responses per second."
+       ::= { stat 21 }
+
+   statRadiusAuthReqRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of Radius Access requests per second."
+       ::= { stat 22 }
+
+   statRadiusAuthAcceptRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of Radius Access accepts per second."
+       ::= { stat 23 }
+       
+-- END RADIUS
+
+-- SESSIONS
+
+   statNumberOfAllocatedSessions OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of allocated sessions."
+       ::= { stat 30 }
+
+   statNumberOfStartedSessions OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of started sessions."
+       ::= { stat 31 }
+
+   statNumberOfActiveSessions OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of active sessions."
+       ::= { stat 32 }
+
+-- END SESSIONS
+
+-- DIAMETER
+
+   statDiameterInboundReqRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "DIAMETER requests per second received by Inbound adapter."
+       ::= { stat 40 }
+
+   statDiameterInboundRspRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "DIAMETER response per second sent by Inbound adapter."
+       ::= { stat 41 }
+
+   statDiameterOutboundReqRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "DIAMETER requests per second sent by Outbound adapter."
+       ::= { stat 42 }
+
+   statDiameterOutboundRspRate OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "DIAMETER response per second received by Outbound adapter."
+       ::= { stat 43 }
+
+-- END DIAMETER
+
+       
+--Notifications
+
+   statIpPoolFewLeftTrap NOTIFICATION-TYPE
+       OBJECTS { statIpPoolBusyPercentage, statIpPoolId }
+       STATUS current
+       DESCRIPTION
+           "There are few free IP addresses left in a pool."
+       ::= { stat 1000 }
+
+   statIpPoolFewLeftTrapReset NOTIFICATION-TYPE
+       OBJECTS { statIpPoolBusyPercentage, statIpPoolId }
+       STATUS current
+       DESCRIPTION
+           "The number of IP addresses left in a pool is back to normal."
+       ::= { stat 1001 }
+
+END

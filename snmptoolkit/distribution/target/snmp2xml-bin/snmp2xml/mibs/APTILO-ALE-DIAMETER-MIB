@@ -1,0 +1,229 @@
+APTILO-ALE-DIAMETER-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+      MODULE-IDENTITY,
+      OBJECT-TYPE,
+      Counter32,
+      Unsigned32,
+      Counter64
+            FROM SNMPv2-SMI         -- [RFC2578]
+      MODULE-COMPLIANCE,
+      OBJECT-GROUP
+            FROM SNMPv2-CONF        -- [RFC2580]
+      ale
+            FROM APTILO-MIB;
+
+diameter MODULE-IDENTITY
+      LAST-UPDATED "201306181818Z"
+      ORGANIZATION "Aptilo Networks"
+      CONTACT-INFO
+           "Technical Support
+            E-mail: support@aptilo.com"
+       DESCRIPTION
+           "The MIB module for entities implementing the
+            Diameter Protocol."
+      REVISION "201306181818Z"
+      DESCRIPTION "Removed all of the traps and most of the
+	    APNLite counters, due to reliability issues."
+      REVISION "201301241717Z"
+      DESCRIPTION "Initial version"
+      ::= { ale 10 }
+
+
+-- Diameter Application below the diameter MIB
+diameterApplication OBJECT IDENTIFIER ::= { diameter 1 }
+
+
+-- Top-Level Components of this MIB.
+
+diameterApplicationNotifications  OBJECT IDENTIFIER ::=
+                                     { diameterApplication 0 }
+diameterApplicationObjects        OBJECT IDENTIFIER ::=
+                                     { diameterApplication 1 }
+diameterApplicationConform        OBJECT IDENTIFIER ::=
+                                     { diameterApplication 2 }
+
+dapApplicationStats   OBJECT IDENTIFIER ::= { diameterApplicationObjects 1 }
+
+
+-- Application-based Counter Table
+
+dapStatsTable OBJECT-TYPE
+       SYNTAX     SEQUENCE OF DapStatsEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "The table listing the Diameter mApplication-based
+           statistics information. A struct of counters for each
+           application, (indexed on the application number)"
+       ::= { dapApplicationStats 1 }
+
+dapStatsEntry OBJECT-TYPE
+       SYNTAX     DapStatsEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A row entry representing the statistics for a single
+           Diameter Application."
+       INDEX      { dapStatsApplicationId }
+       ::= { dapStatsTable 1 }
+
+DapStatsEntry ::= SEQUENCE {
+       dapStatsApplicationId                  Unsigned32,
+       dapStatsInRequests                     Counter32,
+       dapStatsOutRequests                    Counter32,
+       dapStatsInResponses                    Counter32,
+       dapStatsOutResponses                   Counter32
+       }
+
+dapStatsApplicationId OBJECT-TYPE
+       SYNTAX     Unsigned32 (1..4294967295)
+       MAX-ACCESS accessible-for-notify
+       STATUS     current
+       DESCRIPTION
+           "A number uniquely identifying each application.
+           This number is supplied by the Diameter configuration.
+           For futher information about Application Id Numbers,
+           see IANA at
+           http://www.iana.org/assignments/aaa-parameters/aaa-parameters.xml#aaa-parameters-45"
+       ::= { dapStatsEntry 1 }
+
+
+-- Per-application message statistics
+
+dapStatsInRequests OBJECT-TYPE
+       SYNTAX     Counter32 UNITS "messages"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Number of Diameter request messages received by this application."
+       ::= { dapStatsEntry 2 }
+
+dapStatsOutRequests OBJECT-TYPE
+       SYNTAX     Counter32 UNITS "messages"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Number of Diameter request messages sent by this application."
+       ::= { dapStatsEntry 3 }
+
+dapStatsInResponses OBJECT-TYPE
+       SYNTAX     Counter32 UNITS "messages"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Number of Diameter response messages from peer received by this application."
+       ::= { dapStatsEntry 4 }
+
+dapStatsOutResponses OBJECT-TYPE
+       SYNTAX     Counter32 UNITS "messages"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Number of Diameter response messages sent by this application."
+       ::= { dapStatsEntry 5 }
+
+-- Global message statistics
+
+diameterTotInRequests OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Total number of Diameter request messages received."
+       ::= { dapApplicationStats 2 }
+
+diameterTotInRequests32 OBJECT-TYPE
+       SYNTAX     Counter32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "SNMPv1 compatible. Total number of Diameter request messages received."
+       ::= { dapApplicationStats 3 }
+
+diameterTotOutRequests OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Total number of Diameter request messages sent."
+       ::= { dapApplicationStats 4 }
+
+diameterTotOutRequests32 OBJECT-TYPE
+       SYNTAX     Counter32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "SNMPv1 compatible. Total number of Diameter request messages sent."
+       ::= { dapApplicationStats 5 }
+
+diameterTotInResponses OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Total number of Diameter response messages received."
+       ::= { dapApplicationStats 6 }
+
+diameterTotInResponses32 OBJECT-TYPE
+       SYNTAX     Counter32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "SNMPv1 compatible. Total number of Diameter response messages received."
+       ::= { dapApplicationStats 7 }
+
+diameterTotOutResponses OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Total number of Diameter response messages sent."
+       ::= { dapApplicationStats 8 }
+
+diameterTotOutResponses32 OBJECT-TYPE
+       SYNTAX     Counter32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "SNMPv1 compatible. Total number of Diameter response messages sent."
+       ::= { dapApplicationStats 9 }
+
+-- Conformance
+
+diameterApplicationCompliances
+                    OBJECT IDENTIFIER ::= { diameterApplicationConform 1 }
+
+diameterApplicationGroups
+                    OBJECT IDENTIFIER ::= { diameterApplicationConform 2 }
+
+
+-- Compliance Statements
+
+diameterAPCompliances MODULE-COMPLIANCE
+       STATUS     current
+       DESCRIPTION
+           "The compliance statement for Diameter Application entities."
+       MODULE -- this module
+            MANDATORY-GROUPS {
+	                     dapApplicationStatsGroup
+                             }
+       ::= { diameterApplicationCompliances 1 }
+
+
+-- Units of Conformance
+
+dapApplicationStatsGroup OBJECT-GROUP
+    OBJECTS   {
+              dapStatsApplicationId,
+              dapStatsInRequests,
+              dapStatsOutRequests,
+              dapStatsInResponses,
+              dapStatsOutResponses
+              }
+    STATUS          current
+    DESCRIPTION
+        "A collection of objects providing application statistics."
+    ::= { diameterApplicationGroups 1 }
+
+END

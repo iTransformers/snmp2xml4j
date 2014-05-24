@@ -1,0 +1,75 @@
+APTILO-ALE-AUTH-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE
+           FROM SNMPv2-SMI
+       ale
+           FROM APTILO-MIB;
+
+    auth MODULE-IDENTITY
+       LAST-UPDATED "201203151230Z"
+       ORGANIZATION "Aptilo Networks"
+       CONTACT-INFO
+              "Technical Support
+               support@aptilo.com"
+       DESCRIPTION
+             "This MIB has information about services specific to ALE authentication."
+        REVISION "201203151230Z"
+        DESCRIPTION
+                "Initial revision"
+       ::= { ale 1 }
+       
+    authConfigurationState OBJECT-TYPE
+       SYNTAX     INTEGER { disabled(0), enabled(1) }
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The current redundancy state."
+       ::= { auth 1 }
+       
+    authRedundancyState OBJECT-TYPE
+       SYNTAX     INTEGER { init(0), master(1), slave(2), unresponsive(3) }
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The current redundancy state."
+       ::= { auth 2 }
+       
+    authNumberOfAllocatedSessions OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of allocated sessions."
+       ::= { auth 3 }
+
+    authNumberOfStartedSessions OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of started sessions."
+       ::= { auth 4 }
+
+    authNumberOfActiveSessions OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The total number of active sessions."
+       ::= { auth 5 }
+
+    authDownTrap NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "The auth service is down."
+       ::= { auth 1000 }
+
+    authDownTrapReset NOTIFICATION-TYPE
+       STATUS current
+       DESCRIPTION
+           "Reset of authDownTrap."
+       ::= { auth 1001 }
+
+
+END

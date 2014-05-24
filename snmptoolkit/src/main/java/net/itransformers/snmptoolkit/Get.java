@@ -1,4 +1,21 @@
-
+/*
+ * iTransformer is an open source tool able to discover IP networks
+ * and to perform dynamic data data population into a xml based inventory system.
+ * Copyright (C) 2010  http://itransformers.net
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package net.itransformers.snmptoolkit;
 
@@ -238,12 +255,13 @@ public class Get {
         Get get = new Get(oid, address, versionInt, retriesInt, timeoutInt, community, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
         String value = get.getSNMPValue();
         System.out.println(value);
+
     }
 
     public static void main(String[] args) throws IOException {
         LogFactory.setLogFactory(new Log4jLogFactory());
         CounterSupport.getInstance().addCounterListener(new DefaultCounterListener());
-        VariableBinding vb = new VariableBinding(new OID(".1.3.6.1.2.1.1.4.0"));
+        VariableBinding vb = new VariableBinding(new OID(".1.3.6.1.4.1.9.10.86.1.1.1.1.5.1.2.16.32.1.4.112.31.11.10.189.0.0.0.0.0.0.0.0.96"));
 //        VariableBinding vb = new VariableBinding(new OID("1.3.6.1.2.1.31.1.1.1"));
         Vector vbs = new Vector();
         vbs.add(vb);
@@ -253,10 +271,10 @@ public class Get {
         ((MPv3) snmp.getMessageProcessingModel(MPv3.ID)).setLocalEngineID(new OctetString(MPv3.createLocalEngineID()).getValue());
 
         CommunityTarget target = new CommunityTarget();
-        target.setCommunity(new OctetString("public"));
+        target.setCommunity(new OctetString("ciscoIp"));
 
         target.setVersion(SnmpConstants.version2c);
-        target.setAddress(new UdpAddress("10.10.10.10/161"));
+        target.setAddress(new UdpAddress("192.168.107.33/11161"));
 
         target.setRetries(1);
         target.setTimeout(1000);

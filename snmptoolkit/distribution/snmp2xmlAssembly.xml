@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <!-- http://maven.apache.org/plugins/maven-assembly-plugin/assembly.html#class_moduleSet -->
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+        <format>dir</format>
+    </formats>
+
+
+    <!--<fileSets>-->
+    <!--<fileSet>-->
+    <!--<directory>${basedir}</directory>-->
+    <!--<includes>-->
+    <!--<include>configs/*</include>-->
+    <!--</includes>-->
+    <!--<outputDirectory>/</outputDirectory>-->
+    <!--</fileSet>-->
+    <!--</fileSets>-->
+    <moduleSets>
+
+
+
+        <moduleSet>
+            <!-- Enable access to all projects in the current multimodule build! -->
+            <!--<useAllReactorProjects>true</useAllReactorProjects>-->
+
+            <!-- Now, select which projects to include in this module-set. -->
+            <includes>
+                <include>iTransformers.iTransformer:snmp2xml</include>
+            </includes>
+            <sources>
+                <includeModuleDirectory>true</includeModuleDirectory>
+                <fileSets>
+                    <fileSet>
+                        <directory>../conf/bat</directory>
+                        <outputDirectory>bin</outputDirectory>
+                        <fileMode>0755</fileMode>
+                    </fileSet>
+                    <fileSet>
+                        <directory>../mibs</directory>
+                        <outputDirectory>snmp2xml/mibs</outputDirectory>
+                    </fileSet>
+                </fileSets>
+            </sources>
+            <binaries>
+                <outputDirectory>lib/</outputDirectory>
+                <unpack>false</unpack>
+            </binaries>
+        </moduleSet>
+
+        <!--<moduleSet>-->
+            <!--&lt;!&ndash; Enable access to all projects in the current multimodule build! &ndash;&gt;-->
+            <!--&lt;!&ndash;<useAllReactorProjects>false</useAllReactorProjects>&ndash;&gt;-->
+
+            <!--&lt;!&ndash; Now, select which projects to include in this module-set. &ndash;&gt;-->
+            <!--<includes>-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer:utils</include>&ndash;&gt;-->
+                <!--<include>iTransformers.iTransformer:snmp2xml</include>-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer:resourceManager</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:launcher</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:topologyViewer</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:topologyManagerConfig</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:rightClick</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:rightClickAPI</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:parameterFactory</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.iTopologyManager:fulfilmentFactory</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer:iDiscover</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer:postDiscoverer</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include>iTransformers.iTransformer.bgpPeeringMap</include>&ndash;&gt;-->
+
+
+                <!--&lt;!&ndash;include>iTransformers:iMap</include&ndash;&gt;-->
+            <!--</includes>-->
+            <!--<binaries>-->
+                <!--<outputDirectory>lib/</outputDirectory>-->
+                <!--<unpack>false</unpack>-->
+            <!--</binaries>-->
+        <!--</moduleSet>-->
+
+        <!--moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+
+            <includes>
+                <include>iTransformers.iTransformer:utils</include>
+                <include>iTransformers.iTransformer:snmptoolkit</include>
+                <include>iTransformers.iTransformer.iTopologyManager:launcher</include>
+                <include>iTransformers.iTransformer:resourceManager</include>
+                <include>iTransformers.iTransformer.iTopologyManager:topologyViewer</include>
+                <include>iTransformers.iTransformer.iTopologyManager:topologyManagerConfig</include>
+                <include>iTransformers.iTransformer.iTopologyManager:rightClick</include>
+                <include>iTransformers.iTransformer.iTopologyManager:rightClickAPI</include>
+                <include>iTransformers.iTransformer.iTopologyManager:parameterFactory</include>
+                <include>iTransformers.iTransformer.iTopologyManager:fulfilmentFactory</include>
+                <include>iTransformers.iTransformer:iDiscover</include>
+            </includes>
+            <binaries>
+                <outputDirectory>lib/</outputDirectory>
+                <unpack>false</unpack>
+            </binaries>
+        </moduleSet-->
+    </moduleSets>
+    <fileSets>
+        <fileSet>
+            <directory>../conf/bat</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>../mibs</directory>
+            <outputDirectory>mibs</outputDirectory>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>../src/main/resources/log4j.properties</source>
+            <outputDirectory>bin</outputDirectory>
+        </file>
+
+    </files>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib/</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+
+</assembly>

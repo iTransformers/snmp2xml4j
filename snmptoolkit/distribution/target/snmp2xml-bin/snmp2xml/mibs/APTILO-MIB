@@ -1,0 +1,2248 @@
+APTILO-MIB	DEFINITIONS ::= BEGIN
+	IMPORTS
+		PhysAddress
+			FROM SNMPv2-TC
+		OBJECT-TYPE, NOTIFICATION-TYPE, MODULE-IDENTITY, Integer32,
+		enterprises, IpAddress
+			FROM SNMPv2-SMI;
+
+	aptilo		MODULE-IDENTITY
+		LAST-UPDATED "201211190000Z"
+		ORGANIZATION
+			"Aptilo Networks AB"
+		CONTACT-INFO
+			"Aptilo Networks AB
+			 Arenavagen 47
+			 SE-121 77 Stockholm
+
+			 http://www.aptilo.com/"
+		DESCRIPTION
+			"The MIB module for managing Aptilo units."
+
+		REVISION "201211190000Z"
+		DESCRIPTION
+			"Addition of several new traps and oids."
+		REVISION "201010150000Z"
+		DESCRIPTION
+			"Add coaAuthOnly."
+		REVISION "201003180000Z"
+		DESCRIPTION
+			"Add configTimestamp."
+		REVISION "200912080000Z"
+		DESCRIPTION
+			"Major MIB cleanup and syntax fixes."
+		REVISION "200204160000Z"
+		DESCRIPTION
+			"Initial revision."
+		::=  {  enterprises 13209 }
+
+	products	OBJECT IDENTIFIER
+		::=  {  aptilo 1 }
+
+	aptiloTraps	OBJECT IDENTIFIER
+		::=  {  aptilo 2 }
+
+	aptiloGeneral	OBJECT IDENTIFIER
+		::=  {  products 1 }
+
+	aptiloAC	OBJECT IDENTIFIER
+		::=  {  products 2 }
+
+	ale		OBJECT IDENTIFIER
+		::=  {  products 3 }
+
+	config		OBJECT IDENTIFIER
+		::=  {  aptiloAC 1 }
+
+	statistics	OBJECT IDENTIFIER
+		::=  {  aptiloAC 2 }
+
+	session		OBJECT IDENTIFIER
+		::=  {  aptiloAC 3 }
+
+	service		OBJECT IDENTIFIER
+		::=  {  aptiloAC 5 }
+
+	selfcheck	OBJECT IDENTIFIER
+		::=  {  aptiloAC 6 }
+
+	subnets		OBJECT IDENTIFIER
+		::=  {  config 80 }
+
+	accesspoints	OBJECT IDENTIFIER
+		::=  {  config 81 }
+
+	serialdevices	OBJECT IDENTIFIER
+		::=  {  config 82 }
+
+
+----------------------------------------------------------
+-- aptiloAC
+----------------------------------------------------------
+
+	extIf		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get external interface"
+		::=  {  config 1  }
+
+
+	extMAC		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get the external MAC address"
+		::=  {  config 2  }
+
+	extBootProto		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get extbootproto (default none)"
+		::=  {  config 3  }
+
+	extIP		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get the external IP address"
+		::=  {  config 4  }
+
+
+	extNetmask	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get external network mask"
+		::=  {  config 5  }
+
+	extGateway	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get extgateway"
+		::=  {  config 6  }
+
+	extNameserver	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get name server"
+		::=  {  config 7  }
+
+	extSecondaryNameserver	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get secondary name server"
+		::=  {  config 8  }
+
+	extTertiaryNameserver	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get tertiary name server"
+		::=  {  config 9  }
+
+	extDomain	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get extdomain"
+		::=  {  config 10 }
+
+	extHostname	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get external hostname"
+		::=  {  config 11  }
+
+	intIf		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get the internal interface"
+		::=  {  config 12  }
+
+	intMAC		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get the internal MAC address"
+		::=  {  config 13  }
+
+	intBootProto	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get internal boot proto"
+		::=  {  config 14  }
+
+	intIP		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get the internal IP address"
+		::=  {  config 15  }
+
+	intNetmask	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get internal netmask"
+		::=  {  config 16  }
+
+	intDomain	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get internal domain"
+		::=  {  config 17  }
+
+	intHostname	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get internal hostname"
+		::=  {  config 18  }
+
+	doNAT		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get NAT (yes/no)"
+		::=  {  config 19  }
+
+	bwOut		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Upstream Band Width"
+		::=  {  config 20  }
+
+	bwIn		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Downstream Band Width"
+		::=  {  config 21  }
+
+	maxBwOut		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Maximum Upstream Band Width"
+		::=  {  config 22  }
+
+	maxBwIn		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Maximum Downstream Band Width"
+		::=  {  config 23  }
+
+
+
+	startPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get startPage"
+		::=  {  config 24  }
+
+	acceptedPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get acceptedPage"
+		::=  {  config 25  }
+
+	deniedPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get deniedPage"
+		::=  {  config 26  }
+
+	showsessionPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get showsesionPage"
+		::=  {  config 27  }
+
+	sessionPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get sessionPage"
+		::=  {  config 28  }
+
+	byePage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get byePage"
+		::=  {  config 29 }
+
+	errorPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get errorPage"
+		::=  {  config 30  }
+
+	doAutomaticMacAuthentication	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get automatic mac authentication"
+		::=  {  config 31  }
+
+	doAutomaticCookieAuthentication	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get automatic cookie auth"
+		::=  {  config 32  }
+
+	radiusServer	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get radius server"
+		::=  {  config 33  }
+
+	useVPN		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get useVPN"
+		::=  {  config 34  }
+
+	vpnServer	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get vpn-server"
+		::=  {  config 35  }
+
+	vpnUser		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get vpn-user"
+		::=  {  config 36  }
+
+	vpnSecret		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get vpn-sercret"
+		::=  {  config 37  }
+
+	vpnLocalIP		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Set/get vpn local IP"
+		::=  {  config 38  }
+
+	vpnRemoteIP		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Set/get vpn remote IP"
+		::=  {  config 39  }
+
+	radiusSecret	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get radius secret"
+		::=  {  config 40  }
+
+	radiusTimeout	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get radius timeout"
+		::=  {  config 41  }
+
+	radiusRetries	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get number of radius retries"
+		::=  {  config 42  }
+
+	idleTimeout	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get idle timeout"
+		::=  {  config 43  }
+
+	sessionTimeout	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get session timeout"
+		::=  {  config 44  }
+
+	sessionTimeoutOnError	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get session timeout on error"
+		::=  {  config 45  }
+
+
+	usePAS	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get use PAS (yes/no)"
+		::=  {  config 46  }
+
+	pasIP	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get PAS IP address"
+		::=  {  config 47  }
+
+	pasSecret	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get pas secret"
+		::=  {  config 48  }
+
+	pasKey	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get pas key url"
+		::=  {  config 49  }
+
+	httpTimeout	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get http timeout"
+		::=  {  config 50  }
+
+	alarmLevel	OBJECT-TYPE
+		SYNTAX			INTEGER {
+						disabled(0),
+						email(1),
+						snmp(2),
+						emailSnmp(3)
+					}
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get alarm level (0-5)"
+		::=  {  config 51 }
+
+	dhcpLeasetime	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get DHCP lease time"
+		::=  {  config 52 }
+
+	useQOS		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get (yes/no)"
+		::=  {  config 53 }
+
+
+
+	debugMode	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get debug mode (on/off)"
+		::=  {  config 54  }
+
+	sysadminMail	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get sysadmin mail"
+		::=  {  config 55  }
+
+	productKey	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get product key"
+		::=  {  config 56  }
+
+	licenceNumber	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get licenceNumber"
+		::=  {  config 57  }
+
+
+	numberOfAccessPoints	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get number of access points"
+		::=  {  config 58  }
+
+
+	numberOfUsers	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get number of simultaneous users"
+		::=  {  config 59  }
+
+	apcID	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Unique identifier for this AC"
+		::=  {  config 60  }
+
+	snmpPassphrase	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"snmp password"
+		::=  {  config 61  }
+
+	usePIP	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use Plug and Play IP"
+		::=  {  config 62  }
+
+	location	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"AC location"
+		::=  {  config 63  }
+
+	apcIP	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"IP address of AC service"
+		::=  {  config 64  }
+
+	useRedundancy	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use redundancy protocol"
+		::=  {  config 65  }
+
+	doSMTPRelay	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Do SMTP relaying"
+		::=  {  config 66  }
+
+	useProxy	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use external proxy"
+		::=  {  config 67  }
+
+	proxyServer	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"External proxy server"
+		::=  {  config 68  }
+
+	useProxyARP	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use Proxy ARP 1=On 0=Off"
+		::=  {  config 69  }
+
+	usePMS	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get usePMS"
+
+		::=  {  config 70  }
+
+
+	nasID	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"nasID for radius"
+
+		::=  {  config 72  }
+
+
+	useConsole	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use serial port console"
+
+		::=  {  config 73  }
+
+	redundancyPriority	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Redundancy Priority (low,high)"
+
+		::=  {  config 74  }
+
+	redundancyPassword	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Redundancy Password"
+
+		::=  {  config 75  }
+
+	redundancyStateConf	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Redundancy State (MASTER,BACKUP,UNKNOWN,FAULT)"
+
+		::=  {  config 76  }
+
+	updateStatus		OBJECT-TYPE
+		SYNTAX			INTEGER {
+						updateOK(0),
+						updateUpdating(1),
+						updateUpgrading(2),
+						updateFailed(3)
+					}
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Update status"
+
+		::=  {  config 77  }
+
+	localDNSEntry	OBJECT-TYPE
+		SYNTAX		LocalDNSEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  localDNSHostIP  }
+		::=  { localDNSTable 1 }
+
+
+	LocalDNSEntry  ::=  SEQUENCE {
+		localDNSHostIP	OCTET STRING
+		}
+
+	localDNSHostIP	OBJECT-TYPE
+		SYNTAX			OCTET STRING (SIZE(1..511))
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Domainname and IP separated by space (e.g google.com 1.2.3.4)"
+		::=  {  localDNSEntry 1  }
+
+	localDNSAdd	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and create a new local DNS entry"
+		::=  {  localDNSTable 2  }
+
+	localDNSDelete	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and delete a local DNS entry"
+		::=  {  localDNSTable 3  }
+
+
+	version			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+			"AC version"
+		::=  {  config 78  }
+
+	localDNSTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  LocalDNSEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with localDNS address definitions"
+		::=  {  config 79 }
+
+	redundancyPeer		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Redundancy Peer"
+		::=  {  config 83  }
+
+	useExtVIP	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+			"Use an external VIP"
+		::=  {  config 84  }
+
+	operationMode		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+			"AC operation mode (enabled, disabled or freeAccess)."
+		::=  {  config 85  }
+
+	freeaccessPage		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+			"Set/get freeaccessPage"
+		::=  {  config 86  }
+
+	extVIP		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+			"External virtual IP"
+		::=  {  config 87  }
+
+	configTimestamp	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+			"Timestamp when downloadable config was updated"
+		::=  {  config 88  }
+
+
+	whiteListTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  WhiteListEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with whitelists"
+		::=  {  config 110 }
+
+
+	whiteListEntry	OBJECT-TYPE
+		SYNTAX		WhiteListEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  whiteListHost  }
+		::=  { whiteListTable 1 }
+
+
+	WhiteListEntry  ::=  SEQUENCE {
+		whiteListHost	OCTET STRING
+		}
+
+	whiteListHost	OBJECT-TYPE
+		SYNTAX			OCTET STRING (SIZE(1..255))
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Full access IP address or hostname"
+		::=  {  whiteListEntry 2  }
+
+
+	whiteListAdd	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and create a new WL entry"
+		::=  {  whiteListTable 2  }
+
+	whiteListDelete	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and delete a WL entry"
+		::=  {  whiteListTable 3  }
+
+
+	blackListTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  BlackListEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with blacklists"
+		::=  {  config 111 }
+
+
+
+	blackListEntry	OBJECT-TYPE
+		SYNTAX		BlackListEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  blackListHost  }
+		::=  { blackListTable 1 }
+
+
+	BlackListEntry  ::=  SEQUENCE {
+		blackListHost		OCTET STRING
+		}
+
+	blackListHost	OBJECT-TYPE
+		SYNTAX			OCTET STRING (SIZE(1..255))
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Full access IP address or hostname"
+		::=  {  blackListEntry 2  }
+
+	blackListAdd	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and create a new WL entry"
+		::=  {  blackListTable 2  }
+
+	blackListDelete	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and delete a WL entry"
+		::=  {  blackListTable 3  }
+
+
+
+	greenListTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  GreenListEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with greenlists"
+		::=  {  config 112 }
+
+
+
+	greenListEntry	OBJECT-TYPE
+		SYNTAX		GreenListEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  greenListHost }
+		::=  { greenListTable 1 }
+
+
+	GreenListEntry  ::=  SEQUENCE {
+		greenListHost	OCTET STRING
+		}
+
+	greenListHost	OBJECT-TYPE
+		SYNTAX			OCTET STRING (SIZE(1..255))
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Full access IP address or hostname"
+		::=  {  greenListEntry 2  }
+
+	greenListAdd	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and create a new WL entry"
+		::=  {  greenListTable 2  }
+
+	greenListDelete	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and delete a WL entry"
+		::=  {  greenListTable 3  }
+
+
+	subnetTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  SubnetEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with subnets"
+		::=  { subnets 1 }
+
+	subnetEntry	OBJECT-TYPE
+		SYNTAX		SubnetEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  subnetId  }
+		::=  { subnetTable 1 }
+
+	SubnetEntry  ::=  SEQUENCE {
+		subnetId		Integer32,
+		dhcpStart		IpAddress,
+		dhcpEnd			IpAddress,
+		subnetDhcpLeasetime	Integer32,
+		dhcpPingCheck		OCTET STRING,
+		managementStart		IpAddress,
+		managementEnd		IpAddress,
+		gateway			IpAddress,
+		nexthopToSubnet		IpAddress,
+		domain			OCTET STRING,
+		netmask			IpAddress,
+		network			IpAddress,
+		useDHCP			OCTET STRING,
+		site			OCTET STRING,
+		subnetStartPage		OCTET STRING,
+		subnetAcceptedPage	OCTET STRING,
+		subnetDeniedPage	OCTET STRING,
+		subnetShowsessionPage	OCTET STRING,
+		subnetSessionPage	OCTET STRING,
+		subnetByePage		OCTET STRING,
+		subnetErrorPage		OCTET STRING,
+		name			OCTET STRING,
+		addAccesspoint		OCTET STRING,
+		deleteAccesspoint	OCTET STRING,
+		subnetPasSecret		OCTET STRING,
+		locationID		OCTET STRING,
+		locationName		OCTET STRING,
+		subnetFreeaccessPage	OCTET STRING
+		}
+
+	subnetId	OBJECT-TYPE
+		SYNTAX			Integer32 (0..65535)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION
+				"subnet id"
+		::=  {  subnetEntry 1  }
+
+
+	dhcpStart	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"dhcp start range"
+		::=  {  subnetEntry 2  }
+
+	dhcpEnd		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"dhcp end range"
+		::=  {  subnetEntry 3  }
+
+	subnetDhcpLeasetime	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"dhcp lease time"
+		::=  {  subnetEntry 4  }
+
+	dhcpPingCheck	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"dhcp ping check time"
+		::=  {  subnetEntry 5  }
+
+	managementStart	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"management start range"
+		::=  {  subnetEntry 6  }
+
+	managementEnd	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"management end range"
+		::=  {  subnetEntry 7  }
+
+	gateway	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get default gateway"
+		::=  {  subnetEntry 8  }
+
+	nexthopToSubnet	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nexthopToSubnet"
+		::=  {  subnetEntry 9  }
+
+	domain	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"domain name"
+		::=  {  subnetEntry 10  }
+
+	netmask	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get netmask"
+		::=  {  subnetEntry 11 }
+
+	network	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get netmask"
+		::=  {  subnetEntry 12 }
+
+
+	useDHCP	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"use DHCP on this subnet (yes/no)"
+		::=  {  subnetEntry 13  }
+
+	site	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"PAS site for this subnet"
+		::=  {  subnetEntry 14  }
+
+	subnetStartPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get start page for this subnet"
+		::=  {  subnetEntry 15  }
+
+	subnetAcceptedPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get accepted page for this subnet"
+		::=  {  subnetEntry 16  }
+
+	subnetDeniedPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get denied page for this subnet"
+		::=  {  subnetEntry 17  }
+
+	subnetShowsessionPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get showsession page for this subnet"
+		::=  {  subnetEntry 18  }
+
+	subnetSessionPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get session page for this subnet"
+		::=  {  subnetEntry 19  }
+
+	subnetByePage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get bye page for this subnet"
+		::=  {  subnetEntry 20  }
+
+	subnetErrorPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get error page for this subnet"
+		::=  {  subnetEntry 21  }
+
+	name		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get name for this subnet"
+		::=  {  subnetEntry 22  }
+
+	addAccesspoint	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and create a new AP this subnet
+				(name should be the name of the AP)"
+		::=  {  subnetEntry 23  }
+
+	deleteAccesspoint OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set this and delete the AP on this subnet
+				with the name you set"
+		::=  {  subnetEntry 24  }
+
+	subnetPasSecret	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set/get pas secret for this subnet"
+		::=  {  subnetEntry 25  }
+
+	locationID	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set/get WISPr Location ID"
+		::=  {  subnetEntry 26  }
+
+	locationName	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set/get WISPr Location Name"
+		::=  {  subnetEntry 27  }
+
+	subnetFreeaccessPage	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set/get free access page for this subnet"
+		::=  {  subnetEntry 28  }
+
+
+	accesspointTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF AccesspointEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with subnets"
+		::=  { accesspoints 1 }
+
+	accesspointEntry	OBJECT-TYPE
+		SYNTAX		AccesspointEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  accesspointId  }
+		::=  { accesspointTable 1 }
+
+	AccesspointEntry  ::=  SEQUENCE {
+		accesspointId		Integer32,
+		accesspointName		OCTET STRING,
+		accesspointIp		IpAddress,
+		accesspointMac		OCTET STRING,
+		accesspointRadiusSecret	OCTET STRING,
+		monitored		OCTET STRING,
+		accesspointStatus	INTEGER,
+		statusTimestamp		Integer32,
+		received		Integer32,
+		receivedTimestamp	Integer32,
+		sent			Integer32,
+		sentTimestamp		Integer32,
+		connections		Integer32,
+		connectionsTimestamp	Integer32
+	}
+
+	accesspointId	OBJECT-TYPE
+		SYNTAX			Integer32 (0..65535)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION
+				"accesspoint id"
+		::=  {  accesspointEntry 1  }
+
+	accesspointName		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"accesspoint name"
+		::=  {  accesspointEntry 2  }
+
+	accesspointIp		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"accesspoint IP"
+		::=  {  accesspointEntry 3  }
+
+	accesspointMac		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"accesspoint MAC address"
+		::=  {  accesspointEntry 4  }
+
+	accesspointRadiusSecret	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"RADIUS secret"
+		::=  {  accesspointEntry 5  }
+
+	monitored		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"monitored (yes/no)"
+		::=  {  accesspointEntry 6  }
+
+	accesspointStatus	OBJECT-TYPE
+		SYNTAX			INTEGER {
+						ok(0),	
+						poor(1),
+						notok(2),	
+						notmonitored(3)
+					}
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"status of accesspoint"
+		::=  {  accesspointEntry 7 }
+
+	statusTimestamp		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"timestamp when status is monitored"
+		::=  {  accesspointEntry 8 }
+
+	received		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"number of bytes received at the access point interface"
+		::=  {  accesspointEntry 9 }
+
+	receivedTimestamp	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"timestamp captured in second when access point interface received number of bytes"
+		::=  {  accesspointEntry 10 }
+
+	sent			OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"number of bytes sent at the access point interface"
+		::=  {  accesspointEntry 11 }
+
+	sentTimestamp		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"timestamp captured in second when access point interface sent number of bytes"
+		::=  {  accesspointEntry 12 }
+
+	connections			OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"total numbers of associated connections in the access point"
+		::=  {  accesspointEntry 13 }
+
+	connectionsTimestamp	OBJECT-TYPE
+		SYNTAX				Integer32
+		MAX-ACCESS			read-only
+		STATUS				current
+		DESCRIPTION
+				"Timestamp captured in seconds when total numbers of associated connections in the access point is recorded."
+		::=  {  accesspointEntry 14 }
+
+	addSubnet		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set this and add a subnet with the name you specify"
+		::=  {  subnets 2  }
+
+
+	deleteSubnet		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set this and delete a subnet with the name you set"
+		::=  {  subnets 3  }
+
+	serialdeviceTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  SerialdeviceEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with serial devices"
+		::=  { serialdevices 1 }
+
+	serialdeviceEntry	OBJECT-TYPE
+		SYNTAX		SerialdeviceEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  serialdeviceId  }
+		::=  { serialdeviceTable 1 }
+
+	SerialdeviceEntry  ::=  SEQUENCE {
+		serialdeviceId	Integer32,
+		serialDevice	OCTET STRING,
+		deviceSpeed	Integer32,
+		parity		OCTET STRING,
+		stopBit		Integer32,
+		dataBits	Integer32,
+		devName		OCTET STRING,
+		useHWflow	OCTET STRING,
+		useSWflow	OCTET STRING
+		}
+
+	serialdeviceId		OBJECT-TYPE
+		SYNTAX			Integer32 (0..127)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION
+				"serialdevice id"
+		::=  {  serialdeviceEntry 1  }
+
+	serialDevice		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Device name"
+		::=  {  serialdeviceEntry 2  }
+
+	deviceSpeed		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Device speed"
+		::=  {  serialdeviceEntry 3  }
+
+	parity			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set parity bit"
+		::=  {  serialdeviceEntry 4  }
+
+	stopBit			OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use stop bit or not"
+		::=  {  serialdeviceEntry 5  }
+
+	dataBits		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Word size"
+		::=  {  serialdeviceEntry 6  }
+
+	devName			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get name for this serialdevice"
+		::=  {  serialdeviceEntry 7  }
+
+	useHWflow		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use hardware flow control"
+		::=  {  serialdeviceEntry 8  }
+
+	useSWflow		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Use software flow control"
+		::=  {  serialdeviceEntry 9  }
+
+	addSerialdevice		OBJECT-TYPE
+		SYNTAX		OCTET STRING
+		MAX-ACCESS	read-write
+		STATUS		current
+		DESCRIPTION
+			"Set this and add a serial device with the name you specify"
+		::=  { serialdevices 2 }
+
+	deleteSerialdevice	OBJECT-TYPE
+		SYNTAX		OCTET STRING
+		MAX-ACCESS	read-write
+		STATUS		current
+		DESCRIPTION
+			"Set this and delete a serial device with the name you specify"
+		::=  { serialdevices 3 }
+
+	profileTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  ProfileEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Table with profiles"
+		::=  {  config 100 }
+
+	profileEntry	OBJECT-TYPE
+		SYNTAX		ProfileEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Row Description"
+		INDEX		{ profileId }
+		::=  { profileTable 1 }
+
+	ProfileEntry  ::=  SEQUENCE {
+		row		OCTET STRING,
+		profileId	Integer32
+		}
+
+	row		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"profile row"
+		::=  { profileEntry 1 }
+
+	profileId	OBJECT-TYPE
+		SYNTAX			Integer32 (0..65535)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION		"profile row"
+		::=  { profileEntry 2 }
+
+	delete		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Set this and clear the profile with the name you set"
+		::=  {  profileTable 2  }
+
+
+-- STATs
+
+	startPageCounter	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of startPage accesses"
+		::=  {  statistics 1  }
+
+	macLogin		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of mac logins"
+		::=  {  statistics 2  }
+
+	cookieLogin		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of cookie logins"
+		::=  {  statistics 3  }
+
+	userLogin		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of user logins"
+		::=  {  statistics 4  }
+
+	userLoginFailed		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of failed user logins"
+		::=  {  statistics 5  }
+
+
+	autoPage		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of auto page accesses"
+		::=  {  statistics 6  }
+
+	dhcpLease		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of dhcplease"
+		::=  {  statistics 7  }
+
+	sessionStart		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of session start"
+		::=  {  statistics 8  }
+
+	nrOfUsers			OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Set/Get nr of concurrent user logins for this subnet"
+		::=  {  statistics 9  }
+
+
+
+	statisticsTable		OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF StatisticsEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Table with statistics"
+		::=  { statistics 20 }
+
+	statisticsEntry		OBJECT-TYPE
+		SYNTAX		StatisticsEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Row Description"
+		INDEX		{  statisticsId  }
+		::=  { statisticsTable 1 }
+
+	StatisticsEntry  ::=  SEQUENCE {
+		statisticsId		Integer32,
+		statisticsSubnet	OCTET STRING,
+		statisticsStartPage	Integer32,
+		statisticsMacLogin	Integer32,
+		statisticsCookieLogin	Integer32,
+		statisticsUserLogin	Integer32,
+		statisticsUserLoginFailed Integer32,
+		statisticsAutoPage	Integer32,
+		statisticsSessionStart	Integer32,
+		statisticsDhcpLease	Integer32,
+		statisticsNrOfUsers	Integer32
+	}
+
+
+	statisticsId		OBJECT-TYPE
+		SYNTAX			Integer32 (0..65535)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION
+				"statistics id"
+		::=  {  statisticsEntry 1  }
+
+	statisticsSubnet	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"name of the subnet where this stats belong to"
+		::=  {  statisticsEntry 2 }
+
+	statisticsStartPage	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"id"
+		::=  {  statisticsEntry 3  }
+
+	statisticsMacLogin	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"nr of mac logins for this subnet"
+		::=  {  statisticsEntry 4  }
+
+	statisticsCookieLogin	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"nr of cookie logins for this subnet"
+		::=  {  statisticsEntry 5  }
+
+	statisticsUserLogin	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"nr of user logins for this subnet"
+		::=  {  statisticsEntry 6  }
+
+	statisticsUserLoginFailed	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"nr of failed logins for this subnet"
+		::=  {  statisticsEntry 7  }
+
+	statisticsAutoPage	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION "nr of hits to the autoPage for this subnet"
+		::=  {  statisticsEntry 8  }
+
+	statisticsSessionStart	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION "nr of started sessions"
+		::=  {  statisticsEntry 9  }
+
+	statisticsDhcpLease	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION "nr of dhcp leases"
+		::=  {  statisticsEntry 10  }
+
+	statisticsNrOfUsers			OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"Set/Get nr of concurrent user logins for this subnet"
+		::=  {  statisticsEntry 11  }
+
+
+----------------------------------------------------
+-- session
+----------------------------------------------------
+
+	sessionTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  SessionEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Table with user sessions"
+		::=  { session 1 }
+
+
+	sessionEntry	OBJECT-TYPE
+		SYNTAX		SessionEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION
+			"Row Description"
+		INDEX		{  sessionId  }
+		::=  { sessionTable 1 }
+
+
+	SessionEntry  ::=  SEQUENCE {
+		sessionId			Integer32,
+		acctSessionId			Integer32,
+		sessionListIdleTimeout		Integer32,
+		sessionListSessionTimeout	Integer32,
+		username			OCTET STRING,
+		sessionMac			OCTET STRING,
+		sessionIp			IpAddress,
+		bytesSent			Integer32,
+		bytesRecv			Integer32,
+		startTime			Integer32,
+		lastSeen			Integer32,
+		sessionTime			Integer32,
+		timeLeft			Integer32
+		}
+
+	sessionId	OBJECT-TYPE
+		SYNTAX			Integer32 (0..2147483647)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION		"id"
+		::=  {  sessionEntry 1  }
+
+	acctSessionId	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Acc-Session-Id"
+		::=  {  sessionEntry 2  }
+
+	sessionListIdleTimeout	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Idle-Timeout"
+		::=  {  sessionEntry 3  }
+
+	sessionListSessionTimeout	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Session-Timeout"
+		::=  {  sessionEntry 4  }
+
+	username	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"User-Name"
+		::=  {  sessionEntry 5  }
+
+	sessionMac	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"User-Name"
+		::=  {  sessionEntry 6  }
+
+	sessionIp	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"IP address of user"
+		::=  {  sessionEntry 7  }
+
+	bytesSent	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"nr of sent bytes"
+		::=  {  sessionEntry 8  }
+
+	bytesRecv	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"nr of recieved bytes"
+		::=  {  sessionEntry 9  }
+
+	startTime	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"session start time"
+		::=  {  sessionEntry 10  }
+
+	lastSeen	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"last time user send data"
+		::=  {  sessionEntry 11  }
+
+	sessionTime	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"session time"
+		::=  {  sessionEntry 12  }
+
+	timeLeft	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"time left"
+		::=  {  sessionEntry 13  }
+
+	disconnect	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Disconnect session with this IP address"
+		::=  {  session 2  }
+
+	coaAuthOnly	OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION		"Perform Auth-Only CoA on session with this IP address"
+		::=  {  session 3  }
+
+
+-------------------------------------------
+-- cmd
+-------------------------------------------
+
+	cmd	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION "run this cmd on the AC (apc-xxx cmds)"
+		::=  {  aptiloAC 4  }
+
+
+----------------------------------------------------
+-- service
+----------------------------------------------------
+
+	serviceTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  ServiceEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Table with access controller services"
+		::=  { service 1 }
+
+
+	serviceEntry	OBJECT-TYPE
+		SYNTAX		ServiceEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Row Description"
+		INDEX		{  serviceId  }
+		::=  { serviceTable 1 }
+
+
+	ServiceEntry  ::=  SEQUENCE {
+		serviceId		Integer32,
+		serviceEntryName	OCTET STRING,
+		statuscode		INTEGER,
+		serviceEntryStatus	OCTET STRING
+		}
+
+	serviceId		OBJECT-TYPE
+		SYNTAX			Integer32 (0..65535)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION		"id"
+		::=  {  serviceEntry 1  }
+
+	serviceEntryName	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"servicename"
+		::=  {  serviceEntry 2  }
+
+	statuscode		OBJECT-TYPE
+		SYNTAX			INTEGER {
+						serviceRunning(0),
+						serviceStopped(1),
+						serviceFailed(2),
+						serviceUnknown(3)
+					}
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"status code"
+		::=  {  serviceEntry 3  }
+
+	serviceEntryStatus	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"status string"
+		::=  {  serviceEntry 4  }
+
+
+----------------------------------------------------
+-- selfcheck
+----------------------------------------------------
+
+	selfcheckTable	OBJECT-TYPE
+		SYNTAX		SEQUENCE  OF  SelfcheckEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Table with access controller selfchecks"
+		::=  { selfcheck 1 }
+
+
+	selfcheckEntry	OBJECT-TYPE
+		SYNTAX		SelfcheckEntry
+		MAX-ACCESS	not-accessible
+		STATUS		current
+		DESCRIPTION	"Row Description"
+		INDEX		{  selfcheckId  }
+		::=  { selfcheckTable 1 }
+
+
+	SelfcheckEntry  ::=  SEQUENCE {
+		selfcheckId	Integer32,
+		selfcheckName	OCTET STRING,
+		selfcheckStatus	INTEGER,
+		comment		OCTET STRING,
+		timestamp	Integer32,
+		time		Integer32
+		}
+
+	selfcheckId	OBJECT-TYPE
+		SYNTAX			Integer32 (0..127)
+		MAX-ACCESS		not-accessible
+		STATUS			current
+		DESCRIPTION		"id"
+		::=  {  selfcheckEntry 1  }
+
+	selfcheckName	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"selfcheck name"
+		::=  {  selfcheckEntry 2  }
+
+	selfcheckStatus		OBJECT-TYPE
+		SYNTAX			INTEGER {
+						selfcheckOK(0),
+						selfcheckFailed(1)
+					}
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"status code"
+		::=  {  selfcheckEntry 3  }
+
+	comment		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"comment"
+		::=  {  selfcheckEntry 4  }
+
+	timestamp	OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"time stamp"
+		::=  {  selfcheckEntry 5  }
+
+	time		OBJECT-TYPE
+		SYNTAX			Integer32
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION		"time"
+		::=  {  selfcheckEntry 6  }
+
+
+---------------------------------------------------
+-- aptiloGeneral
+---------------------------------------------------
+
+	ipAddress		OBJECT-TYPE
+		SYNTAX			IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get the IP address"
+		::=  {  aptiloGeneral  1  }
+
+	macAddress		OBJECT-TYPE
+		SYNTAX			PhysAddress
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Returns the MAC address"
+		::=  {  aptiloGeneral  2  }
+
+	hostName		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get host name"
+		::=  {  aptiloGeneral  3  }
+
+	status			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get access point status"
+		::=  {  aptiloGeneral  4  }
+
+	message			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get message for process"
+		::=  {  aptiloGeneral  5  }
+
+	virtualIpAddress	OBJECT-TYPE
+		SYNTAX		 	IpAddress
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get Virtual IP Address"
+		::=  {  aptiloGeneral  6  }
+
+	state			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+				"Set/get state (used in redundancy etc)"
+		::=  {  aptiloGeneral  7  }
+
+	aptiloServiceName	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get service name (used for service monitoring etc)"
+		::=  {  aptiloGeneral  8  }
+
+	aptiloServiceStatus	OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"Get service status (used for service monitoring etc)"
+		::=  {  aptiloGeneral  9  }
+
+	severity		OBJECT-TYPE
+		SYNTAX			INTEGER {
+						emergency(0),
+						alert(1),
+						critical(2),
+						error(3),
+						warning(4),
+						notice(5),
+						informational(6),
+						debug(7)
+					}
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"The severity level of the SNMP Trap"
+		::=  {  aptiloGeneral  10  }
+
+	description		OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"The description of the SNMP Trap"
+		::=  {  aptiloGeneral  11  }
+
+	nodeId			OBJECT-TYPE
+		SYNTAX			OCTET STRING
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+				"The node identifier of the SNMP Trap initiator."
+		::=  {  aptiloGeneral  12  }
+
+---------------------------------------------------
+-- Traps.
+---------------------------------------------------
+
+coldStart NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity }
+    STATUS  current
+    DESCRIPTION "The server was started or restarted."
+    ::= { aptiloTraps 1 }
+
+warmStart NOTIFICATION-TYPE
+    STATUS  current
+    DESCRIPTION ""
+    ::= { aptiloTraps 2 }
+
+authenticationFailure NOTIFICATION-TYPE
+    STATUS  current
+    DESCRIPTION ""
+    ::= { aptiloTraps 3 }
+
+linkDown NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity, message }
+    STATUS  current
+    DESCRIPTION "The server has lost connection to the network or an underlying node."
+    ::= { aptiloTraps 4 }
+
+linkUp NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity, message }
+    STATUS  current
+    DESCRIPTION "The connection to the network or an underlying node has been restored."
+    ::= { aptiloTraps 5 }
+
+startup NOTIFICATION-TYPE
+    STATUS  current
+    DESCRIPTION ""
+    ::= { aptiloTraps 6 }
+
+shutdown NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity }
+    STATUS  current
+    DESCRIPTION "The server or its services has been shut down."
+    ::= { aptiloTraps 7 }
+
+unknown NOTIFICATION-TYPE
+    STATUS  current
+    DESCRIPTION "An unrecognized trap has been received."
+    ::= { aptiloTraps 8 }
+
+daemonProcessFailed NOTIFICATION-TYPE
+    STATUS  current
+    DESCRIPTION ""
+    ::= { aptiloTraps 9 }
+
+diskFull NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity, message }
+    STATUS  current
+    DESCRIPTION "The disk usage threshold has been exceeded."
+    ::= { aptiloTraps 10 }
+
+redundancyState NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity, message }
+    STATUS  current
+    DESCRIPTION "Redundancy state (MASTER | BACKUP | FAULT | DEAD | UNKNOWN)"
+    ::= { aptiloTraps 11 }
+
+serviceStatus NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity, aptiloServiceStatus, aptiloServiceName }
+    STATUS  current
+    DESCRIPTION "Service status change (oid_name name oid_string status)"
+    ::= { aptiloTraps 12 }
+
+heartbeat NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity }
+    STATUS  current
+    DESCRIPTION "A periodic heartbeat"
+    ::= { aptiloTraps 13 }
+
+diskFullReset NOTIFICATION-TYPE
+    OBJECTS { nodeId, description, severity }
+    STATUS  current
+    DESCRIPTION "Reset of diskFull"
+    ::= { aptiloTraps 14 }
+
+END

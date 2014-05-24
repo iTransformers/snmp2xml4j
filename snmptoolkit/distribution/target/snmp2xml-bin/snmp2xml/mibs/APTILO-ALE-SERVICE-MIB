@@ -1,0 +1,112 @@
+APTILO-ALE-SERVICE-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE, OBJECT-IDENTITY,
+       TimeTicks, Counter32
+           FROM SNMPv2-SMI
+       DisplayString, TruthValue
+           FROM SNMPv2-TC
+           core
+           FROM APTILO-ALE-CORE-MIB;
+
+   coreService MODULE-IDENTITY
+       LAST-UPDATED "201204251556Z"
+       ORGANIZATION "Aptilo Networks"
+       CONTACT-INFO
+           "Technical Support
+            support@aptilo.com"
+       DESCRIPTION
+           "This MIB includes information about enabled services on a
+            Aptilo Network's system."
+	REVISION "200301131556Z"
+	DESCRIPTION
+		"Initial revision"
+       ::= { core 2 }
+
+-- Objects
+
+-- Table of services.
+
+   coreServiceTable OBJECT-TYPE
+       SYNTAX SEQUENCE OF CoreServiceEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A list of enabled services."
+       ::= { coreService 1 }
+
+   coreServiceEntry OBJECT-TYPE
+       SYNTAX     CoreServiceEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "An service entry."
+
+       INDEX { coreServiceName }
+       ::= { coreServiceTable 1 }
+
+   CoreServiceEntry ::= SEQUENCE {
+       coreServiceName   DisplayString,
+       coreServiceState  INTEGER,
+       coreServiceUpTime TimeTicks,
+       coreServiceFailCount Counter32,
+       coreServiceStartCount Counter32
+   }
+
+   coreServiceName OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "Name of the service."
+       ::= { coreServiceEntry 1 }
+
+   coreServiceState OBJECT-TYPE
+       SYNTAX     INTEGER { started(0), stopped(1), failed(2) }
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The current running state."
+       ::= { coreServiceEntry 2 }
+
+   coreServiceUpTime OBJECT-TYPE
+       SYNTAX     TimeTicks
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Time elapsed (in hundreds of a second) since service was started."
+       ::= { coreServiceEntry 3 }
+
+   coreServiceFailCount OBJECT-TYPE
+       SYNTAX     Counter32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of failures for this service."
+       ::= { coreServiceEntry 4 }
+
+   coreServiceStartCount OBJECT-TYPE
+       SYNTAX     Counter32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of times this service has been started"
+       ::= { coreServiceEntry 5 }
+
+-- Alarms
+
+   coreServiceDown NOTIFICATION-TYPE
+       OBJECTS { coreServiceName }
+       STATUS current
+       DESCRIPTION
+           "Service is not working."
+       ::= { coreService 1000 }
+
+   coreServiceDownReset NOTIFICATION-TYPE
+       OBJECTS { coreServiceName }
+       STATUS current
+       DESCRIPTION
+           "Reset of coreServiceDown."
+       ::= { coreService 1001 }
+
+END

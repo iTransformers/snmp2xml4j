@@ -1,0 +1,378 @@
+APTILO-ALE-HW-MIB DEFINITIONS ::= BEGIN
+
+    -- Aptilo Hardware MIB
+    -- Hardware survaillance MIB with support for PSU, Fans and RAID.
+    -- Only presence and redundancy are addressed.
+
+    IMPORTS
+	MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+	Integer32, Unsigned32
+	    FROM SNMPv2-SMI
+	MODULE-COMPLIANCE, OBJECT-GROUP, NOTIFICATION-GROUP
+	    FROM SNMPv2-CONF
+	ale
+	    FROM APTILO-MIB;
+
+    hw MODULE-IDENTITY
+	LAST-UPDATED "201212111700Z"
+	ORGANIZATION "Aptilo"
+	CONTACT-INFO
+	"Technical Support
+	support@aptilo.com"
+    DESCRIPTION
+	"This MIB defines hardware specifics, i.e. PSU, fans and RAID system.
+	Only redundancy and presence are addressed. A breach in reduncancy
+	will result in a  corresponding trap."
+    REVISION "201212111700Z"
+	DESCRIPTION
+	"Initial revision"
+	::= { ale 7 }
+
+
+-- Fan specifics
+
+    hwFan OBJECT IDENTIFIER ::= {hw 2}
+
+    hwFanTable OBJECT-TYPE
+	SYNTAX      SEQUENCE OF HwFanEntry
+	MAX-ACCESS  not-accessible
+	STATUS      current
+	DESCRIPTION
+	    " This table contains information regarding all fan modules
+	    installed on this host."
+	::= { hwFan 1 }
+
+    hwFanEntry OBJECT-TYPE
+	SYNTAX      HwFanEntry
+	MAX-ACCESS  not-accessible
+	STATUS      current
+	DESCRIPTION
+	    "A row describing the status of a given fan module."
+	INDEX   { hwFanIndex }
+	::= { hwFanTable 1 }
+
+    HwFanEntry ::= SEQUENCE {
+	hwFanIndex	Integer32,
+	hwFanName	OCTET STRING,
+	hwFanRpm	Integer32,
+	hwFanStatus	INTEGER
+    }
+
+    hwFanIndex OBJECT-TYPE
+	SYNTAX     Integer32 (0..2147483647)
+	MAX-ACCESS not-accessible
+	STATUS     current
+	DESCRIPTION
+	    "A number uniquely identifying each fan module."
+	::= { hwFanEntry 1 }
+
+    hwFanName OBJECT-TYPE
+	SYNTAX      OCTET STRING (SIZE(0..255))
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The name or description of a specific fan module."
+	::= { hwFanEntry 2 }
+
+    hwFanRpm OBJECT-TYPE
+	SYNTAX     Integer32
+	MAX-ACCESS read-only
+	STATUS     current
+	DESCRIPTION
+	    "The rotation speed of the fan in revolutions per minute."
+	::= { hwFanEntry 3 }
+
+    hwFanStatus OBJECT-TYPE
+	SYNTAX      INTEGER {
+	    ok(0), na(1), failed(2), nonRedundant(3), redundancyLost(4)
+	    }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The current state of the fan module."
+	::= { hwFanEntry 4 }
+
+    hwFanRedundancyState OBJECT-TYPE
+	SYNTAX      INTEGER {
+	    ok(0), na(1), failed(2), nonRedundant(3), redundancyLost(4)
+	    }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The collective state of the monitored fan modules
+	    in the machine according to redundancy."
+	::= { hwFan 2 }
+
+
+-- PSU specifics
+
+    hwPSU OBJECT IDENTIFIER ::= {hw 3}
+
+    hwPSUTable OBJECT-TYPE
+	SYNTAX      SEQUENCE OF HwPSUEntry
+	MAX-ACCESS  not-accessible
+	STATUS      current
+	DESCRIPTION
+	    "This table contains information regarding all Power Supply Units
+	    installed on this host."
+	::= { hwPSU 1 }
+
+    hwPSUEntry OBJECT-TYPE
+	SYNTAX      HwPSUEntry
+	MAX-ACCESS  not-accessible
+	STATUS      current
+	DESCRIPTION
+	    "A row describing the status of a given Power Supply Unit."
+	INDEX   { hwPSUIndex }
+	::= { hwPSUTable 1 }
+
+    HwPSUEntry ::= SEQUENCE {
+	hwPSUIndex	Integer32,
+	hwPSUName	OCTET STRING,
+	hwPSUStatus	INTEGER
+    }
+
+    hwPSUIndex OBJECT-TYPE
+	SYNTAX     Integer32 (0..2147483647)
+	MAX-ACCESS not-accessible
+	STATUS     current
+	DESCRIPTION
+	    "A number uniquely identifying each power supply unit."
+	::= { hwPSUEntry 1 }
+
+    hwPSUName OBJECT-TYPE
+	SYNTAX      OCTET STRING (SIZE(0..255))
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The name or description of the power supply unit."
+	::= { hwPSUEntry 2 }
+
+    hwPSUStatus OBJECT-TYPE
+	SYNTAX      INTEGER {
+	    ok(0), na(1), failed(2), nonRedundant(3), redundancyLost(4)
+	    }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The current state of the power supply unit."
+	::= { hwPSUEntry 3 }
+
+    hwPSURedundancyState OBJECT-TYPE
+	SYNTAX      INTEGER {
+	    ok(0), na(1), failed(2), nonRedundant(3), redundancyLost(4)
+	    }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The collective state of the monitored PSUs
+	    in the machine according to redundancy."
+	::= { hwPSU 2 }
+
+
+-- RAID specifics
+
+    hwRAID  OBJECT IDENTIFIER ::= {hw 4}
+
+    hwRAIDTable OBJECT-TYPE
+	SYNTAX      SEQUENCE OF HwRAIDEntry
+	MAX-ACCESS  not-accessible
+	STATUS      current
+	DESCRIPTION
+	    "This table contains information regarding all the logical volumes
+	    and physical drives in the RAID system."
+	::= { hwRAID 1 }
+
+    hwRAIDEntry OBJECT-TYPE
+	SYNTAX      HwRAIDEntry
+	MAX-ACCESS  not-accessible
+	STATUS      current
+	DESCRIPTION
+	    "A row describing the status of a single volume or disk in the
+	     RAID system."
+	INDEX   { hwRAIDIndex }
+	::= { hwRAIDTable 1 }
+
+    HwRAIDEntry ::= SEQUENCE {
+	hwRAIDIndex	Integer32,
+	hwRAIDName	OCTET STRING,
+	hwRAIDStatus	INTEGER,
+	hwRAIDSize	Unsigned32,
+	hwRAIDUsage	INTEGER
+    }
+
+    hwRAIDIndex OBJECT-TYPE
+	SYNTAX     Integer32 (0..2147483647)
+	MAX-ACCESS not-accessible
+	STATUS     current
+	DESCRIPTION
+	    "A number uniquely identifying a volume/disk in the RAID systam."
+	::= { hwRAIDEntry 1 }
+
+    hwRAIDName OBJECT-TYPE
+	SYNTAX      OCTET STRING (SIZE(0..255))
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The name or description of a volume/disk in RAID the system."
+	::= { hwRAIDEntry 2 }
+
+    hwRAIDStatus OBJECT-TYPE
+	SYNTAX      INTEGER {
+	    ok(0), transformWait(1), transforming(2),
+	    recoveryWait(3), recovering(4), interimRecovery(5),
+	    failed(6)
+	    }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The current state of a volume/disk in the RAID system."
+	::= { hwRAIDEntry 3 }
+
+    hwRAIDSize OBJECT-TYPE
+	SYNTAX     Unsigned32
+	MAX-ACCESS read-only
+	STATUS     current
+	DESCRIPTION
+	    "The size, in MB, of a volume/disk in the RAID system."
+	::= { hwRAIDEntry 4 }
+
+    hwRAIDUsage OBJECT-TYPE
+	SYNTAX      INTEGER { active(0), inactiveSpare(1), activeSpare(2), unassigned(3) }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "Indicates how a physical drive is currently used."
+	::= { hwRAIDEntry 5 }
+
+    hwRAIDRedundancyState OBJECT-TYPE
+	SYNTAX      INTEGER {
+	    ok(0), transformWait(1), transforming(2),
+	    recoveryWait(3), recovering(4), interimRecovery(5),
+	    failed(6)
+	    }
+	MAX-ACCESS  read-only
+	STATUS      current
+	DESCRIPTION
+	    "The status of the RAID system for a single host."
+	::= { hwRAID 2 }
+
+
+    -- Fan trap/reset
+
+    hwTraps OBJECT IDENTIFIER ::= {hw 1}
+
+    hwFanRedundancyFailureTrap NOTIFICATION-TYPE
+	OBJECTS     { hwFanRedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "The fan modules are not redundant."
+	::= { hw 1000 }
+
+    hwFanRedundancyFailureTrapReset NOTIFICATION-TYPE
+	OBJECTS     { hwFanRedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "The fan module redundancy have been restored."
+	::= { hw 1001 }
+
+
+    -- PSU trap/reset
+
+    hwPSURedundancyFailureTrap NOTIFICATION-TYPE
+	OBJECTS     { hwPSURedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "The Power supply units are not redundant."
+	::= { hw 1002 }
+
+    hwPSURedundancyFailureTrapReset NOTIFICATION-TYPE
+	OBJECTS     { hwPSURedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "The power supply unit redundancy have been restored."
+	::= { hw 1003 }
+
+
+    -- RAID trap/reset
+
+    hwRAIDRedundancyFailureTrap NOTIFICATION-TYPE
+	OBJECTS     { hwRAIDRedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "The RAID array is failing."
+	::= { hw 1004 }
+
+    hwRAIDRedundancyFailureTrapReset NOTIFICATION-TYPE
+	OBJECTS     { hwRAIDRedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "The RAID array have recovered."
+	::= { hw 1005 }
+
+
+    -- Conformance information
+
+    hwConformance OBJECT IDENTIFIER
+	::= { hw 8 }
+    hwCompliances OBJECT IDENTIFIER
+	::= { hwConformance 1 }
+    hwGroups OBJECT IDENTIFIER
+	::= { hwConformance 2 }
+
+
+    -- Compliance statements
+
+    hwCompliance MODULE-COMPLIANCE
+	STATUS current
+	DESCRIPTION
+                "The compliance statement for entities which
+                 implement the hardware MIB."
+        MODULE  -- this module
+            MANDATORY-GROUPS { hwParameterGroup,
+			       hwRedundancyGroup }
+            GROUP hwNotificationGroup
+	    DESCRIPTION
+		"Hardware notification group"
+        ::= { hwCompliances 1 }
+
+    hwParameterGroup OBJECT-GROUP
+	OBJECTS { hwFanName,
+		  hwFanRpm,
+		  hwFanStatus,
+		  hwPSUName,
+		  hwPSUStatus,
+		  hwRAIDName,
+		  hwRAIDStatus,
+		  hwRAIDSize,
+		  hwRAIDUsage }
+	STATUS current
+	DESCRIPTION
+	    "A collection of objects describing the current state of
+	    individual hardware elements."
+	::= { hwGroups 1 }
+
+    hwRedundancyGroup OBJECT-GROUP
+	OBJECTS { hwFanRedundancyState,
+		  hwPSURedundancyState,
+		  hwRAIDRedundancyState }
+	STATUS current
+	DESCRIPTION
+	    "A collection of objects describing the current redundancy
+	    of the hardware."
+	::= { hwGroups 2 }
+
+    hwNotificationGroup NOTIFICATION-GROUP
+        NOTIFICATIONS { hwFanRedundancyFailureTrap,
+			hwFanRedundancyFailureTrapReset,
+			hwPSURedundancyFailureTrap,
+			hwPSURedundancyFailureTrapReset,
+			hwRAIDRedundancyFailureTrap,
+			hwRAIDRedundancyFailureTrapReset }
+        STATUS current
+        DESCRIPTION
+	    "A collection of notifications for signaling
+	    hardware problems."
+        ::= { hwGroups 3 }
+
+END
