@@ -1,4 +1,4 @@
-snmp2xml
+snmp2xml4j
 ========
 
 A number of Java Written tools performing snmp queries into a structured xml.
