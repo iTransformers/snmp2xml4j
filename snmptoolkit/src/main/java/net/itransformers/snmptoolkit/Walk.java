@@ -687,7 +687,7 @@ public class Walk {
         outputXml(opts, finalXmlBuffer.toString());
     }
 
-    private static void outputXml(Map<CmdOptions, String> opts, String finalXml) throws FileNotFoundException {
+    public static void outputXml(Map<CmdOptions, String> opts, String finalXml) throws FileNotFoundException {
         String outputFile = opts.get(CmdOptions.OUTPUT_FILE);
         if (outputFile == null) {
             System.out.println(finalXml);

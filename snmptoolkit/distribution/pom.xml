@@ -3,15 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>iTransformers.iTransformer.snmp2xml</groupId>
+    <groupId>iTransformers.iTransformer.snmp2xml4j</groupId>
     <artifactId>distribution</artifactId>
-    <version>0.7-SNAPSHOT</version><!--Change for new version-->
+    <version>1.0</version><!--Change for new version-->
     <packaging>pom</packaging>
 
     <parent>
         <groupId>iTransformers.iTransformer</groupId>
-        <artifactId>snmp2xml</artifactId>
-        <version>0.7-SNAPSHOT</version><!--Change for new version-->
+        <artifactId>snmp2xml4j</artifactId>
+        <version>1.0</version><!--Change for new version-->
     </parent>
 
     <!-- NOTE: These dependency declarations are only required to sort this project to the

@@ -29,7 +29,7 @@
 
             <!-- Now, select which projects to include in this module-set. -->
             <includes>
-                <include>iTransformers.iTransformer:snmp2xml</include>
+                <include>iTransformers.iTransformer:snmp2xml4j</include>
             </includes>
             <sources>
                 <includeModuleDirectory>true</includeModuleDirectory>
@@ -106,7 +106,7 @@
         <fileSet>
             <directory>../conf/bat</directory>
             <outputDirectory>bin</outputDirectory>
-            <fileMode>0755</fileMode>
+            <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
             <directory>../mibs</directory>
