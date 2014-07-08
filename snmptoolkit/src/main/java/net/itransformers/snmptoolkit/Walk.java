@@ -207,6 +207,8 @@ public class Walk {
             if (mibType instanceof SnmpObjectType) {
                 SnmpObjectType snmpObjectType = (SnmpObjectType) mibType;
                 MibType syntax = snmpObjectType.getSyntax();
+                MibType syntax1 = node.getSymbol().getType();
+                System.out.println("Tag " + determineSyntaxType(syntax));
                 if (syntax instanceof SequenceType) {
                     ArrayList<OID> oidList = new ArrayList<OID>();
                     for (Node child : node.getChildren()) {
@@ -265,10 +267,12 @@ public class Walk {
             if (child == null) {  // in case it is not found
                 continue;
             }
-            Node childNode = new Node(child, node);
+
+            Node childNode = new Node(child, node,child.getSymbol());
             node.addChild(childNode);
             fillTreeFromMib(childNode);
         }
+  //      System.out.println("Test123");
     }
 
     private void fillDoWalk(Node node, Set includes) {
@@ -392,10 +396,11 @@ public class Walk {
             SnmpObjectType symbolType = (SnmpObjectType) symbol.getType();
             MibType syntax = symbolType.getSyntax();
             String syntaxString = syntax.getName();
+            String snmpSyntax =  determineSyntaxType(syntax);
             SnmpAccess access = symbolType.getAccess();
             String accessString = access.toString();
             if (oidFlag) {
-                sbTable.append(String.format("%s<%s oid=\"%s\" syntax=\"%s\" access=\"%s\">", tabs, tagName, node.getObjectIdentifierValue(), syntaxString, accessString));
+                sbTable.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, tagName, node.getObjectIdentifierValue(), syntaxString,snmpSyntax, accessString));
             } else {
                 sbTable.append(String.format("%s<%s>", tabs, tagName));
 
@@ -441,12 +446,11 @@ public class Walk {
                 SnmpObjectType symbolType = (SnmpObjectType) symbol.getType();
                 MibType syntax = symbolType.getSyntax();
                 String syntaxString = syntax.getName();
-
-
+                String snmpSyntax = determineSyntaxType(syntax);
                 SnmpAccess access = symbolType.getAccess();
                 String accessString = access.toString();
 
-                sb4.append(String.format("\t%s<%s oid=\"%s\" syntax=\"%s\" access=\"%s\">", tabs, childTagName, vb.getOid(), syntaxString, accessString));
+                sb4.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, childTagName, vb.getOid(), syntaxString,snmpSyntax, accessString));
             } else {
                 sb4.append(String.format("\t%s<%s>", tabs, childTagName));
             }
@@ -484,6 +488,7 @@ public class Walk {
                         MibValueSymbol symbol = null;
                         String syntaxString = "UNKNOWN";
                         String accessString = "UNKNOWN";
+                        String snmpSyntax = "UNKNOWN";
                         if (childByName != null) {
 
 
@@ -495,6 +500,8 @@ public class Walk {
                             SnmpAccess access = indexType.getAccess();
                             accessString = access.toString();
                             String indexVal = new OID(indexOID.getValue(), pos, 1).toString();
+                            snmpSyntax = determineSyntaxType(syntax);
+
                             boolean posIncremented = false;
                             if (syntax instanceof StringType) {
                                 if (syntaxString.equals("OCTET STRING")) {
@@ -530,7 +537,8 @@ public class Walk {
                                 }
                             }
                             if (oidFlag) {
-                                sb.append(String.format("\t%s<index name=\"%s\" syntax=\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString, index, accessString, indexVal));
+
+                                sb.append(String.format("\t%s<index name=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString, snmpSyntax, index, accessString, indexVal));
                             } else {
                                 sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, indexVal));
                             }
@@ -549,7 +557,7 @@ public class Walk {
                         } else {
                             OID indexVal = new OID(indexOID.getValue(), pos, 1);
                             if (oidFlag) {
-                                sb.append(String.format("\t%s<index name=\"%s\" syntax=\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString, index, accessString, indexVal.toString()));
+                                sb.append(String.format("\t%s<index name=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString,snmpSyntax, index, accessString, indexVal.toString()));
                             } else {
                                 sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, indexVal.toString()));
                             }
@@ -773,26 +781,23 @@ public class Walk {
         }
         return false;
     }
+   private static String determineSyntaxType(MibType syntax) {
+
+
+       if (syntax.getTag().getCategory() == MibTypeTag.APPLICATION_CATEGORY) {
+           return syntax.getReferenceSymbol().getName();
+
+       } else if (syntax.getTag().getCategory() == MibTypeTag.UNIVERSAL_CATEGORY) {
+           return syntax.getName();
+
+       } else if (syntax.getTag().getCategory() == MibTypeTag.CONTEXT_SPECIFIC_CATEGORY) {
+           return syntax.getName();
+       } else {
+           return syntax.getName();
+       }
+
+
+   }
+
 
 }
-//            String[] includes = new String[]{
-//                    "ifIndex", "ifDescr", "ifOperStatus", "ifAdminStatus", "ifNumber","ifAlias","ifPhysAddress","ifType",
-//                    "dot1dTpFdb","dot1dTpFdbAddress","dot1dTpFdbStatus","dot1dTpFdbPort",
-//                    "dot1dBasePort","dot1dBasePortIfIndex",
-//                    "system",
-//                    "dot1dBaseBridgeAddress","dot1dStpPort",
-//                    "ipNetToMediaTable",
-//                    "ipAddrTable",
-//                    "lldpRemoteSystemsData",
-//                    "cdpCacheDevicePort","cdpCacheDevicePlatform","cdpCacheDeviceId","cdpCacheIfIndex"
-//            };
-
-
-//        parameters.put(SnmpConfigurator.O_ADDRESS, Arrays.asList("10.10.10.10/161"));
-//        parameters.put(SnmpConfigurator.O_ADDRESS, Arrays.asList("10.10.10.10/161"));
-//        parameters.put(SnmpConfigurator.O_COMMUNITY, Arrays.asList("public"));
-//        parameters.put(SnmpConfigurator.O_VERSION, Arrays.asList("2c"));
-//
-//        parameters.put(SnmpConfigurator.O_TIMEOUT, Arrays.asList(1000));
-//        parameters.put(SnmpConfigurator.O_RETRIES, Arrays.asList(1));
-//        parameters.put(SnmpConfigurator.O_MAX_REPETITIONS, Arrays.asList(65535));

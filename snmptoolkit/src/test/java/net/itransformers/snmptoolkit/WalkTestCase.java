@@ -201,5 +201,87 @@ public class WalkTestCase {
         Assert.assertEquals(expectedXML,xml);
     }
 
+    @Test
+    public void CiscoASRWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
+        String oids = "ifEntry,dot1dTpFdbAddress,system,sysObjectID,ipAddrTable,ifName," +
+                "dot1dBasePort,dot1dBasePortIfIndex,dot1dStpDesignatedRoot,dot1dStpPortEntry,ipNetToMediaTable,lldpRemoteSystemsData,dot1qVlanStaticEntry," +
+                "ipRouteIfIndex,ipRouteNextHop,ipCidrRouteType, ipCidrRouteIfIndex, ipCidrRouteNextHop, ipCidrRouteProto, ipCidrRouteNextHopAS," +
+                "ospfRouterId,ospfNbrEntry,ospfAdminStat,ospfVersionNumber,ospfAreaBdrRtrStatus,ospfASBdrRtrStatus,ospfAreaTable,ospfIfEntry,hwOspfv2NeighborTable,isisISAdjIPAddrEntry," +
+                "bgpLocalAs,bgpPeerEntry,rip2IfConfTable,rip2IfStatTable,mplsVpnVrfEntry,hwMplsLspStatisticsTable,mplsVpnVrfRouteTargetEntry,mplsVpnInterfaceConfEntry,mplsInterfaceConfIndex" +
+                "dot1dBaseNumPorts, dot1qVlanStaticTable,ipv6Forwarding, ipv6IfIndex,ipv6AddrEntry,ipv6NetToMediaEntry,ipv6RouteEntry,csubAggStatsUpSessions, csubAggStatsHighUpSessions";
+        String mibDir = "./mibs";
 
+        HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
+        cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
+        cmdOptions.put(CmdOptions.ADDRESS,"localhost/11161");
+        cmdOptions.put(CmdOptions.COMMUNITY,"ASR9K");
+        cmdOptions.put(CmdOptions.VERSION,"2c");
+        cmdOptions.put(CmdOptions.TIMEOUT,"1000");
+        cmdOptions.put(CmdOptions.RETRIES,"100");
+        cmdOptions.put(CmdOptions.MAX_REPETITIONS,"1");
+        cmdOptions.put(CmdOptions.OIDS,oids);
+        cmdOptions.put(CmdOptions.OUTPUT_FILE,"/home/niau/snmp2xml4j/snmptoolkit/src/test/java/resources/ASR9K.xml");
+
+
+        Properties parameters = new Properties();
+        Walk.fillParams(cmdOptions, parameters);
+        Walk walker = new Walk(new File(mibDir), false, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+        Node root = walker.walk(oids.split(","), parameters);
+        String xml = Walk.printTreeAsXML(root, true);
+        Walk.outputXml(cmdOptions,xml);
+        String expectedXML = FileUtils.readFileToString(new File("./src/test/java/resources/ASR9K.xml"));
+        Assert.assertEquals(expectedXML,xml);
+    }
+    @Test
+    public void CiscoASRSubscriberWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
+        String oids = "ifEntry,csubAggStatsEntry";
+        String mibDir = "./mibs";
+
+        HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
+        cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
+        cmdOptions.put(CmdOptions.ADDRESS,"localhost/11161");
+        cmdOptions.put(CmdOptions.COMMUNITY,"ASR9K_SUBSCRIEBER");
+        cmdOptions.put(CmdOptions.VERSION,"2c");
+        cmdOptions.put(CmdOptions.TIMEOUT,"1000");
+        cmdOptions.put(CmdOptions.RETRIES,"100");
+        cmdOptions.put(CmdOptions.MAX_REPETITIONS,"1");
+        cmdOptions.put(CmdOptions.OIDS,oids);
+        cmdOptions.put(CmdOptions.OUTPUT_FILE,"./src/test/java/resources/ASR9KSubscriber.xml");
+
+
+        Properties parameters = new Properties();
+        Walk.fillParams(cmdOptions, parameters);
+        Walk walker = new Walk(new File(mibDir), false, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+        Node root = walker.walk(oids.split(","), parameters);
+        String xml = Walk.printTreeAsXML(root, true);
+        Walk.outputXml(cmdOptions,xml);
+        String expectedXML = FileUtils.readFileToString(new File("./src/test/java/resources/ASR9KSubscriber.xml"));
+        Assert.assertEquals(expectedXML,xml);
+    }
+
+    @Test
+       public void mcAffeeTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
+        String oids = "mcafee-intruvert";
+        String mibDir = "./mibs";
+
+        HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
+        cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
+        cmdOptions.put(CmdOptions.ADDRESS,"localhost/11161");
+        cmdOptions.put(CmdOptions.COMMUNITY,"McAffee");
+        cmdOptions.put(CmdOptions.VERSION,"2c");
+        cmdOptions.put(CmdOptions.TIMEOUT,"1000");
+        cmdOptions.put(CmdOptions.RETRIES,"100");
+        cmdOptions.put(CmdOptions.MAX_REPETITIONS,"100");
+        cmdOptions.put(CmdOptions.OIDS,oids);
+        cmdOptions.put(CmdOptions.OUTPUT_FILE,"./src/test/java/resources/mcafee-intruvert.xml");
+
+        Properties parameters = new Properties();
+        Walk.fillParams(cmdOptions, parameters);
+        Walk walker = new Walk(new File(mibDir), false, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+        Node root = walker.walk(oids.split(","), parameters);
+        String xml = Walk.printTreeAsXML(root, true);
+        Walk.outputXml(cmdOptions,xml);
+        String expectedXML = FileUtils.readFileToString(new File("./src/test/java/resources/mcafee-intruvert.xml"));
+        Assert.assertEquals(expectedXML,xml);
+    }
 }
