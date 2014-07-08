@@ -21,11 +21,11 @@
          distribution project builds AFTER that one...
     -->
     <dependencies>
-        <dependency>
-            <groupId>iTransformers.iTransformer</groupId>
-            <artifactId>utils</artifactId>
-            <version>0.7-SNAPSHOT</version><!--Change for new version-->
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>iTransformers.iTransformer</groupId>-->
+            <!--<artifactId>utils</artifactId>-->
+            <!--<version>0.7-SNAPSHOT</version>&lt;!&ndash;Change for new version&ndash;&gt;-->
+        <!--</dependency>-->
 
     </dependencies>
 

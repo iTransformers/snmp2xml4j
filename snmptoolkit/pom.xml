@@ -71,12 +71,12 @@
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
         </dependency>
-        <dependency>
-            <groupId>iTransformers.iTransformer</groupId>
-            <artifactId>utils</artifactId>
-            <version>0.7-SNAPSHOT</version>
+        <!--<dependency>-->
+            <!--<groupId>iTransformers.iTransformer</groupId>-->
+            <!--<artifactId>utils</artifactId>-->
+            <!--<version>0.7-SNAPSHOT</version>-->
 
-        </dependency>
+        <!--</dependency>-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -106,7 +106,7 @@
                 <!--<version>2.3</version>-->
                 <!--<configuration>-->
                     <!--<descriptors>-->
-                        <!--<descriptor>distribution/snmp2xml.xml</descriptor>-->
+                        <!--<descriptor>distribution/snmp2xmlAssembly.xml</descriptor>-->
                         <!--&lt;!&ndash;descriptor>distribution/bgpPeeringMap.xml</descriptor&ndash;&gt;-->
                     <!--</descriptors>-->
                 <!--</configuration>-->
