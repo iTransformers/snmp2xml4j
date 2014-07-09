@@ -543,8 +543,8 @@ public class Walk {
                                 sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, indexVal));
                             }
                             if (i != indexes.size() - 1) {
-                                instance.append(indexName + ".");
-                                instanceValues.append(indexVal + ".");
+                                instance.append(indexName + "");
+                                instanceValues.append(indexVal + "");
                             } else {
                                 instance.append(indexName);
                                 instanceValues.append(indexVal);
@@ -564,8 +564,8 @@ public class Walk {
 
 
                             if (i != indexes.size() - 1) {
-                                instance.append(indexName + ".");
-                                instanceValues.append(indexVal + ".");
+                                instance.append(indexName + "");
+                                instanceValues.append(indexVal + "");
                             } else {
                                 instance.append(indexName);
                                 instanceValues.append(indexVal);

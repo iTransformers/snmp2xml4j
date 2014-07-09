@@ -24,15 +24,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>iTransformers.iTransformer</groupId>
-    <artifactId>snmp2xml4j</artifactId>
-    <version>1.0</version>
-    <description>snmp2xml4j is a tool for performing snmpwalks to xml</description>
-    <packaging>pom</packaging>
-    <modules>
-        <module>distribution</module>
-    </modules>
-
+    <groupId>iTransformers.snmp2xml4j</groupId>
+    <artifactId>snmptoolkit</artifactId>
+    <version>1.0</version><!--Change for new version-->
+    <parent>
+        <groupId>iTransformers</groupId>
+        <artifactId>snmp2xml4j</artifactId>
+        <version>1.0</version><!--Change for new version-->
+    </parent>
 
 
     <dependencies>
@@ -77,72 +76,26 @@
             <!--<version>0.7-SNAPSHOT</version>-->
 
         <!--</dependency>-->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.sun.jmx</groupId>
-                    <artifactId>jmxri</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jdmk</groupId>
-                    <artifactId>jmxtools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.jms</groupId>
-                    <artifactId>jms</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-assembly-plugin</artifactId>-->
-                <!--<version>2.3</version>-->
-                <!--<configuration>-->
-                    <!--<descriptors>-->
-                        <!--<descriptor>distribution/snmp2xmlAssembly.xml</descriptor>-->
-                        <!--&lt;!&ndash;descriptor>distribution/bgpPeeringMap.xml</descriptor&ndash;&gt;-->
-                    <!--</descriptors>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>make-assembly</id>-->
-                        <!--&lt;!&ndash; this is used for inheritance merges &ndash;&gt;-->
-                        <!--<phase>package</phase>-->
-                        <!--&lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
-                        <!--&lt;!&ndash;<goals>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<goal>single</goal>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</goals>&ndash;&gt;-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.2</version>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
-
-
         </plugins>
 
     </build>
-    <repositories>
-        <!-- tcljava is provided by SpringSource -->
-        <repository>
-            <id>itransformers-repo</id>
-            <url>http://repo.itransformers.net/repos/</url>
-        </repository>
-    </repositories>
+
 
 </project>
