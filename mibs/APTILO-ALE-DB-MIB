@@ -1,0 +1,542 @@
+APTILO-ALE-DB-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+       IpAddress, Gauge32, Counter64, TimeTicks
+           FROM SNMPv2-SMI
+       PhysAddress, DisplayString
+           FROM SNMPv2-TC
+       ale
+           FROM APTILO-MIB;
+
+    db MODULE-IDENTITY
+       LAST-UPDATED "201211151230Z"
+       ORGANIZATION "Aptilo Networks"
+       CONTACT-INFO
+              "Technical Support
+               support@aptilo.com"
+       DESCRIPTION
+              "This MIB has information about ALE database instances."
+        REVISION "201211151230Z"
+        DESCRIPTION
+                "Initial revision"
+       ::= { ale 5 }
+
+-- Database Table:
+
+   dbTable OBJECT-TYPE
+       SYNTAX     SEQUENCE OF DBENTRY
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+                  "A table of database instances."
+       ::= { db 1 }
+
+   dbEntry OBJECT-TYPE
+       SYNTAX     DBENTRY
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+                  "A database entry with statistical information."
+       INDEX   { dbName }
+       ::= { dbTable 1 }
+
+   DBENTRY ::=
+       SEQUENCE {
+          dbName
+             DisplayString,
+          dbType
+             INTEGER,
+          dbUptime
+             TimeTicks,
+          dbDiskSize
+             Gauge32,
+          dbPeersConfigured
+             Gauge32,
+          dbPeersConnected
+             Gauge32,
+          dbDiskSizeThreshold
+             Gauge32
+       }
+
+    dbName OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Name of the database."
+       ::= { dbEntry 1 }
+
+    dbType OBJECT-TYPE
+       SYNTAX     INTEGER { accounts(1), history(2), config(3) }
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Type of database."
+       ::= { dbEntry 2 }
+
+    dbUptime OBJECT-TYPE
+       SYNTAX     TimeTicks
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "How long the database has been up."
+       ::= { dbEntry 3 }
+
+    dbDiskSize OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Diskspace used by databases (in kibibytes)."
+       ::= { dbEntry 4 }
+
+    dbPeersConfigured OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of peers configured in the database cluster."
+       ::= { dbEntry 5 }
+
+    dbPeersConnected OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number of peers connected in the database cluster."
+       ::= { dbEntry 6 }
+
+    dbDiskSizeThreshold OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The maximum disk size allowed for database before sending alarm."
+       ::= { dbEntry 7 }
+
+-- END DB Table
+
+-- DB Request statistics Table (local node requests e.g. edbc):
+
+    dbRequestTable OBJECT-TYPE
+       SYNTAX     SEQUENCE OF DBREQENTRY
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+                  "A table of local query statistics per database."
+       ::= { db 2 }
+
+    dbRequestEntry OBJECT-TYPE
+       SYNTAX     DBREQENTRY
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+                  "A database query entry with statistical information."
+       INDEX   { dbRequestName }
+       ::= { dbRequestTable 1 }
+
+   DBREQENTRY ::=
+       SEQUENCE {
+          dbRequestName
+             DisplayString,
+          dbRequestGetSuccess
+             Counter64,
+          dbRequestPutSuccess
+             Counter64,
+          dbRequestModifySuccess
+             Counter64,
+          dbRequestDeleteSuccess
+             Counter64,
+          dbRequestPostSuccess
+             Counter64,
+          dbRequestListSuccess
+             Counter64,
+          dbRequestGetNotFound
+             Counter64,
+          dbRequestGetFailed
+             Counter64,
+          dbRequestPutFailed
+             Counter64,
+          dbRequestModifyFailed
+             Counter64,
+          dbRequestDeleteFailed
+             Counter64,
+          dbRequestPostFailed
+             Counter64,
+          dbRequestListFailed
+             Counter64,
+          dbRequestGetTimeout
+             Counter64,
+          dbRequestPutTimeout
+             Counter64,
+          dbRequestModifyTimeout
+             Counter64,
+          dbRequestDeleteTimeout
+             Counter64,
+          dbRequestPostTimeout
+             Counter64,
+          dbRequestListTimeout
+             Counter64,
+          dbRequestGetMinRspTime
+             Gauge32,
+          dbRequestPutMinRspTime
+             Gauge32,
+          dbRequestModifyMinRspTime
+             Gauge32,
+          dbRequestDeleteMinRspTime
+             Gauge32,
+          dbRequestPostMinRspTime
+             Gauge32,
+          dbRequestListMinRspTime
+             Gauge32,
+          dbRequestGetMaxRspTime
+             Gauge32,
+          dbRequestPutMaxRspTime
+             Gauge32,
+          dbRequestModifyMaxRspTime
+             Gauge32,
+          dbRequestDeleteMaxRspTime
+             Gauge32,
+          dbRequestPostMaxRspTime
+             Gauge32,
+          dbRequestListMaxRspTime
+             Gauge32,
+          dbRequestGetAvgRspTime
+             Gauge32,
+          dbRequestPutAvgRspTime
+             Gauge32,
+          dbRequestModifyAvgRspTime
+             Gauge32,
+          dbRequestDeleteAvgRspTime
+             Gauge32,
+          dbRequestPostAvgRspTime
+             Gauge32,
+          dbRequestListAvgRspTime
+             Gauge32
+       }
+
+    dbRequestName OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Name of the database."
+       ::= { dbRequestEntry 1 }
+
+    dbRequestGetSuccess OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number successful GET operations."
+       ::= { dbRequestEntry 2 }
+
+    dbRequestPutSuccess OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number successful PUT operations."
+       ::= { dbRequestEntry 3 }
+
+    dbRequestModifySuccess OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number successful MODIFY operations."
+       ::= { dbRequestEntry 4 }
+
+    dbRequestDeleteSuccess OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number successful DELETE operations."
+       ::= { dbRequestEntry 5 }
+
+    dbRequestPostSuccess OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number successful POST operations."
+       ::= { dbRequestEntry 6 }
+
+    dbRequestListSuccess OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number successful LIST operations."
+       ::= { dbRequestEntry 7 }
+
+    dbRequestGetNotFound OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number not found for  GET operations."
+       ::= { dbRequestEntry 8 }
+
+    dbRequestGetFailed OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number failed GET operations."
+       ::= { dbRequestEntry 9 }
+
+    dbRequestPutFailed OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number failed PUT operations."
+       ::= { dbRequestEntry 10 }
+
+    dbRequestModifyFailed OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number failed MODIFY operations."
+       ::= { dbRequestEntry 11 }
+
+    dbRequestDeleteFailed OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number failed DELETE operations."
+       ::= { dbRequestEntry 12 }
+
+    dbRequestPostFailed OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number failed POST operations."
+       ::= { dbRequestEntry 13 }
+
+    dbRequestListFailed OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number failed LIST operations."
+       ::= { dbRequestEntry 14 }
+
+    dbRequestGetTimeout OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number timeouts for GET operations."
+       ::= { dbRequestEntry 15 }
+
+    dbRequestPutTimeout OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number timeouts for PUT operations."
+       ::= { dbRequestEntry 16 }
+
+    dbRequestModifyTimeout OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number timeouts for MODIFY operations."
+       ::= { dbRequestEntry 17 }
+
+    dbRequestDeleteTimeout OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number timeouts for DELETE operations."
+       ::= { dbRequestEntry 18 }
+
+    dbRequestPostTimeout OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number timeouts for POST operations."
+       ::= { dbRequestEntry 19 }
+
+    dbRequestListTimeout OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Number timeouts for LIST operations."
+       ::= { dbRequestEntry 20 }
+
+    dbRequestGetMinRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Minimum response time in milliseconds last minute for GET operations."
+       ::= { dbRequestEntry 21 }
+
+    dbRequestPutMinRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Minimum response time in milliseconds last minute for PUT operations."
+       ::= { dbRequestEntry 22 }
+
+    dbRequestModifyMinRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Minimum response time in milliseconds last minute for MODIFY operations."
+       ::= { dbRequestEntry 23 }
+
+    dbRequestDeleteMinRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Minimum response time in milliseconds last minute for DELETE operations."
+       ::= { dbRequestEntry 24 }
+
+    dbRequestPostMinRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Minimum response time in milliseconds last minute for POST operations."
+       ::= { dbRequestEntry 25 }
+
+    dbRequestListMinRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Minimum response time in milliseconds last minute for LIST operations."
+       ::= { dbRequestEntry 26 }
+
+    dbRequestGetMaxRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Maximum response time in milliseconds last minute for GET operations."
+       ::= { dbRequestEntry 27 }
+
+    dbRequestPutMaxRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Maximum response time in milliseconds last minute for PUT operations."
+       ::= { dbRequestEntry 28 }
+
+    dbRequestModifyMaxRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Maximum response time in milliseconds last minute for MODIFY operations."
+       ::= { dbRequestEntry 29 }
+
+    dbRequestDeleteMaxRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Maximum response time in milliseconds last minute for DELETE operations."
+       ::= { dbRequestEntry 30 }
+
+    dbRequestPostMaxRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Maximum response time in milliseconds last minute for POST operations."
+       ::= { dbRequestEntry 31 }
+
+    dbRequestListMaxRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Maximum response time in milliseconds last minute for LIST operations."
+       ::= { dbRequestEntry 32 }
+
+    dbRequestGetAvgRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Average response time in milliseconds last minute for GET operations."
+       ::= { dbRequestEntry 33 }
+
+    dbRequestPutAvgRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Average response time in milliseconds last minute for PUT operations."
+       ::= { dbRequestEntry 34 }
+
+    dbRequestModifyAvgRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Average response time in milliseconds last minute for MODIFY operations."
+       ::= { dbRequestEntry 35 }
+
+    dbRequestDeleteAvgRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Average response time in milliseconds last minute for DELETE operations."
+       ::= { dbRequestEntry 36 }
+
+    dbRequestPostAvgRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Average response time in milliseconds last minute for POST operations."
+       ::= { dbRequestEntry 37 }
+
+    dbRequestListAvgRspTime OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "Average response time in milliseconds last minute for LIST operations."
+       ::= { dbRequestEntry 38 }
+
+-- END DB Request statistics Table
+
+-- Traps
+
+    dbDiskSizeHighTrap NOTIFICATION-TYPE
+       OBJECTS { dbName, dbDiskSize, dbDiskSizeThreshold }
+       STATUS current
+       DESCRIPTION
+           "The disk size used by database is above configured threshold."
+       ::= { db 1000 }
+
+   dbDiskSizeHighTrapReset NOTIFICATION-TYPE
+       OBJECTS { dbName, dbDiskSize, dbDiskSizeThreshold }
+       STATUS current
+       DESCRIPTION
+           "The disk size used by database is back below configured threshold."
+       ::= { db 1001 }
+
+
+END

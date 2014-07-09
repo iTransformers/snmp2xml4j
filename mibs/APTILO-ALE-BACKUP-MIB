@@ -1,0 +1,140 @@
+-- $Id$
+
+APTILO-BACKUP-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, OBJECT-IDENTITY,
+       NOTIFICATION-TYPE, Unsigned32
+           FROM SNMPv2-SMI
+       TruthValue
+           FROM SNMPv2-TC
+       ale
+           FROM APTILO-MIB;
+
+   backup MODULE-IDENTITY
+       LAST-UPDATED "201212191500Z"
+       ORGANIZATION "Aptilo Networks AB"
+       CONTACT-INFO
+              "Technical Support
+              support@aptilo.com"
+       DESCRIPTION
+              "This MIB has information about the backup service on
+              an ALE system."
+
+       REVISION "201212191500Z"
+       DESCRIPTION
+              "Renamed the module to backup, and moved it to the ale
+              branch."
+       REVISION "201209280900Z"
+       DESCRIPTION
+              "Initial revision"
+       ::= { ale 8 }
+
+   backupObjects OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Objects in the backup module."
+       ::= { backup 1 }
+
+   backupSuccess OBJECT-TYPE
+       SYNTAX     TruthValue
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+               "Whether the last backup was successful. If no backup
+               has been performed yet, this object has value yes(1)."
+       ::= { backupObjects 1 }
+
+   backupType OBJECT-TYPE
+       SYNTAX     INTEGER { disabled(1), remote(2) }
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+               "How the last backup was performed. If no backup has
+               been performed yet, this object has no value.
+
+               Values:
+
+               disabled(1): The backup process was disabled.
+
+               remote(2): The data was transferred via SSH to a remote
+               backup server."
+       ::= { backupObjects 2 }
+
+   backupTotalSpace OBJECT-TYPE
+       SYNTAX     Unsigned32
+       MAX-ACCESS read-write
+       STATUS     current
+       DESCRIPTION
+                  "The total number of megabytes allocated to backup."
+       ::= { backupObjects 3 }
+
+   backupUsedSpace OBJECT-TYPE
+       SYNTAX     Unsigned32
+       MAX-ACCESS read-write
+       STATUS     current
+       DESCRIPTION
+                  "The number of megabytes used by files on backup partition."
+       ::= { backupObjects 4 }
+
+   backupRemainingSpace OBJECT-TYPE
+       SYNTAX     Unsigned32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of megabytes remaining for backup."
+       ::= { backupObjects 5 }
+
+   backupUsedSpacePercentage OBJECT-TYPE
+       SYNTAX     Unsigned32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The percentage of total space used."
+       ::= { backupObjects 6 }
+
+   backupUsedSpacePercentageThreshold OBJECT-TYPE
+       SYNTAX     Unsigned32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The percentage of total space used where a trap will happen."
+       ::= { backupObjects 7 }
+
+   backupEvents OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "Events in the backup module."
+       ::= { backup 2 }
+
+   backupFailure NOTIFICATION-TYPE
+       OBJECTS { backupType }
+       STATUS current
+       DESCRIPTION
+           "The last backup was not successful.
+
+           The data could not be transferred to the remote backup server."
+       ::= { backupEvents 1 }
+
+   backupFailureReset NOTIFICATION-TYPE
+       OBJECTS { backupType }
+       STATUS current
+       DESCRIPTION
+           "Reset of backupFailure. The last backup was successful
+           again."
+       ::= { backupEvents 2 }
+
+   backupSpaceLowTrap NOTIFICATION-TYPE
+       OBJECTS { backupTotalSpace, backupUsedSpacePercentage, backupUsedSpacePercentageThreshold }
+       STATUS current
+       DESCRIPTION
+           "The backup storage space is running low."
+       ::= { backupEvents 3 }
+
+   backupSpaceLowTrapReset NOTIFICATION-TYPE
+       OBJECTS { backupTotalSpace, backupUsedSpacePercentage, backupUsedSpacePercentageThreshold }
+       STATUS current
+       DESCRIPTION
+           "The backup storage space is back to normal."
+       ::= { backupEvents 4 }
+END

@@ -1,0 +1,28 @@
+APTILO-ALE-CORE-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+       IpAddress, Gauge32, TimeTicks, Unsigned32, Counter64
+           FROM SNMPv2-SMI
+       PhysAddress, DisplayString
+           FROM SNMPv2-TC
+       ale
+           FROM APTILO-MIB;
+
+    core MODULE-IDENTITY
+       LAST-UPDATED "201203151230Z"
+       ORGANIZATION "Aptilo Networks"
+       CONTACT-INFO
+              "Technical Support
+               support@aptilo.com"
+       DESCRIPTION
+              "This MIB has information about services specific to ALE core."
+        REVISION "201203151230Z"
+        DESCRIPTION
+                "Initial revision"
+       ::= { ale 3 }
+
+    im OBJECT IDENTIFIER
+       ::=  { core 1 }
+
+END

@@ -1,0 +1,126 @@
+-- ============================================================================
+-- Copyright (C) by  HUAWEI TECHNOLOGIES. All rights reserved.
+-- 
+-- Description:  
+-- Reference:  
+-- Version: V3.03
+-- History:
+-- updated By liu chenglong on Mar 20,2004 .
+-- 
+-- ============================================================================
+
+HUAWEI-MIB DEFINITIONS ::= BEGIN
+
+	IMPORTS
+		enterprises, MODULE-IDENTITY			
+			FROM SNMPv2-SMI;
+
+	huawei MODULE-IDENTITY 
+		LAST-UPDATED "200407210900Z"
+		ORGANIZATION 
+			"Fix-Net Dept, Huawei Technologies Co.,Ltd."
+		CONTACT-INFO 
+			"Floor 5, Block 4, R&D Building,
+			Huawei Longgang Production Base,
+			Shenzhen,  P.R.C.
+			http://www.huawei.com
+			Zip: 518129
+			"
+		DESCRIPTION 
+			"huawei common oid   mib defintion.	"
+		::= { enterprises 2011 }
+	
+	hwLocal OBJECT IDENTIFIER               ::= { huawei 1 }
+	hwProducts OBJECT IDENTIFIER            ::= { huawei 2 }
+	huaweiExperimental OBJECT IDENTIFIER    ::= { huawei 4 }
+	huaweiMgmt OBJECT IDENTIFIER            ::= { huawei 5 }
+	    hwAcl OBJECT IDENTIFIER             ::= { huaweiMgmt 1 }
+        hwAaa OBJECT IDENTIFIER             ::= { huaweiMgmt 2 }
+        hwLam OBJECT IDENTIFIER             ::= { huaweiMgmt 3 }
+        hwPortal OBJECT IDENTIFIER          ::= { huaweiMgmt 4 }
+        hwRadius OBJECT IDENTIFIER          ::= { huaweiMgmt 5 }
+        hwVlan OBJECT IDENTIFIER            ::= { huaweiMgmt 6 }
+        hwDhcp OBJECT IDENTIFIER            ::= { huaweiMgmt 7 }
+            hwDHCPRelayMib OBJECT IDENTIFIER    ::= { hwDhcp 1 }
+            hwDHCPServerMib OBJECT IDENTIFIER   ::= { hwDhcp 2 }
+        hwVprn OBJECT IDENTIFIER            ::= { huaweiMgmt 8 }
+        hwFr OBJECT IDENTIFIER              ::= { huaweiMgmt 9 }
+        hwAtmCmRm OBJECT IDENTIFIER         ::= { huaweiMgmt 10 }
+        hwCes OBJECT IDENTIFIER             ::= { huaweiMgmt 11 }
+        hwMpls OBJECT IDENTIFIER            ::= { huaweiMgmt 12 }
+            hwMplsLsr OBJECT IDENTIFIER     ::= { hwMpls 1 }
+            hwMplsLdp OBJECT IDENTIFIER     ::= { hwMpls 2 }
+            hwMplsVpn OBJECT IDENTIFIER     ::= { hwMpls 3 }
+            hwMplsFtn OBJECT IDENTIFIER     ::= { hwMpls 4 }
+            hwMplsVpls OBJECT IDENTIFIER    ::= { hwMpls 5 }
+            hwMplsLsp  OBJECT IDENTIFIER    ::= { hwMpls 6 }
+            hwMplsOam  OBJECT IDENTIFIER    ::= { hwMpls 7 }
+        hwRouteManagement OBJECT IDENTIFIER ::= { huaweiMgmt 13 }
+            hwRouteManagementUrm OBJECT IDENTIFIER  ::= { hwRouteManagement 1 }
+            hwRouteManagementMrm OBJECT IDENTIFIER  ::= { hwRouteManagement 2 }
+            hwRouteManagementRpm OBJECT IDENTIFIER  ::= { hwRouteManagement 3 }
+        hwEthernetPort OBJECT IDENTIFIER    ::= { huaweiMgmt 14 }
+        hwVTP OBJECT IDENTIFIER             ::= { huaweiMgmt 15 }
+        hwMam OBJECT IDENTIFIER             ::= { huaweiMgmt 16 }
+        hwArpProxy OBJECT IDENTIFIER        ::= { huaweiMgmt 17 }
+        hwDhcpProxy OBJECT IDENTIFIER       ::= { huaweiMgmt 18 }
+        hwIgspSnooping OBJECT IDENTIFIER    ::= { huaweiMgmt 19 }
+        hwGarpExt OBJECT IDENTIFIER         ::= { huaweiMgmt 20 }
+        hwRstpExt OBJECT IDENTIFIER         ::= { huaweiMgmt 21 }
+        hwPae8021xExt OBJECT IDENTIFIER     ::= { huaweiMgmt 22 }
+        hwNat OBJECT IDENTIFIER             ::= { huaweiMgmt 23 }
+        hwVlanProtocol OBJECT IDENTIFIER    ::= { huaweiMgmt 24 }
+        hwDatacomm OBJECT IDENTIFIER        ::= { huaweiMgmt 25 }
+        hwImps     OBJECT IDENTIFIER        ::= { huaweiMgmt 26 }      -- I2000开发部黄亚平申请
+    huaweiUtility OBJECT IDENTIFIER         ::= { huawei 6 }
+        hwEnvironment OBJECT IDENTIFIER     ::= { huaweiUtility 1 }
+        hwPower OBJECT IDENTIFIER           ::= { huaweiUtility 2 }
+        hwDev OBJECT IDENTIFIER             ::= { huaweiUtility 3 }
+        hwNtp OBJECT IDENTIFIER             ::= { huaweiUtility 4 }
+        hwMem OBJECT IDENTIFIER             ::= { huaweiUtility 5 }
+        hwLoadBackup OBJECT IDENTIFIER      ::= { huaweiUtility 6 }
+        hwHgmp OBJECT IDENTIFIER            ::= { huaweiUtility 7 }
+        hwIppool OBJECT IDENTIFIER          ::= { huaweiUtility 8 }
+        huaweiFlashManMIB OBJECT IDENTIFIER ::= { huaweiUtility 9 }
+        hwConfig OBJECT IDENTIFIER          ::= { huaweiUtility 10 }
+        hwAtmOam OBJECT IDENTIFIER          ::= { huaweiUtility 11 }
+        hwAtmPos OBJECT IDENTIFIER          ::= { huaweiUtility 12 }
+        hwHSL OBJECT IDENTIFIER             ::= { huaweiUtility 13 }
+        hwMTA OBJECT IDENTIFIER             ::= { huaweiUtility 14 }
+        hwSPC OBJECT IDENTIFIER             ::= { huaweiUtility 15 }
+        hwV5 OBJECT IDENTIFIER              ::= { huaweiUtility 16 }
+        hwIma OBJECT IDENTIFIER             ::= { huaweiUtility 17 }
+        hwUcl OBJECT IDENTIFIER             ::= { huaweiUtility 18 }
+        hwAtmSvc OBJECT IDENTIFIER          ::= { huaweiUtility 19 }
+        hwVPRing OBJECT IDENTIFIER          ::= { huaweiUtility 20 }
+        hwTest OBJECT IDENTIFIER            ::= { huaweiUtility 21 }
+            hwTestCommon OBJECT IDENTIFIER  ::= { hwTest 1 }
+            hwNTest OBJECT IDENTIFIER       ::= { hwTest 2 }
+            hwBtest OBJECT IDENTIFIER       ::= { hwTest 3 }
+        hwSwitchOver OBJECT IDENTIFIER      ::= { huaweiUtility 22 }  -- March 28,2003,lcl added
+        hwVfb OBJECT IDENTIFIER             ::= { huaweiUtility 23 }  -- March 28,2003,lcl added
+        hwClk OBJECT IDENTIFIER             ::= { huaweiUtility 25 }  -- March 28,2003,lcl added
+        hwCdi OBJECT IDENTIFIER             ::= { huaweiUtility 26 }  -- March 28,2003,lcl added
+        hwAti OBJECT IDENTIFIER             ::= { huaweiUtility 27 }  -- March 28,2003,lcl added
+        hwDslamNtv OBJECT IDENTIFIER        ::= { huaweiUtility 28 }  -- June  04,2003,lcl added        
+        hwServerMon OBJECT IDENTIFIER       ::= { huaweiUtility 29 }  -- June  04,2003,lcl added
+        hwSyntrap OBJECT IDENTIFIER         ::= { huaweiUtility 30}   -- June  06,2003,lcl added
+        hwAdsl OBJECT IDENTIFIER            ::= { huaweiUtility 31 }  -- June  22,2003,lcl added        
+        hwVdsl OBJECT IDENTIFIER            ::= { huaweiUtility 32 }  -- June  22,2003,lcl added
+        hwHdsl OBJECT IDENTIFIER            ::= { huaweiUtility 33}   -- June  22,2003,lcl added
+        hwDeha OBJECT IDENTIFIER            ::= { huaweiUtility 34}   -- oct 17 2003,lcl added for IAS 
+        hwSyslog OBJECT IDENTIFIER          ::= { huaweiUtility 35}   -- Mar 20 2004,liuchenglong added  
+        hwVoip OBJECT IDENTIFIER            ::= { huaweiUtility 36}   -- Mar 20 2004,liuchenglong added  
+        hwVrp OBJECT IDENTIFIER             ::= { huaweiUtility 37}   -- Mar 20 2004,liuchenglong added  
+        hwMus OBJECT IDENTIFIER             ::= { huaweiUtility 38}   -- July 1, 2004,liuchenglong added 
+        hwDns OBJECT IDENTIFIER             ::= { huaweiUtility 39}   -- Mar 20 2004,liuchenglong added  
+        hwNetTest OBJECT IDENTIFIER         ::= { huaweiUtility 40}   -- Mar 20 2004,liuchenglong added  
+        hwMs OBJECT IDENTIFIER              ::= { huaweiUtility 41}   -- July 22 2004, 刘成龙增加为IAS 窄带话务统计 
+        hwPITP OBJECT IDENTIFIER            ::= { huaweiUtility 42}   -- July 29 2004, VBSE AND PPPOE 拨号和DHCP OPTION82 特性
+        hwDslamMacPool OBJECT IDENTIFIER    ::= { huaweiUtility 43}   -- Aug 30, 2004,liuchenglong added  
+        hwDslamPPPoA OBJECT IDENTIFIER      ::= { huaweiUtility 44}   -- Aug 30, 2004,liuchenglong added  
+        hwDslamPvcProtocol OBJECT IDENTIFIER    ::= { huaweiUtility 45}  -- Aug 30, 2004,liuchenglong added  
+        hwDslamIpoa OBJECT IDENTIFIER       ::= { huaweiUtility 46}   -- Aug 30, 2004,liuchenglong added  
+END
+
+

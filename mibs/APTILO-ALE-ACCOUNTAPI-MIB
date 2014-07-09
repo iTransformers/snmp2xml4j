@@ -1,0 +1,221 @@
+APTILO-ALE-ACCOUNTAPI-MIB DEFINITIONS ::= BEGIN
+
+-- Statistics regarding the User Provisioning and Session Look Up done by the
+-- SOAP module.
+
+   IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+       Gauge32, Counter64
+           FROM SNMPv2-SMI
+       NOTIFICATION-GROUP, MODULE-COMPLIANCE, OBJECT-GROUP
+           FROM SNMPv2-CONF
+       ale
+           FROM APTILO-MIB;
+
+   accountapi MODULE-IDENTITY
+       LAST-UPDATED "201303212121Z"
+       ORGANIZATION "Aptilo Networks AB"
+       CONTACT-INFO
+              "Technical Support
+               support@aptilo.com"
+       DESCRIPTION
+              "This MIB defines statistical data regarding the
+	      Account Management Adapter, i.e. SOAP interface,
+	      for an ALE APEX node."
+
+       REVISION "201303212121Z"
+       DESCRIPTION
+              "Adjustments to accieve SMIv2 compliancy. Some
+	      warnings still apply."
+       REVISION "201211162012Z"
+       DESCRIPTION
+		"Initial revision."
+       ::= { ale 6 }
+
+
+-- Top-Level Components of this MIB.
+
+   accountapiNotifications  OBJECT IDENTIFIER ::=
+                                     { accountapi 0 }
+   accountapiObjects        OBJECT IDENTIFIER ::=
+                                     { accountapi 1 }
+   accountapiConform        OBJECT IDENTIFIER ::=
+                                     { accountapi 2 }
+
+
+-- account request statistics
+
+   accountapiAddSuccessful OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of successful account creation requests."
+       ::= { accountapiObjects 1 }
+
+   accountapiAddError OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The sum of failed or timed out account creation requests."
+       ::= { accountapiObjects 2 }
+
+   accountapiDeleteSuccessful OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of successful account deletion requests."
+       ::= { accountapiObjects 3 }
+
+   accountapiDeleteError OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The sum of failed or timed out account deletion requests."
+       ::= { accountapiObjects 4 }
+
+   accountapiModifySuccessful OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of successful account modification requests."
+       ::= { accountapiObjects 5 }
+
+   accountapiModifyError OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The sum of failed or timed out account modification requests."
+       ::= { accountapiObjects 6 }
+
+
+-- Session look-ups
+
+   accountapiLookupHistoricalSuccessful OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of historical sessions look-up requests."
+       ::= { accountapiObjects 7 }
+
+   accountapiLookupHistoricalError OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The sum of failed or timed out historical sessions look-up requests."
+       ::= { accountapiObjects 8 }
+
+   accountapiLookupActiveSuccessful OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of successful active sessions look-up requests."
+       ::= { accountapiObjects 9 }
+
+   accountapiLookupActiveError OBJECT-TYPE
+       SYNTAX     Counter64
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The sum of failed or timed out active sessions look-up requests."
+       ::= { accountapiObjects 10 }
+
+   accountapiErrorsLastMinute OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The number of account create, modify and delete errors the last minute."
+       ::= { accountapiObjects 11 }
+
+   accountapiErrorsPerMinuteThreshold OBJECT-TYPE
+       SYNTAX     Gauge32
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+                  "The maximum number of account create, modify and delete errors tolerated before sending a trap."
+       ::= { accountapiObjects 12 }
+
+-- Trap regarding the sum of account create, delete or modify errors surpassing a specified level
+-- The counter64 is the number of account create, modify and delete errors for the last time period.
+
+   accountapiAccessFailureTrap NOTIFICATION-TYPE
+       OBJECTS    { accountapiErrorsLastMinute, accountapiErrorsPerMinuteThreshold }
+       STATUS     current
+       DESCRIPTION
+                  "The number of account errors exceeds the tolerance limit."
+       ::= { accountapiNotifications 1000 }
+
+   accountapiAccessFailureTrapReset NOTIFICATION-TYPE
+       OBJECTS    { accountapiErrorsLastMinute, accountapiErrorsPerMinuteThreshold }
+       STATUS     current
+       DESCRIPTION
+                  "The number of account errors is now back below the tolerance limit."
+       ::= { accountapiNotifications 1001 }
+
+
+-- Conformance
+
+   accountapiCompliances
+                  OBJECT IDENTIFIER ::= { accountapiConform 1 }
+
+   accountapiGroups
+                  OBJECT IDENTIFIER ::= { accountapiConform 2 }
+
+
+-- Compliance Statements
+
+   accountAPCompliances MODULE-COMPLIANCE
+       STATUS     current
+       DESCRIPTION
+                  "The compliance statement for accountapi entities."
+       MODULE -- this module
+                  MANDATORY-GROUPS {
+                                    accountapiObjectsGroup,
+                                    accountapiNotificationsGroup
+                                   }
+       ::= { accountapiCompliances 1 }
+
+
+-- Units of Conformance
+
+   accountapiObjectsGroup OBJECT-GROUP
+       OBJECTS    {
+                   accountapiAddSuccessful,
+                   accountapiAddError,
+                   accountapiDeleteSuccessful,
+                   accountapiDeleteError,
+                   accountapiModifySuccessful,
+                   accountapiModifyError,
+                   accountapiLookupHistoricalSuccessful,
+                   accountapiLookupHistoricalError,
+                   accountapiLookupActiveSuccessful,
+                   accountapiLookupActiveError,
+                   accountapiErrorsLastMinute,
+                   accountapiErrorsPerMinuteThreshold
+                  }
+       STATUS     current
+       DESCRIPTION
+                  "A collection of objects providing accountapi statistics."
+       ::= { accountapiGroups 1 }
+
+   accountapiNotificationsGroup NOTIFICATION-GROUP
+       NOTIFICATIONS {
+                      accountapiAccessFailureTrap,
+                      accountapiAccessFailureTrapReset
+                     }
+       STATUS     current
+       DESCRIPTION
+                  "The set of notifications which an agent is required
+                   to implement."
+       ::= { accountapiGroups 2 }
+
+END
