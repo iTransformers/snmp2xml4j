@@ -94,7 +94,7 @@ public class Node {
     @Override
     public String toString() {
         return "Node{" +
-                "name=" + getObjectIdentifierValue().getName() +
+                "name=" + getObjectIdentifierValue().getName() + getSymbol()+
                 '}';
     }
 }
