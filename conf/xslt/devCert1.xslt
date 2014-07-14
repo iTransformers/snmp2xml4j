@@ -12,7 +12,7 @@
         <xsl:variable name="root" select="//."/>
         <root>
             <xsl:variable name="objectNames"
-                          select="distinct-values(//.[@snmpSyntax='Counter32'or @snmpSyntax='Counter64' or @snmpSyntax='Gauge32' or @snmpSyntax='Gauge64']/../name())"/>
+                          select="distinct-values(//.[@snmpSyntax='Counter32'or @snmpSyntax='Counter64' or @snmpSyntax='Gauge32' or @snmpSyntax='Gauge64' or (@snmpSyntax ='INTEGER' and @primitiveSyntax='INTEGER')]/../name())"/>
             <!--Loop over potential objects -->
             <objects>
                 <xsl:for-each select="$objectNames">
@@ -48,7 +48,7 @@
 
                         <!--Loop over performance Indicators-->
                         <indicators>
-                            <xsl:variable name="performanceIndicators" select="distinct-values($root//.[name()=$objectName]//.[name()!='index' and name()!='instance' and name()!='' and (@snmpSyntax='Counter32'or @snmpSyntax='Counter64' or @snmpSyntax='Gauge32' or @snmpSyntax='Gauge64') ]/name())"/>
+                            <xsl:variable name="performanceIndicators" select="distinct-values($root//.[name()=$objectName]//.[name()!='index' and name()!='instance' and name()!='' and (@snmpSyntax='Counter32'or @snmpSyntax='Counter64' or @snmpSyntax='Gauge32' or @snmpSyntax='Gauge64'or (@snmpSyntax ='INTEGER' and @primitiveSyntax='INTEGER')) ]/name())"/>
                             <xsl:for-each select="$performanceIndicators">
                                 <xsl:variable name="name" select="(.)"/>
                                 <indicator><xsl:attribute name="name"  select="$name"/>
@@ -93,7 +93,7 @@
                             </xsl:for-each>
                         </indicators>
                         <otherOids>
-                        <xsl:variable name="otherOids" select="distinct-values($root//.[name()=$objectName]//.[name()!='index' and name()!='instance' and name()!='' and (@snmpSyntax!='Counter32'and @snmpSyntax!='Counter64' and @snmpSyntax!='Gauge32' and @snmpSyntax!='Gauge64' and @snmpSyntax!='SEQUENCE') ]/name())"/>
+                        <xsl:variable name="otherOids" select="distinct-values($root//.[name()=$objectName]//.[name()!='index' and name()!='instance' and name()!='' and (@snmpSyntax!='Counter32'and @snmpSyntax!='Counter64' and @snmpSyntax!='Gauge32' and @snmpSyntax!='Gauge64' and (@snmpSyntax ='INTEGER' or @primitiveSyntax='INTEGER')and @snmpSyntax!='SEQUENCE') ]/name())"/>
                         <xsl:for-each select="$otherOids">
                             <xsl:variable name="name" select="(.)"/>
                             <otherOid><xsl:attribute name="name"  select="$name"/>

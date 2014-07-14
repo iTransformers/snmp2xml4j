@@ -1,6 +1,7 @@
 package net.itransformers.snmptoolkit;
 
 import net.itransformers.snmptoolkit.transform.XsltTransformer;
+import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,7 +27,7 @@ public class XsltExecutor {
 
         public static void main(String[] args) throws IOException {
 
-            if(args.length!=3){
+            if(args.length!=3 && args.length !=4 ){
                 System.out.println("Missing input parameters");
                 System.out.println(" Example usage: xsltTransform.sh /home/test/test.xslt /usr/data/Input.xml /usr/data/Output.xml ");
                 return;
@@ -51,18 +52,21 @@ public class XsltExecutor {
                 System.out.println(" Example usage: xsltTransformer.sh /home/test/test.xslt /usr/data/Input.xml /usr/data/Output.xml");
                 return;
             }
+            Map params = new HashMap<String,String>();
+            if (args.length==4) {
+                String deviceOS = args[3];
+                if (deviceOS != null) {
+                    params.put("DeviceOS", deviceOS);
 
-            String deviceOS = args[3];
-
+                }
+            }
             ByteArrayOutputStream outputStream1 = new ByteArrayOutputStream();
-            File xsltFileName1 = new File(System.getProperty("base.dir"), inputXslt);
+            File xsltFileName1 = new File(inputXslt);
 
             FileInputStream inputStream1 =  new FileInputStream(new File(inputFilePath));
 
 
             XsltTransformer xsltTransformer = new XsltTransformer();
-            Map params = new HashMap<String,String>();
-            params.put("DeviceOS",deviceOS);
             try {
                 xsltTransformer.transformXML(inputStream1,xsltFileName1,outputStream1,params);
             } catch (ParserConfigurationException e) {
@@ -72,6 +76,7 @@ public class XsltExecutor {
             } catch (TransformerException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+            FileUtils.writeStringToFile(new File(outputFilePath),new String(outputStream1.toByteArray()));
 
             System.out.println("Done! please review the transformed file " + outputFilePath);
 
