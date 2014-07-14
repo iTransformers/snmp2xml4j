@@ -14,4 +14,4 @@ xsltTransformer.sh xslt/devCert2.xslt intermediate.xml final.s1o OpenWrt
 
 The last parameter is Device Operating system name in this case OpenWrt.
 
-Note that you still have to edit the s1o file and to use your own Device&description naming!
+Note that you still have to edit the s1o file and to use your own object and description naming!
