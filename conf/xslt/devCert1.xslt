@@ -18,6 +18,7 @@
                 <xsl:for-each select="$objectNames">
                     <xsl:variable name="objectName" select="(.)"/>
                     <object><xsl:attribute name="name" select="$objectName"/>
+                        <description><xsl:value-of select="distinct-values($root//.[name() = $objectName]/description)"/></description>
                         <!--Loop on indexes -->
                         <indexes>
                             <xsl:for-each select="distinct-values($root//.[name() = $objectName]/index/@name)">
