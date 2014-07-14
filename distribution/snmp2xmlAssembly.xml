@@ -109,6 +109,11 @@
             <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
+            <directory>../conf/xslt</directory>
+            <outputDirectory>conf/xslt</outputDirectory>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <fileSet>
             <directory>../mibs</directory>
             <outputDirectory>mibs</outputDirectory>
         </fileSet>
