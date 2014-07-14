@@ -649,7 +649,7 @@ public class Walk {
                     }
                 }
             }
-            sb.append(String.format("\t%s<instance instanceIndex=\"%s\" instanceName=\"%s\">%s</instance>\n", tabs, instanceIndex, instance.toString(), instanceValues.toString()));
+            sb.append(String.format("\t%s<instance instanceIndex=\"%s\" instanceName=\"%s\" instanceValue=\"%s\">%s</instance>\n", tabs, instanceIndex, instance.toString(), instanceValues.toString(),indexOID.toString()));
 
         }
     }
