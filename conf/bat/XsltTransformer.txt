@@ -1,0 +1,17 @@
+Example usage: xsltTransformer.sh /home/test/test.xslt /usr/data/Input.xml /usr/data/Output.xml
+
+
+Example usage for the purposes of SevOne device Certification.
+
+
+Stage 1 transformation snmp2xml4j snmpwalk to an intermediate xml file
+
+xsltTransformer.sh devCert1.xslt /usr/data/snmpwalk.xml  intermediate.xml
+
+Stage 2 transformation intermediate.xml to SevOne s1o file
+
+xsltTransformer.sh xslt/devCert2.xslt intermediate.xml final.s1o OpenWrt
+
+The last parameter is Device Operating system name in this case OpenWrt.
+
+Note that you still have to edit the s1o file and to use your own Device&description naming!

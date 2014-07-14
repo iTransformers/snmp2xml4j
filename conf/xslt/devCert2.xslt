@@ -5,11 +5,13 @@
                 xmlns:snmpwalk="net.itransformers.snmptoolkit.Walk"
         >
     <xsl:output method="text" version="1.0" encoding="UTF-8" indent="yes"/>
+    <xsl:param name="DeviceOS"/>
+    <xsl:variable name="DeviceOperatingSystem" select="$DeviceOS"/>
     <xsl:template match="/">
         HEADER: v7<xsl:for-each select="/root/objects/object">
         OBJECT:
             object: <xsl:value-of select="@name"/>
-            os:
+            os: <xsl:value-of select="$DeviceOperatingSystem"/>
             index: .<xsl:value-of select="indexes/index/oid/@value"/>
             octets: <xsl:for-each select="indexes/index/syntax/@syntax">
         <xsl:variable name="syntax" select="."/>

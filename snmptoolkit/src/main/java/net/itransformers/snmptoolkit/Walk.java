@@ -390,7 +390,7 @@ public class Walk {
             String description = symbolType.getDescription().replaceAll("\\n"," ");
             if (oidFlag) {
                 sbTable.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, tagName, node.getObjectIdentifierValue(), syntaxString,snmpSyntax, accessString));
-                sbTable.append(String.format("\n\t%s<description>\"%s\"</description>",tabs,description));
+                sbTable.append(String.format("\n\t%s<description><![CDATA[\"%s\"]]></description>",tabs,description));
 
             } else {
                 sbTable.append(String.format("%s<%s>", tabs, tagName));
@@ -443,7 +443,7 @@ public class Walk {
                 String accessString = access.toString();
 
                 sb4.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, childTagName, vb.getOid(), syntaxString,snmpSyntax, accessString));
-                sb4.append(String.format("\n\t\t%s<description>\"%s\"</description>",tabs,description));
+                sb4.append(String.format("\n\t\t%s<description><![CDATA[\"%s\"]]></description>",tabs,description));
             } else {
                 sb4.append(String.format("\t%s<%s>", tabs, childTagName));
             }
@@ -802,8 +802,6 @@ public class Walk {
        } else {
            return syntax.getName();
        }
-
-
 
    }
     private static MibValueSymbol findSymbolFromMibs(String oidName){
