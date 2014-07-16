@@ -12,7 +12,7 @@
         OBJECT:
             object: <xsl:value-of select="@name"/>
             os: <xsl:value-of select="$DeviceOperatingSystem"/>
-            index: <xsl:value-of select="indicators/indicator[1]/oid"/>
+            index: .<xsl:value-of select="indicators/indicator[1]/oid"/>
             octets: <xsl:for-each select="indexes/index/syntax/@syntax">
         <xsl:variable name="syntax" select="."/>
         <xsl:choose>
@@ -23,7 +23,7 @@
     </xsl:for-each>
             reverse: 1
             singleton: 0
-            name: <xsl:text>`</xsl:text><xsl:value-of select="@name"/><xsl:text>`</xsl:text>
+            name: <xsl:text>'</xsl:text><xsl:value-of select="@name"/><xsl:text>'</xsl:text>
             description:  '<xsl:value-of select="description"/>'
             variables:
             assert:
