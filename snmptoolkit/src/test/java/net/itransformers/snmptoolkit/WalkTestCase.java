@@ -20,7 +20,7 @@ public class WalkTestCase {
 
         @Test
        public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
-        String oids = "ifEntry,host,ipAddrTable,ipNetToMediaTable,ipRoute,inetCidrRoute,entityMIB";
+        String oids = "system,ifEntry,ifXEntry,host,ipAddrTable,ipNetToMediaTable,ipRoute,inetCidrRoute,entityMIB";
         String mibDir = "./mibs";
 
         HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();

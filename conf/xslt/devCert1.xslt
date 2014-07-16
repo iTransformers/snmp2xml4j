@@ -64,9 +64,7 @@
                                                         <oid><xsl:value-of select="$oid"/></oid>
                                                     </xsl:when>
                                                     <xsl:otherwise>
-                                                        <xsl:variable name="instance1" select="../instance/@instanceIndex"/>
-                                                        <xsl:variable name="oid" select="functx:substring-before-last-match(functx:substring-before-last-match($test,$instance1),'.')"/>
-                                                        <oid><xsl:value-of select="$oid"/></oid>
+                                                        <oid><xsl:value-of select="$test"/></oid>
                                                     </xsl:otherwise>
                                                 </xsl:choose>
 

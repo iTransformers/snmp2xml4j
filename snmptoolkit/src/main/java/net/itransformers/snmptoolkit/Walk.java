@@ -324,6 +324,26 @@ public class Walk {
         final ObjectIdentifierValue objectIdentifierValue = node.getObjectIdentifierValue();
         if (objectIdentifierValue == null) return;
         String tagName = objectIdentifierValue.getName();
+        final MibValueSymbol symbol = node.getObjectIdentifierValue().getSymbol();
+        String syntaxString="";
+        String snmpSyntax = "";
+        String accessString = "";
+        String description = "";
+         if (symbol.getType() instanceof SnmpObjectType){
+            SnmpObjectType symbolType = (SnmpObjectType) symbol.getType();
+            MibType syntax = symbolType.getSyntax();
+            syntaxString = symbolType.getName();
+            snmpSyntax =  determineSyntaxType(symbolType.getSyntax());
+            SnmpAccess access = symbolType.getAccess();
+            accessString = access.toString();
+            description = symbolType.getDescription().replaceAll("\\n"," ");
+         } else if (symbol.getType() instanceof  ObjectIdentifierType){
+             ObjectIdentifierType symbolType = (ObjectIdentifierType) symbol.getType();
+             syntaxString = symbolType.getName();
+             snmpSyntax =  determineSyntaxType(symbolType);
+             accessString = "not-accessible";
+             description = "";
+         }
         if (node.getChildren() == null) return;
         if (node.getChildren().size() == 0) {
             final VariableBinding vb1 = node.getVb();
@@ -331,13 +351,16 @@ public class Walk {
             final Variable variable = vb1.getVariable();
             final String vb = variable != null ? escapeForXML(variable.toString()) : "";
             if (oidFlag) {
-                sb.append(String.format("%s<%s oid=\"%s\">", tabs, tagName, objectIdentifierValue));
+            //    sb.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax=\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue,syntaxString,snmpSyntax,accessString));
+                sb.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue, syntaxString,snmpSyntax, accessString));
+                sb.append(String.format("\n\t\t%s<description><![CDATA[%s]]></description>",tabs,description));
+
             } else {
                 sb.append(String.format("%s<%s>", tabs, tagName));
 
             }
-            sb.append(vb);
-            sb.append(String.format("</%s>", tagName));
+            sb.append(String.format("\n\t\t%s<value>%s</value>",tabs,vb));
+            sb.append(String.format("\n\t%s</%s>",tabs ,tagName));
             sb.append('\n');
             logger.trace(sb.toString());
         } else {
@@ -351,10 +374,9 @@ public class Walk {
                     printTreeAsXML(child, tabs + "\t", sb1, oidFlag);
                 }
                 if (oidFlag) {
-                    sb.append(String.format("%s<%s oid=\"%s\" >", tabs, tagName, objectIdentifierValue));
+                    sb.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax=\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue,syntaxString,snmpSyntax,accessString));
                 } else {
-                    sb.append(String.format("%s<%s>", tabs, tagName, objectIdentifierValue));
-
+                    sb.append(String.format("%s<%s>", tabs, tagName));
                 }
                 sb.append('\n');
                 sb.append(sb1);
@@ -390,8 +412,7 @@ public class Walk {
             String description = symbolType.getDescription().replaceAll("\\n"," ");
             if (oidFlag) {
                 sbTable.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, tagName, node.getObjectIdentifierValue(), syntaxString,snmpSyntax, accessString));
-                sbTable.append(String.format("\n\t%s<description><![CDATA[\"%s\"]]></description>",tabs,description));
-
+                sbTable.append(String.format("\n\t%s<description><![CDATA[%s]]></description>",tabs,description));
             } else {
                 sbTable.append(String.format("%s<%s>", tabs, tagName));
 
@@ -443,11 +464,11 @@ public class Walk {
                 String accessString = access.toString();
 
                 sb4.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, childTagName, vb.getOid(), syntaxString,snmpSyntax, accessString));
-                sb4.append(String.format("\n\t\t%s<description><![CDATA[\"%s\"]]></description>",tabs,description));
+                sb4.append(String.format("\n\t\t%s<description><![CDATA[%s]]></description>",tabs,description));
             } else {
                 sb4.append(String.format("\t%s<%s>", tabs, childTagName));
             }
-            sb4.append(String.format("\n\t\t%s<value>\"%s\"</value>",tabs,var));
+            sb4.append(String.format("\n\t\t%s<value>%s</value>",tabs,var));
             sb4.append(String.format("\n\t%s</%s>",tabs, childTagName));
             sb4.append('\n');
         }
@@ -574,8 +595,8 @@ public class Walk {
                                 instance.append(indexName + "");
                                 instanceValues.append(indexVal + "");
                             } else {
-                                instance.append(indexName);
-                                instanceValues.append(indexVal);
+                                instance.append(indexName+".");
+                                instanceValues.append(indexVal+".");
 
                             }
 
@@ -789,17 +810,20 @@ public class Walk {
         return false;
     }
    private static String determineSyntaxType(MibType syntax) {
+       if(syntax.getTag()!=null){
 
+           if (syntax.getTag().getCategory() == MibTypeTag.APPLICATION_CATEGORY) {
+               return syntax.getReferenceSymbol().getName();
 
-       if (syntax.getTag().getCategory() == MibTypeTag.APPLICATION_CATEGORY) {
-           return syntax.getReferenceSymbol().getName();
+           } else if (syntax.getTag().getCategory() == MibTypeTag.UNIVERSAL_CATEGORY) {
+               return syntax.getName();
 
-       } else if (syntax.getTag().getCategory() == MibTypeTag.UNIVERSAL_CATEGORY) {
-           return syntax.getName();
-
-       } else if (syntax.getTag().getCategory() == MibTypeTag.CONTEXT_SPECIFIC_CATEGORY) {
-           return syntax.getName();
-       } else {
+           } else if (syntax.getTag().getCategory() == MibTypeTag.CONTEXT_SPECIFIC_CATEGORY) {
+               return syntax.getName();
+           } else {
+               return syntax.getName();
+           }
+       }else{
            return syntax.getName();
        }
 

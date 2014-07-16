@@ -12,7 +12,7 @@
         OBJECT:
             object: <xsl:value-of select="@name"/>
             os: <xsl:value-of select="$DeviceOperatingSystem"/>
-            index: .<xsl:value-of select="indexes/index/oid/@value"/>
+            index: <xsl:value-of select="indicators/indicator[1]/oid"/>
             octets: <xsl:for-each select="indexes/index/syntax/@syntax">
         <xsl:variable name="syntax" select="."/>
         <xsl:choose>
@@ -20,12 +20,11 @@
             <xsl:when test="$syntax='OCTET STRING'">s</xsl:when>
             <xsl:otherwise>S</xsl:otherwise>
         </xsl:choose>
-
     </xsl:for-each>
             reverse: 1
             singleton: 0
             name: <xsl:text>`</xsl:text><xsl:value-of select="@name"/><xsl:text>`</xsl:text>
-            description:  <xsl:value-of select="description"/>
+            description:  '<xsl:value-of select="description"/>'
             variables:
             assert:
             subtype:
@@ -34,20 +33,22 @@
             operStatusExpression:<xsl:for-each select="indicators/indicator">
             INDICATOR:
                 indicator: <xsl:value-of select="@name"/>
-                description: <xsl:value-of select="description"/>
+                description: '<xsl:value-of select="description"/>'
                 expression: .<xsl:value-of select="oid"/>
                 type: <xsl:variable name="syntaxType" select="snmpSyntax/@type"/>
                        <xsl:choose>
                            <xsl:when test="$syntaxType='Gauge32' or $syntaxType='Gauge64'">GAUGE</xsl:when>
                            <xsl:when test="$syntaxType='Counter32'">COUNTER32</xsl:when>
                            <xsl:when test="$syntaxType='Counter64'">COUNTER64</xsl:when>
+                           <xsl:otherwise>GAUGE</xsl:otherwise>
                        </xsl:choose>
                 default: 1
-                dataunits: ChangeMe {Number,Percent,Bytes,Bits...}
-                percentable: ChangeMe{0 or 1}
-                max: ChangeMe
-                maxunits: ChangeMe {Number,Percent,Bytes,Bits...}
-                units:</xsl:for-each>
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:
+                maxunits: Number,Percent,Bytes,Bits...
+                units:
+            </xsl:for-each>
         </xsl:for-each>
     </xsl:template>
 
