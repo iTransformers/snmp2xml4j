@@ -1,25 +1,25 @@
 snmp2xml4j
 ========
 
+#Overview
 Snmp2xml4j contains several Java Written tools easing the process of generating, transforming and simulating and snmp queries into a structured xml.
 
 Currently the tool is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
-Building the tool 
+#Building the tool 
 Checkout the code, install maven and run 'mvn package' in the main project folder.
 
-Running the tool from the console:
-http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/snmp2xml4jReadme.md
 
-Transforming the results through xslt:
-http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/XsltTransformerReadme.md
+#snmp2xml4j console tools
+[Running the tool](./master/conf/bat/snmp2xml4jReadme.md)
 
-Making NET-SNMP snmpwalks to work with snmpsim (snmp simulator):
-http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/snmpwalk2snmpsimReadme.md
+[Transforming the results through xslt] (./master/conf/bat/XsltTransformerReadme.md)
+
+[Fix NET-SNMP snmpwalks to work with snmpsim (snmp simulator)] (http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/snmpwalk2snmpsimReadme.md)
 
 
-Junit test case
+#Junit test case
 ```java
       @Test
        public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
