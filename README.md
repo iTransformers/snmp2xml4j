@@ -1,14 +1,26 @@
 snmp2xml4j
 ========
 
-#Overview
+###Overview
 Snmp2xml4j contains several Java Written tools easing the process of generating, transforming and simulating and snmp queries into a structured xml.
 
 Currently the tool is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
-#Building the tool 
+###Building the tool 
 Checkout the code, install maven and run 'mvn package' in the main project folder.
+
+The final built will be in ./distribution/target/snmp2xml-bin/snmp2xml 
+
+The libraries will be in ./distribution/target/snmp2xml-bin/snmp2xml/lib
+
+The MIB files will be in ./distribution/target/snmp2xml-bin/snmp2xml/mibs
+
+The executables will be in ./distribution/target/snmp2xml-bin/snmp2xml/bin
+
+The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
+
+
 
 
 #snmp2xml4j console tools
