@@ -1,10 +1,23 @@
 snmp2xml4j
 ========
 
-A number of Java Written tools performing snmp queries into a structured xml.
+Snmp2xml4j contains several Java Written tools easing the process of generating, transforming and simulating and snmp queries into a structured xml.
 
-Currently the tool is able to do snmpget, snmptset and snmpwalk.
+Currently the tool is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
+
+Building the tool 
+Checkout the code, install maven and run 'mvn package' in the main project folder.
+
+Running the tool from the console:
+http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/snmp2xml4jReadme.md
+
+Transforming the results through xslt:
+http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/XsltTransformerReadme.md
+
+Making NET-SNMP snmpwalks to work with snmpsim (snmp simulator):
+http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/snmpwalk2snmpsimReadme.md
+
 
 Junit test case
 ```java
