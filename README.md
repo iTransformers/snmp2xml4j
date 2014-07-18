@@ -23,7 +23,7 @@ The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
 
 
 
-#snmp2xml4j console tools
+###snmp2xml4j console tools
 [Running the tool](./conf/bat/snmp2xml4jReadme.md)
 
 [Transforming the results through xslt] (./conf/bat/XsltTransformerReadme.md)
@@ -31,7 +31,7 @@ The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
 [Fix NET-SNMP snmpwalks to work with snmpsim (snmp simulator)] (./conf/bat/snmpwalk2snmpsimReadme.md)
 
 
-#Junit test case
+###Junit test case
 ```java
       @Test
        public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
@@ -59,7 +59,7 @@ The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
         Assert.assertEquals(expectedXML, xml);
     }
 ```
-SNMP2XML output
+###SNMP2XML output
 ```xml
 <?xml version="1.0" ?>
 <root>
