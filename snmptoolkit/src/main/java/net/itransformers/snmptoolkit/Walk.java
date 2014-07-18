@@ -208,8 +208,6 @@ public class Walk {
             if (mibType instanceof SnmpObjectType) {
                 SnmpObjectType snmpObjectType = (SnmpObjectType) mibType;
                 MibType syntax = snmpObjectType.getSyntax();
-             //   MibType syntax1 = node.getSymbol().getType();
-             //   System.out.println("Tag " + determineSyntaxType(syntax));
                 if (syntax instanceof SequenceType) {
                     ArrayList<OID> oidList = new ArrayList<OID>();
                     for (Node child : node.getChildren()) {
@@ -269,7 +267,7 @@ public class Walk {
                 continue;
             }
 
-            Node childNode = new Node(child, node,child.getSymbol());
+            Node childNode = new Node(child, node);
             node.addChild(childNode);
             fillTreeFromMib(childNode);
         }
@@ -329,6 +327,7 @@ public class Walk {
         String snmpSyntax = "";
         String accessString = "";
         String description = "";
+        String units = "";
          if (symbol.getType() instanceof SnmpObjectType){
             SnmpObjectType symbolType = (SnmpObjectType) symbol.getType();
             MibType syntax = symbolType.getSyntax();
@@ -337,6 +336,7 @@ public class Walk {
             SnmpAccess access = symbolType.getAccess();
             accessString = access.toString();
             description = symbolType.getDescription().replaceAll("\\n"," ");
+            units = symbolType.getUnits();
          } else if (symbol.getType() instanceof  ObjectIdentifierType){
              ObjectIdentifierType symbolType = (ObjectIdentifierType) symbol.getType();
              syntaxString = symbolType.getName();
@@ -352,7 +352,7 @@ public class Walk {
             final String vb = variable != null ? escapeForXML(variable.toString()) : "";
             if (oidFlag) {
             //    sb.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax=\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue,syntaxString,snmpSyntax,accessString));
-                sb.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue, syntaxString,snmpSyntax, accessString));
+                sb.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\" units=\"%s\">", tabs, tagName, objectIdentifierValue, syntaxString,snmpSyntax, accessString,units));
                 sb.append(String.format("\n\t\t%s<description><![CDATA[%s]]></description>",tabs,description));
 
             } else {
@@ -374,7 +374,8 @@ public class Walk {
                     printTreeAsXML(child, tabs + "\t", sb1, oidFlag);
                 }
                 if (oidFlag) {
-                    sb.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax=\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue,syntaxString,snmpSyntax,accessString));
+
+                    sb.append(String.format("%s<%s oid=\"%s\">", tabs, tagName, objectIdentifierValue));
                 } else {
                     sb.append(String.format("%s<%s>", tabs, tagName));
                 }
@@ -410,8 +411,10 @@ public class Walk {
             SnmpAccess access = symbolType.getAccess();
             String accessString = access.toString();
             String description = symbolType.getDescription().replaceAll("\\n"," ");
+            String units = symbolType.getUnits();
             if (oidFlag) {
-                sbTable.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, tagName, node.getObjectIdentifierValue(), syntaxString,snmpSyntax, accessString));
+
+                sbTable.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\" units=\"%s\">", tabs, tagName, node.getObjectIdentifierValue(), syntaxString,snmpSyntax, accessString, units));
                 sbTable.append(String.format("\n\t%s<description><![CDATA[%s]]></description>",tabs,description));
             } else {
                 sbTable.append(String.format("%s<%s>", tabs, tagName));
@@ -462,14 +465,19 @@ public class Walk {
                 SnmpAccess access = symbolType.getAccess();
                 String description = symbolType.getDescription().replaceAll("\\n"," ");
                 String accessString = access.toString();
+                String units = symbolType.getUnits();
+//                sb4.append(String.format("\t%s<%s oid=\"%s\">", tabs, childTagName, vb.getOid()));
 
-                sb4.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\">", tabs, childTagName, vb.getOid(), syntaxString,snmpSyntax, accessString));
+                sb4.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\" units=\"%s\">", tabs, childTagName, vb.getOid(), syntaxString,snmpSyntax, accessString,units));
                 sb4.append(String.format("\n\t\t%s<description><![CDATA[%s]]></description>",tabs,description));
+                sb4.append(String.format("\n\t\t%s<value>%s</value>",tabs,var));
+                sb4.append(String.format("\n\t%s</%s>",tabs, childTagName));
+
             } else {
                 sb4.append(String.format("\t%s<%s>", tabs, childTagName));
+                sb4.append(String.format("%s</%s>",tabs, childTagName));
+
             }
-            sb4.append(String.format("\n\t\t%s<value>%s</value>",tabs,var));
-            sb4.append(String.format("\n\t%s</%s>",tabs, childTagName));
             sb4.append('\n');
         }
     }
@@ -821,6 +829,7 @@ public class Walk {
            } else if (syntax.getTag().getCategory() == MibTypeTag.CONTEXT_SPECIFIC_CATEGORY) {
                return syntax.getName();
            } else {
+
                return syntax.getName();
            }
        }else{

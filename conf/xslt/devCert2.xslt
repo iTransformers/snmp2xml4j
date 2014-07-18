@@ -43,12 +43,11 @@
                            <xsl:otherwise>GAUGE</xsl:otherwise>
                        </xsl:choose>
                 default: 1
-                dataunits: Number,Percent,Bytes,Bits...
+                dataunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number,Percent,Bytes,Bits...</xsl:otherwise></xsl:choose>
                 percentable: 0 or 1
-                max:
-                maxunits: Number,Percent,Bytes,Bits...
-                units:
-            </xsl:for-each>
+                max:  <!--TODO there are such constraints on many of the oids-->
+                maxunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number,Percent,Bytes,Bits...</xsl:otherwise></xsl:choose>
+                units: <!--TODO figure out what are the dependencies between the dataunits and units--></xsl:for-each>
         </xsl:for-each>
     </xsl:template>
 

@@ -1,0 +1,223 @@
+
+        HEADER: v7
+        OBJECT:
+            object: ifEntry
+            os: OpenWRT
+            index: .1.3.6.1.2.1.2.2.1.5
+            octets: i
+            reverse: 1
+            singleton: 0
+            name: 'ifEntry'
+            description:  'An entry containing management information applicable to a particular interface.'
+            variables:
+            assert:
+            subtype:
+            lastChangeOid:
+            adminStatusExpression:
+            operStatusExpression:
+            INDICATOR:
+                indicator: ifSpeed
+                description: 'An estimate of the interface's current bandwidth in bits per second.  For interfaces which do not vary in bandwidth or for those where no accurate estimation can be made, this object should contain the nominal bandwidth.  If the bandwidth of the interface is greater than the maximum value reportable by this object then this object should report its maximum value (4,294,967,295) and ifHighSpeed must be used to report the interace's speed.  For a sub-layer which has no concept of bandwidth, this object should be zero.'
+                expression: .1.3.6.1.2.1.2.2.1.5
+                type: GAUGE
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifInOctets
+                description: 'The total number of octets received on the interface,   including framing characters.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.10
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifInUcastPkts
+                description: 'The number of packets, delivered by this sub-layer to a higher (sub-)layer, which were not addressed to a multicast or broadcast address at this sub-layer.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.11
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifInNUcastPkts
+                description: 'The number of packets, delivered by this sub-layer to a higher (sub-)layer, which were addressed to a multicast or broadcast address at this sub-layer.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.  This object is deprecated in favour of ifInMulticastPkts and ifInBroadcastPkts.'
+                expression: .1.3.6.1.2.1.2.2.1.12
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifInDiscards
+                description: 'The number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent   their being deliverable to a higher-layer protocol.  One possible reason for discarding such a packet could be to free up buffer space.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.13
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifInErrors
+                description: 'For packet-oriented interfaces, the number of inbound packets that contained errors preventing them from being deliverable to a higher-layer protocol.  For character- oriented or fixed-length interfaces, the number of inbound transmission units that contained errors preventing them from being deliverable to a higher-layer protocol.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.14
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifInUnknownProtos
+                description: 'For packet-oriented interfaces, the number of packets received via the interface which were discarded because of an unknown or unsupported protocol.  For character-oriented or fixed-length interfaces that support protocol multiplexing the number of transmission units received via the interface which were discarded because of an unknown or unsupported protocol.  For any interface that does not support protocol multiplexing, this counter will always be 0.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.15
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifOutOctets
+                description: 'The total number of octets transmitted out of the interface, including framing characters.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.16
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifOutUcastPkts
+                description: 'The total number of packets that higher-level protocols requested be transmitted, and which were not addressed to a multicast or broadcast address at this sub-layer, including those that were discarded or not sent.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.17
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifOutNUcastPkts
+                description: 'The total number of packets that higher-level protocols requested be transmitted, and which were addressed to a multicast or broadcast address at this sub-layer, including those that were discarded or not sent.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.  This object is deprecated in favour of ifOutMulticastPkts and ifOutBroadcastPkts.'
+                expression: .1.3.6.1.2.1.2.2.1.18
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifOutDiscards
+                description: 'The number of outbound packets which were chosen to be discarded even though no errors had been detected to prevent their being transmitted.  One possible reason for discarding such a packet could be to free up buffer space.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.19
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifOutErrors
+                description: 'For packet-oriented interfaces, the number of outbound packets that could not be transmitted because of errors. For character-oriented or fixed-length interfaces, the number of outbound transmission units that could not be transmitted because of errors.  Discontinuities in the value of this counter can occur at re-initialization of the management system, and at other times as indicated by the value of ifCounterDiscontinuityTime.'
+                expression: .1.3.6.1.2.1.2.2.1.20
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: ifOutQLen
+                description: 'The length of the output packet queue (in packets).'
+                expression: .1.3.6.1.2.1.2.2.1.21
+                type: GAUGE
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+        OBJECT:
+            object: hrSystem
+            os: OpenWRT
+            index: .1.3.6.1.2.1.25.1.5
+            octets: 
+            reverse: 1
+            singleton: 0
+            name: 'hrSystem'
+            description:  ''
+            variables:
+            assert:
+            subtype:
+            lastChangeOid:
+            adminStatusExpression:
+            operStatusExpression:
+            INDICATOR:
+                indicator: hrSystemNumUsers
+                description: 'The number of user sessions for which this host is storing state information.  A session is a collection of processes requiring a single act of user authentication and possibly subject to collective job control.'
+                expression: .1.3.6.1.2.1.25.1.5
+                type: GAUGE
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+            INDICATOR:
+                indicator: hrSystemProcesses
+                description: 'The number of process contexts currently loaded or running on this system.'
+                expression: .1.3.6.1.2.1.25.1.6
+                type: GAUGE
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 
+        OBJECT:
+            object: hrDeviceEntry
+            os: OpenWRT
+            index: .1.3.6.1.2.1.25.3.2.1.6
+            octets: i
+            reverse: 1
+            singleton: 0
+            name: 'hrDeviceEntry'
+            description:  'A (conceptual) entry for one device contained by the host.  As an example, an instance of the hrDeviceType object might be named hrDeviceType.3'
+            variables:
+            assert:
+            subtype:
+            lastChangeOid:
+            adminStatusExpression:
+            operStatusExpression:
+            INDICATOR:
+                indicator: hrDeviceErrors
+                description: 'The number of errors detected on this device.  It should be noted that as this object has a SYNTAX of Counter32, that it does not have a defined initial value.  However, it is recommended that this object be initialized to zero, even though management stations must not depend on such an initialization.'
+                expression: .1.3.6.1.2.1.25.3.2.1.6
+                type: COUNTER32
+                default: 1
+                dataunits: Number,Percent,Bytes,Bits...
+                percentable: 0 or 1
+                max:  
+                maxunits: Number,Percent,Bytes,Bits...
+                units: 

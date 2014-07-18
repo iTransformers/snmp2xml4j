@@ -22,7 +22,6 @@
 
 package net.itransformers.snmptoolkit;
 
-import net.percederberg.mibble.MibValueSymbol;
 import net.percederberg.mibble.value.ObjectIdentifierValue;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.util.TableEvent;
@@ -32,18 +31,12 @@ import java.util.List;
 
 public class Node {
     ObjectIdentifierValue objectIdentifierValue;
-    MibValueSymbol symbol;
     List<Node> children = new ArrayList<Node>();
     List<TableEvent> table; //comes from snmp bulk command
     VariableBinding vb; // comes from snmp get command
     boolean doWalk;
     Node parent;
 
-    public Node(ObjectIdentifierValue objectIdentifierValue, Node parent,MibValueSymbol symbol) {
-        this.objectIdentifierValue = objectIdentifierValue;
-        this.parent = parent;
-        this.symbol = symbol;
-    }
     public Node(ObjectIdentifierValue objectIdentifierValue, Node parent) {
         this.objectIdentifierValue = objectIdentifierValue;
         this.parent = parent;
@@ -84,8 +77,6 @@ public class Node {
     public Node getParent() {
         return parent;
     }
-    public MibValueSymbol getSymbol() {return  symbol;}
-    public void setSymbol(MibValueSymbol symbol) {this.symbol = symbol;}
 
     public ObjectIdentifierValue getObjectIdentifierValue() {
         return objectIdentifierValue;
@@ -94,7 +85,7 @@ public class Node {
     @Override
     public String toString() {
         return "Node{" +
-                "name=" + getObjectIdentifierValue().getName() + getSymbol()+
+                "name=" + getObjectIdentifierValue().getName() + "value="+getObjectIdentifierValue().toDetailString() +
                 '}';
     }
 }
