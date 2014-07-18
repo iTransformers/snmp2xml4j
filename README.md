@@ -12,11 +12,11 @@ Checkout the code, install maven and run 'mvn package' in the main project folde
 
 
 #snmp2xml4j console tools
-[Running the tool](./master/conf/bat/snmp2xml4jReadme.md)
+[Running the tool](./conf/bat/snmp2xml4jReadme.md)
 
-[Transforming the results through xslt] (./master/conf/bat/XsltTransformerReadme.md)
+[Transforming the results through xslt] (./conf/bat/XsltTransformerReadme.md)
 
-[Fix NET-SNMP snmpwalks to work with snmpsim (snmp simulator)] (http://github.com/iTransformers/snmp2xml4j/edit/master/conf/bat/snmpwalk2snmpsimReadme.md)
+[Fix NET-SNMP snmpwalks to work with snmpsim (snmp simulator)] (./conf/bat/snmpwalk2snmpsimReadme.md)
 
 
 #Junit test case
