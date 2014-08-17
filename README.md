@@ -2,9 +2,9 @@ snmp2xml4j
 ========
 
 ###Overview
-Snmp2xml4j contains several Java Written tools easing the process of generating, transforming and simulating and snmp queries into a structured xml.
+Snmp2xml4j contains several Java Written tools easing the process of performing and transforming an snmp queries into a structured xml.
 
-Currently the tool is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
+Currently the it is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
 ###Building the tool 
@@ -79,71 +79,6 @@ The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
 							<sysLocation oid="1.3.6.1.2.1.1.6">nbu</sysLocation>
 							<sysServices oid="1.3.6.1.2.1.1.7">0:00:00.05</sysServices>
 							<sysORLastChange oid="1.3.6.1.2.1.1.8">0:00:00.05</sysORLastChange>
-							<sysORTable oid="1.3.6.1.2.1.1.9" >
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">1</index>
-									<instance instanceIndex="1" instanceName="sysORIndex">1</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.1" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.2.1.4</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.1" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The MIB module for managing IP and ICMP implementations</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.1" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.02</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">2</index>
-									<instance instanceIndex="2" instanceName="sysORIndex">2</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.2" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.6.3.1</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.2" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The MIB module for SNMPv2 entities</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.2" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.02</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">3</index>
-									<instance instanceIndex="3" instanceName="sysORIndex">3</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.3" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.2.1.49</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.3" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The MIB module for managing TCP implementations</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.3" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.02</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">4</index>
-									<instance instanceIndex="4" instanceName="sysORIndex">4</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.4" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.2.1.50</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.4" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The MIB module for managing UDP implementations</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.4" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.03</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">5</index>
-									<instance instanceIndex="5" instanceName="sysORIndex">5</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.5" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.6.3.16.2.2.1</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.5" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">View-based Access Control Model for SNMP.</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.5" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.03</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">6</index>
-									<instance instanceIndex="6" instanceName="sysORIndex">6</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.6" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.6.3.10.3.1.1</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.6" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The SNMP Management Architecture MIB.</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.6" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.03</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">7</index>
-									<instance instanceIndex="7" instanceName="sysORIndex">7</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.7" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.6.3.11.3.1.1</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.7" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The MIB for Message Processing and Dispatching.</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.7" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.03</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">8</index>
-									<instance instanceIndex="8" instanceName="sysORIndex">8</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.8" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.6.3.15.2.1.1</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.8" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">The management information definitions for the SNMP User-based Security Model.</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.8" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.03</sysORUpTime>
-								</sysOREntry>
-								<sysOREntry oid="1.3.6.1.2.1.1.9.1" primitiveSyntax="SEQUENCE" snmpSyntax ="SEQUENCE" access="not-accessible">
-									<index name="sysORIndex" primitiveSyntax="INTEGER" snmpSyntax ="INTEGER" oid="1.3.6.1.2.1.1.9.1.1" access="not-accessible">9</index>
-									<instance instanceIndex="9" instanceName="sysORIndex">9</instance>
-									<sysORID oid="1.3.6.1.2.1.1.9.1.2.9" primitiveSyntax="OBJECT IDENTIFIER" snmpSyntax ="OBJECT IDENTIFIER" access="read-only">1.3.6.1.2.1.10.131</sysORID>
-									<sysORDescr oid="1.3.6.1.2.1.1.9.1.3.9" primitiveSyntax="OCTET STRING" snmpSyntax ="OCTET STRING" access="read-only">RFC 2667 TUNNEL-MIB implementation for Linux 2.2.x kernels.</sysORDescr>
-									<sysORUpTime oid="1.3.6.1.2.1.1.9.1.4.9" primitiveSyntax="INTEGER" snmpSyntax ="TimeStamp" access="read-only">0:00:00.05</sysORUpTime>
-								</sysOREntry>
-							</sysORTable>
 						</system>
 						<interfaces oid="1.3.6.1.2.1.2" >
 							<ifTable oid="1.3.6.1.2.1.2.2" >
