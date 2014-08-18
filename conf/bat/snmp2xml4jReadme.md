@@ -1,5 +1,12 @@
 #SNMP walk example
 
+## Environment settings
+Setup an environmnet variable SNMP2XML4J= pointing to snmp2xml tool folder in my case this is 
+
+SNMP2XML4J=/home/niau/snmp2xml
+
+Then run
+
 ##On Winodws
 snmp-walk.bat Walk -md ../mibs -a 10.10.10.10/161 -c public -v 2c -t 1000 -r 1 -m 100 -f bgp.xml -o "bgp4PathAttrEntry"
 -md path to your mib files
