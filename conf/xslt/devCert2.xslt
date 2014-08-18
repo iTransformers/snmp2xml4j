@@ -23,8 +23,8 @@
     </xsl:for-each>
             reverse: 1
             singleton: 0
-            name: <xsl:text>'</xsl:text><xsl:value-of select="@name"/><xsl:text>'</xsl:text>
-            description:  '<xsl:value-of select="description"/>'
+            name: <xsl:text></xsl:text><xsl:value-of select="@name"/><xsl:text></xsl:text>
+            description:  <xsl:value-of select="description"/>
             variables:
             assert:
             subtype:
@@ -33,7 +33,7 @@
             operStatusExpression:<xsl:for-each select="indicators/indicator">
             INDICATOR:
                 indicator: <xsl:value-of select="@name"/>
-                description: '<xsl:value-of select="description"/>'
+                description: <xsl:value-of select="description"/>
                 expression: .<xsl:value-of select="oid"/>
                 type: <xsl:variable name="syntaxType" select="snmpSyntax/@type"/>
                        <xsl:choose>
@@ -43,10 +43,10 @@
                            <xsl:otherwise>GAUGE</xsl:otherwise>
                        </xsl:choose>
                 default: 1
-                dataunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number,Percent,Bytes,Bits...</xsl:otherwise></xsl:choose>
-                percentable: 0 or 1
+                dataunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number</xsl:otherwise></xsl:choose>
+                percentable: 0
                 max:  <!--TODO there are such constraints on many of the oids-->
-                maxunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number,Percent,Bytes,Bits...</xsl:otherwise></xsl:choose>
+                maxunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number</xsl:otherwise></xsl:choose>
                 units: <!--TODO figure out what are the dependencies between the dataunits and units--></xsl:for-each>
         </xsl:for-each>
     </xsl:template>
