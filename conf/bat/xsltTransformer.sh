@@ -1,7 +1,8 @@
 #!/bin/sh
+if [ -z ${SNMP2XML4J+x} ]; then echo "SNMP2XML4J project home variable is unset"; exit; else echo "SNMP2XML4J is set to '$SNMP2XML4J'"; fi
 
-LIB=../lib
-BASE_DIR=..
+LIB=${SNMP2XML4J}/lib
+BASE_DIR=${SNMP2XML4J}
 #JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 CLASSPATH=".:${LIB}/*";
 java -Dbase.dir=${BASE_DIR} ${JAVA_OPTS} -classpath ${CLASSPATH}  net.itransformers.snmptoolkit.XsltExecutor $*
