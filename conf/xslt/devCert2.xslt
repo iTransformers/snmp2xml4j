@@ -40,6 +40,10 @@
                            <xsl:when test="$syntaxType='Gauge32' or $syntaxType='Gauge64'">GAUGE</xsl:when>
                            <xsl:when test="$syntaxType='Counter32'">COUNTER32</xsl:when>
                            <xsl:when test="$syntaxType='Counter64'">COUNTER64</xsl:when>
+                           <xsl:when test="$syntaxType='Counter64'">COUNTER64</xsl:when>
+                           <xsl:when test="$syntaxType='Unsigned32'">GAUGE</xsl:when>
+                           <xsl:when test="$syntaxType='Unsigned64'">GAUGE</xsl:when>
+
                            <xsl:otherwise>GAUGE</xsl:otherwise>
                        </xsl:choose>
                 default: 1

@@ -206,7 +206,7 @@ TimeTicks ::=
     [APPLICATION 3]
         IMPLICIT INTEGER (0..4294967295)
 
--- for backward-compatibility only
+-- for backward-compatibility onlycd
 Opaque ::=
     [APPLICATION 4]
         IMPLICIT OCTET STRING

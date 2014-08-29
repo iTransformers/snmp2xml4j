@@ -388,8 +388,14 @@ public class Walk {
     }
 
     static String escapeForXML(String s) {
-        return s.replaceAll("&", "&amp;").replaceAll("\"", "&quot;").
-                replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("'", "&apos;").replaceAll("\u001c", "");
+        String xml10pattern = "[^"
+                + "\u0009\r\n"
+                + "\u0020-\uD7FF"
+                + "\uE000-\uFFFD"
+                + "\ud800\udc00-\udbff\udfff"
+                + "]";
+        return  s.replaceAll(xml10pattern,"").replaceAll("&", "&amp;").replaceAll("\"", "&quot;").
+                replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("'", "&apos;").replaceAll("\u001c", "").replaceAll("\u000c","").replaceAll("\u001a","");
     }
 
     private static void printNodeTableAsXML(Node node, String tabs, StringBuilder sb, boolean oidFlag) {
@@ -560,9 +566,9 @@ public class Walk {
                             }
                             if (oidFlag) {
 
-                                sb.append(String.format("\t%s<index name=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString, snmpSyntax, index, accessString, indexVal));
+                                sb.append(String.format("\t%s<index name=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString, snmpSyntax, index, accessString, escapeForXML(indexVal)));
                             } else {
-                                sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, indexVal));
+                                sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, escapeForXML(indexVal)));
                             }
                             if (i != indexes.size() - 1) {
                                 instance.append(indexName + "");
@@ -593,9 +599,9 @@ public class Walk {
                             }
                             OID indexVal = new OID(indexOID.getValue(), pos, 1);
                             if (oidFlag) {
-                                sb.append(String.format("\t%s<index name=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString,snmpSyntax, index, accessString, indexVal.toString()));
+                                sb.append(String.format("\t%s<index name=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" oid=\"%s\" access=\"%s\">%s</index>\n", tabs, indexName, syntaxString,snmpSyntax, index, accessString, escapeForXML(indexVal.toString())));
                             } else {
-                                sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, indexVal.toString()));
+                                sb.append(String.format("\t%s<index name=\"%s\">%s</index>\n", tabs, indexName, escapeForXML(indexVal.toString())));
                             }
 
 
@@ -678,7 +684,7 @@ public class Walk {
                     }
                 }
             }
-            sb.append(String.format("\t%s<instance instanceIndex=\"%s\" instanceName=\"%s\" instanceValue=\"%s\">%s</instance>\n", tabs, instanceIndex, instance.toString(), instanceValues.toString(),indexOID.toString()));
+            sb.append(String.format("\t%s<instance instanceIndex=\"%s\" instanceName=\"%s\" instanceValue=\"%s\">%s</instance>\n", tabs, instanceIndex, instance.toString(), escapeForXML(instanceValues.toString()),escapeForXML(indexOID.toString())));
 
         }
     }

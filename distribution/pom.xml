@@ -40,13 +40,13 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>snmp2xml-assembly</id>
+                        <id>snmp2xmlj-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>snmp2xml</finalName>
+                            <finalName>snmp2xml4j</finalName>
 
                             <descriptors>
                                 <descriptor>snmp2xmlAssembly.xml</descriptor>

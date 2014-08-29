@@ -7,6 +7,7 @@ Snmp2xml4j contains several Java Written tools easing the process of performing 
 Currently the it is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
+
 ###Building the tool 
 Checkout the code, install maven and run 'mvn package' in the main project folder.
 

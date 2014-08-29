@@ -1,14 +1,15 @@
 #SNMP walk example
 
 ## Environment settings
-Setup an environmnet variable SNMP2XML4J= pointing to snmp2xml tool folder in my case this is 
+Setup SNMP2XML4J environment variable pointing to the folder you got after you have unpacked the snmp2xmlj tool.  For example:
 
 SNMP2XML4J=/home/niau/snmp2xml
 
-Then run
+Then if the MIB files in the $SNMP2XML4J/mibs folder does not contain your oids you have to find the mib files that will have them and copy them to the $SNMP2XML4J/mibs folder.
+Finally you can run snmpwalks like that.
 
 ##On Winodws
-snmp-walk.bat Walk -md ../mibs -a 10.10.10.10/161 -c public -v 2c -t 1000 -r 1 -m 100 -f bgp.xml -o "bgp4PathAttrEntry"
+snmp-walk.bat Walk -md $SNMP2XML4J/mibs -a 10.10.10.10/161 -c public -v 2c -t 1000 -r 1 -m 100 -f bgp.xml -o "bgp4PathAttrEntry"
 -md path to your mib files
 -a  SNMP host/port
 -c community
@@ -20,7 +21,7 @@ snmp-walk.bat Walk -md ../mibs -a 10.10.10.10/161 -c public -v 2c -t 1000 -r 1 -
 -o "snmp OID request"
 
 ##On Unix/Linux
-snmp-walk.sh Walk -md ../mibs -a 10.10.10.10/161 -c public -v 2c -t 1000 -r 1 -m 100 -f bgp.xml -o "bgp4PathAttrEntry"
+snmp-walk.sh Walk -md $SNMP2XML4J/mibs -a 10.10.10.10/161 -c public -v 2c -t 1000 -r 1 -m 100 -f bgp.xml -o "bgp4PathAttrEntry"
 -md path to your mib files
 -a  SNMP host/port
 -c community
