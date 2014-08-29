@@ -67,5 +67,5 @@ Ensure that the xml output file exists huaweihwSecStatGlobal.xml
 
 less huaweihwSecStatGlobal.s10 
 
-## Step 10 Tidy up the descriptions, the units and the maximum values. 
+## Step 11 Tidy up the descriptions, the units and the maximum values. 
 Of course if you need something more complex always contact SevOne support!
