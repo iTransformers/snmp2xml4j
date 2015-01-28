@@ -73,16 +73,16 @@ public class Walk {
 
     public Walk(File mibDir, boolean failOnError, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherFactory) throws IOException, MibLoaderException {
         this(new MibLoaderHolder(mibDir, failOnError), transportFactory, messageDispatcherFactory);
-        final InetAddress localHost = InetAddress.getLocalHost();
-        logger.info("Local address: " + localHost);
+//        final InetAddress localHost = InetAddress.getLocalHost();
+//        logger.info("Local address: " + localHost);
         localAddress = new UdpAddress("0.0.0.0/0");
 //        localAddress = new UdpAddress(localHost, 0);
     }
 
     public Walk(MibLoaderHolder loader, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherFactory) throws IOException {
         this.loader = loader;
-        final InetAddress localHost = InetAddress.getLocalHost();
-        logger.info("Local address: " + localHost);
+//        final InetAddress localHost = InetAddress.getLocalHost();
+//        logger.info("Local address: " + localHost);
 //        localAddress = new UdpAddress(localHost, 0);
         localAddress = new UdpAddress("0.0.0.0/0");
         this.transportFactory = transportFactory;
@@ -328,7 +328,7 @@ public class Walk {
         String accessString = "";
         String description = "";
         String units = "";
-         if (symbol.getType() instanceof SnmpObjectType){
+         if (null!=symbol && symbol.getType() instanceof SnmpObjectType){
             SnmpObjectType symbolType = (SnmpObjectType) symbol.getType();
             MibType syntax = symbolType.getSyntax();
             syntaxString = symbolType.getName();
@@ -337,7 +337,7 @@ public class Walk {
             accessString = access.toString();
             description = symbolType.getDescription().replaceAll("\\n"," ");
             units = symbolType.getUnits();
-         } else if (symbol.getType() instanceof  ObjectIdentifierType){
+         } else if (null!=symbol && symbol.getType() instanceof  ObjectIdentifierType){
              ObjectIdentifierType symbolType = (ObjectIdentifierType) symbol.getType();
              syntaxString = symbolType.getName();
              snmpSyntax =  determineSyntaxType(symbolType);
@@ -481,10 +481,10 @@ public class Walk {
 
             } else {
                 sb4.append(String.format("\t%s<%s>", tabs, childTagName));
-                sb4.append(String.format("%s</%s>",tabs, childTagName));
+                sb4.append(String.format("%s</%s>",var, childTagName));
 
             }
-            sb4.append('\n');
+
         }
     }
 
@@ -691,7 +691,7 @@ public class Walk {
 
     public static void main(String[] args) throws IOException, MibLoaderException, XPathExpressionException, SAXException, ParserConfigurationException {
         LogFactory.setLogFactory(new Log4jLogFactory());
-        boolean oidFlag = true;
+        boolean oidFlag = false;
         Map<CmdOptions, String> opts;
         try {
             opts = CmdParser.parseCmd(args);

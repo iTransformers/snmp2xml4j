@@ -7,10 +7,13 @@
     <xsl:output method="text" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="DeviceOS"/>
     <xsl:variable name="DeviceOperatingSystem" select="$DeviceOS"/>
+
     <xsl:template match="/">
-        HEADER: v7<xsl:for-each select="/root/objects/object">
+        HEADER: v7
+        <xsl:for-each select="/root/objects/object">
+
         OBJECT:
-            object: <xsl:value-of select="@name"/>
+            object: Change me this is the snmpMib Object name: <xsl:value-of select="@name"/>
             os: <xsl:value-of select="$DeviceOperatingSystem"/>
             index: .<xsl:value-of select="indicators/indicator[1]/oid"/>
             octets: <xsl:for-each select="indexes/index/syntax/@syntax">
@@ -20,11 +23,11 @@
             <xsl:when test="$syntax='OCTET STRING'">s</xsl:when>
             <xsl:otherwise>S</xsl:otherwise>
         </xsl:choose>
-    </xsl:for-each>
+        </xsl:for-each>
             reverse: 1
             singleton: 0
             name: <xsl:text></xsl:text><xsl:value-of select="@name"/><xsl:text></xsl:text>
-            description:  <xsl:value-of select="description"/>
+            description:  TIDY me up:  <xsl:value-of select="description"/>
             variables:
             assert:
             subtype:
@@ -47,11 +50,12 @@
                            <xsl:otherwise>GAUGE</xsl:otherwise>
                        </xsl:choose>
                 default: 1
-                dataunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number</xsl:otherwise></xsl:choose>
+                dataunits: Change ME: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number,Percent,Bytes,Bits...</xsl:otherwise></xsl:choose>
                 percentable: 0
                 max:  <!--TODO there are such constraints on many of the oids-->
-                maxunits: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number</xsl:otherwise></xsl:choose>
-                units: <!--TODO figure out what are the dependencies between the dataunits and units--></xsl:for-each>
+                maxunits: Change ME if Necesary!
+                units: Change ME: <xsl:choose><xsl:when test="@units!='null'"><xsl:value-of select="@units"/></xsl:when><xsl:otherwise>Number,Percent,Bytes,Bits...</xsl:otherwise></xsl:choose>
+        </xsl:for-each>
         </xsl:for-each>
     </xsl:template>
 
