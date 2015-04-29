@@ -123,7 +123,8 @@ public class Get {
             }
 
             if (response == null){
-                throw new RuntimeException("SNMP response is null.");
+                logger.debug("SNMP response is null.");
+                return null;
 
             } else {
                 for (int i = 0; i < response.size(); i++) {
@@ -184,7 +185,8 @@ public class Get {
         }
 
         if (response == null){
-            throw new RuntimeException("SNMP response is null.");
+            logger.debug("SNMP response is null.");
+            return null;
 
         } else {
             for (int i = 0; i < response.size(); i++) {
