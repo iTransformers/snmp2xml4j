@@ -354,13 +354,17 @@ public class Walk {
             //    sb.append(String.format("%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax=\"%s\" access=\"%s\">", tabs, tagName, objectIdentifierValue,syntaxString,snmpSyntax,accessString));
                 sb.append(String.format("\t%s<%s oid=\"%s\" primitiveSyntax=\"%s\" snmpSyntax =\"%s\" access=\"%s\" units=\"%s\">", tabs, tagName, objectIdentifierValue, syntaxString,snmpSyntax, accessString,units));
                 sb.append(String.format("\n\t\t%s<description><![CDATA[%s]]></description>",tabs,description));
+                sb.append(String.format("\n\t\t%s<value>%s</value>",tabs,vb));
+                sb.append(String.format("\n\t%s</%s>",tabs ,tagName));
+
 
             } else {
-                sb.append(String.format("%s<%s>", tabs, tagName));
+                sb.append(String.format("\t%s<%s>%s</%s>", tabs, tagName,vb,tagName));
+//                sb.append(String.format("\n\t\t%s<value>%s</value>",tabs,vb));
+//                sb.append(String.format("\n\t%s</%s>",tabs ,tagName));
+
 
             }
-            sb.append(String.format("\n\t\t%s<value>%s</value>",tabs,vb));
-            sb.append(String.format("\n\t%s</%s>",tabs ,tagName));
             sb.append('\n');
             logger.trace(sb.toString());
         } else {
@@ -480,8 +484,8 @@ public class Walk {
                 sb4.append(String.format("\n\t%s</%s>",tabs, childTagName));
 
             } else {
-                sb4.append(String.format("\t%s<%s>", tabs, childTagName));
-                sb4.append(String.format("%s</%s>",var, childTagName));
+                sb4.append(String.format("\n\t%s<%s>%s</%s>", tabs, childTagName,var,childTagName));
+                //sb4.append(String.format("%s</%s>",var, childTagName));
 
             }
 
