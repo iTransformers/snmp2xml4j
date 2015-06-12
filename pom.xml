@@ -129,17 +129,60 @@
                 <version>2.3.2</version>
 
             </plugin>
-
+            <!--<plugin>-->
+                <!--<groupId>org.jfrog.buildinfo</groupId>-->
+                <!--<artifactId>artifactory-maven-plugin</artifactId>-->
+                <!--<version>2.3.0</version>-->
+                <!--<inherited>false</inherited>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>build-info</id>-->
+                        <!--<goals>-->
+                            <!--<goal>publish</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<deployProperties>-->
+                                <!--<groupId>${project.groupId}</groupId>-->
+                                <!--<artifactId>${project.artifactId}</artifactId>-->
+                                <!--<version>${project.version}</version>-->
+                            <!--</deployProperties>-->
+                            <!--<publisher>-->
+                                <!--<contextUrl>https://193.19.172.133:24280/artifactory</contextUrl>-->
+                                <!--<username>niau</username>-->
+                                <!--<password>APA7e6KmfBGqvAGsyt9arP4yEkB</password>-->
+                                <!--<repoKey>libs-releases-local</repoKey>-->
+                                <!--<snapshotRepoKey>libs-snapshots-local</snapshotRepoKey>-->
+                            <!--</publisher>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
         </plugins>
 
     </build>
+    <distributionManagement>
+        <repository>
+            <id>jfrogrepo</id>
+            <name>jfrogrepo-releases</name>
+            <url>http://193.19.172.133:24280/artifactory/ext-release-local</url>
+        </repository>
+    </distributionManagement>
     <repositories>
         <!-- tcljava is provided by SpringSource -->
         <repository>
-            <id>itransformers-repo</id>
-            <url>http://repo.itransformers.net/repos/</url>
+            <id>jfrogrepo</id>
+            <name>jfrogrepo-releases</name>
+            <url>http://193.19.172.133:24280/artifactory/libs-release-local</url>
         </repository>
+        <!--<repository>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+            <!--<id>central</id>-->
+            <!--<name>bintray</name>-->
+            <!--<url>http://jcenter.bintray.com</url>-->
+        <!--</repository>-->
     </repositories>
 
 </project>
