@@ -171,10 +171,16 @@
     <repositories>
         <!-- tcljava is provided by SpringSource -->
         <repository>
-            <id>jfrogrepo</id>
-            <name>jfrogrepo-releases</name>
+            <id>jfrogrepo-libs-release-local</id>
+            <name>jfrogrepo-libs-releases</name>
             <url>http://193.19.172.133:24280/artifactory/libs-release-local</url>
         </repository>
+        <repository>
+            <id>jfrogrepo-ext-release-local</id>
+            <name>jfrogrepo-ext-releases</name>
+            <url>http://193.19.172.133:24280/artifactory/ext-release-local</url>
+        </repository>
+
         <!--<repository>-->
             <!--<snapshots>-->
                 <!--<enabled>false</enabled>-->
