@@ -1,20 +1,22 @@
 /*
- * iTransformer is an open source tool able to discover IP networks
- * and to perform dynamic data data population into a xml based inventory system.
- * Copyright (C) 2010  http://itransformers.net
+ * Get.java
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
+ * This work is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * This work is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ *
+ * Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
  */
 
 package net.itransformers.snmptoolkit;
@@ -32,10 +34,7 @@ import org.snmp4j.mp.CounterSupport;
 import org.snmp4j.mp.DefaultCounterListener;
 import org.snmp4j.mp.MPv3;
 import org.snmp4j.mp.SnmpConstants;
-import org.snmp4j.smi.OID;
-import org.snmp4j.smi.OctetString;
-import org.snmp4j.smi.UdpAddress;
-import org.snmp4j.smi.VariableBinding;
+import org.snmp4j.smi.*;
 import org.snmp4j.transport.AbstractTransportMapping;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
@@ -47,15 +46,21 @@ public class Get {
     static Logger logger = Logger.getLogger(Walk.class);
 
     String oid;
-    String address;
     String community;
-    private int retries;
-    private long timeout;
-    private int version;
     private UdpAddress localAddress;
     private TransportMappingAbstractFactory transportFactory;
     private MessageDispatcherAbstractFactory messageDispatcherFactory;
+    CommunityTarget target;
+    public Get(String oid, CommunityTarget target,TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherAbstractFactory){
+        this.oid = oid;
 
+        this.target = target;
+        this.transportFactory = transportFactory;
+        this.messageDispatcherFactory = messageDispatcherFactory;
+        this.transportFactory = transportFactory;
+        localAddress = new UdpAddress("0.0.0.0/0");
+
+    }
     public Get(String oid,
                String address,
                int version,
@@ -67,16 +72,18 @@ public class Get {
     ) throws IOException {
 
         this.oid = oid;
-        this.address = address;
-        this.version = version;
-        this.timeout = timeout;
-        this.retries = retries;
+
+        target.setAddress(new UdpAddress(address));
+        target.setRetries(retries);
+        target.setTimeout(timeout);
+        target.setVersion(version);
+        target.setMaxSizeRequestPDU(65535);
+        target.setCommunity(new OctetString(community));
+
         this.community = community;
         this.transportFactory = transportFactory;
         this.messageDispatcherFactory = messageDispatcherAbstractFactory;
-//        localAddress = new UdpAddress(InetAddress.getLocalHost(), 0);
-//        new InetAddress("0.0.0.0");
-         localAddress = new UdpAddress("0.0.0.0/0");
+        localAddress = new UdpAddress("0.0.0.0/0");
     }
 
     public String getSNMPValue() throws IOException {
@@ -84,24 +91,14 @@ public class Get {
         String result = "";
         CounterSupport.getInstance().addCounterListener(new DefaultCounterListener());
         VariableBinding vb = new VariableBinding(new OID(this.oid));
-//        VariableBinding vb = new VariableBinding(new OID("1.3.6.1.2.1.31.1.1.1"));
         Vector vbs = new Vector();
         vbs.add(vb);
         TransportMapping transport = transportFactory.createTransportMapping(localAddress);
         MessageDispatcher dispatcher = messageDispatcherFactory.createMessageDispatcherMapping();
-//        AbstractTransportMapping transport = new DefaultUdpTransportMapping(localAddress);
         Snmp snmp = new Snmp(dispatcher, transport);
         ((MPv3) snmp.getMessageProcessingModel(MPv3.ID)).setLocalEngineID(new OctetString(MPv3.createLocalEngineID()).getValue());
 
-        CommunityTarget target = new CommunityTarget();
-        target.setCommunity(new OctetString(this.community));
 
-        target.setVersion(version);
-        target.setAddress(new UdpAddress(this.address));
-//        target.setAddress(new UdpAddress("0.0.0.0/161"));
-        target.setRetries(retries);
-        target.setTimeout(timeout);
-        target.setMaxSizeRequestPDU(65535);
         snmp.listen();
 
         try {
@@ -155,15 +152,6 @@ public class Get {
     Snmp snmp = new Snmp(dispatcher, transport);
     ((MPv3) snmp.getMessageProcessingModel(MPv3.ID)).setLocalEngineID(new OctetString(MPv3.createLocalEngineID()).getValue());
 
-    CommunityTarget target = new CommunityTarget();
-    target.setCommunity(new OctetString(this.community));
-
-    target.setVersion(version);
-    target.setAddress(new UdpAddress(this.address));
-//        target.setAddress(new UdpAddress("0.0.0.0/161"));
-    target.setRetries(retries);
-    target.setTimeout(timeout);
-    target.setMaxSizeRequestPDU(65535);
     snmp.listen();
 
     try {

@@ -1,0 +1,11 @@
+snmp2xml4j COMMERCIAL LICENSE
+=========================
+
+The software in this package is distributed under a separate license
+agreement, not included in this package. Please consult your legal
+and/or purchasing department for verification of the exact license
+terms.
+
+_____________________________________________________________________
+
+Copyright (c) 2010-2016 iTransformers Labs Ltd. All rights reserved.
