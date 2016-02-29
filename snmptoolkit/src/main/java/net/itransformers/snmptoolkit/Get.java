@@ -56,7 +56,7 @@ public class Get {
 
         this.target = target;
         this.transportFactory = transportFactory;
-        this.messageDispatcherFactory = messageDispatcherFactory;
+        this.messageDispatcherFactory = messageDispatcherAbstractFactory;
         this.transportFactory = transportFactory;
         localAddress = new UdpAddress("0.0.0.0/0");
 
