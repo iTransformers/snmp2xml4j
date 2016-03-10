@@ -143,6 +143,31 @@
                 <version>2.3.2</version>
 
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
             <!--<plugin>-->
                 <!--<groupId>org.jfrog.buildinfo</groupId>-->
                 <!--<artifactId>artifactory-maven-plugin</artifactId>-->
@@ -175,11 +200,21 @@
         </plugins>
 
     </build>
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>jfrogrepo</id>-->
+            <!--<name>jfrogrepo-releases</name>-->
+            <!--<url>http://193.19.172.133:24280/artifactory/ext-release-local</url>-->
+        <!--</repository>-->
+    <!--</distributionManagement>-->
     <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>jfrogrepo</id>
-            <name>jfrogrepo-releases</name>
-            <url>http://193.19.172.133:24280/artifactory/ext-release-local</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
     <repositories>
