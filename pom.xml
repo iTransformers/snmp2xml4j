@@ -28,7 +28,21 @@
     <artifactId>snmp2xml4j</artifactId>
     <version>1.0</version>
     <description>snmp2xml4j is a tool for performing snmpwalks to xml</description>
+    <url>http://itransformers.github.io/snmp2xml4j</url>
     <packaging>pom</packaging>
+
+
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE 2.0</name>
+            <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/iTransformers/snmp2xml4j</url>
+    </scm>
+
     <modules>
         <module>snmptoolkit</module>
         <module>distribution</module>
