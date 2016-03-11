@@ -25,16 +25,47 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>iTransformers.snmp2xml4j</groupId>
+    <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>snmptoolkit</artifactId>
     <version>1.0</version><!--Change for new version-->
     <parent>
-        <groupId>iTransformers</groupId>
+        <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
         <version>1.0</version><!--Change for new version-->
     </parent>
 
-
+    <organization>
+        <name>iTransformers Labs</name>
+        <url>http://itransformers.net</url>
+    </organization>
+    <url>http://itransformers.net/snmp2xml4j</url>
+    <developers>
+        <developer>
+            <id>niau</id>
+            <name>Nikolay Milovanov</name>
+            <email>nmil@itransformers.net</email>
+            <url>http://niau.org</url>
+            <organization>iTransformers Labs</organization>
+            <organizationUrl>http://itransformers.net</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Sofia</timezone>
+        </developer>
+        <developer>
+            <id>vasil-yordanov</id>
+            <name>Vasil Yordanov</name>
+            <email>vasil.yordanov@gmail.com</email>
+            <organization>iTransformers Labs</organization>
+            <organizationUrl>http://itransformers.net</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Sofia</timezone>
+        </developer>
+    </developers>
     <dependencies>
         <dependency>
             <groupId>snmp</groupId>
@@ -62,7 +93,7 @@
             <version>9.1.0.8</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
+            <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
