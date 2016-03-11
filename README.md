@@ -34,30 +34,34 @@ The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
 
 ###Junit test case
 ```java
-      @Test
-       public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException {
-        String oids = "system,ifEntry";
-        String mibDir = "./mibs";
+     @BeforeClass
+    public static   void prepareSettings(){
+        settings.put("ipAddress","195.218.195.228");
+        settings.put("community-ro","public");
+        settings.put("version","2c");
+        settings.put("retries", "3");
+        settings.put("timeout", "1000");
+    }
 
-        HashMap<CmdOptions, String> cmdOptions = new HashMap<CmdOptions, String>();
-        cmdOptions.put(CmdOptions.MIBS_DIR,mibDir);
-        cmdOptions.put(CmdOptions.ADDRESS,"193.19.172.133/161");
-        cmdOptions.put(CmdOptions.COMMUNITY,"netTransformer-r");
-        cmdOptions.put(CmdOptions.VERSION,"2c");
-        cmdOptions.put(CmdOptions.TIMEOUT,"1000");
-        cmdOptions.put(CmdOptions.RETRIES,"100");
-        cmdOptions.put(CmdOptions.MAX_REPETITIONS,"100");
-        cmdOptions.put(CmdOptions.OIDS,oids);
-        cmdOptions.put(CmdOptions.OUTPUT_FILE,"./snmptoolkit/src/test/java/resources/openwrt.xml");
 
-        Properties parameters = new Properties();
-        Walk.fillParams(cmdOptions, parameters);
-        Walk walker = new Walk(new File(mibDir), false, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
-        Node root = walker.walk(oids.split(","), parameters);
+
+    @Test
+       public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
+        String oids = "system,host,ifEntry";
+        String mibDir = "mibs";
+
+        ParemetersAssembler paremetersAssembler = new ParemetersAssembler(settings);
+
+        MibLoaderHolder holder = new MibLoaderHolder(new File(System.getProperty("base.dir"), mibDir), false);
+        Walk walker = new Walk(holder, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+        Node root = walker.walk(oids.split(","), paremetersAssembler.getProperties());
         String xml = Walk.printTreeAsXML(root, true);
-        Walk.outputXml(cmdOptions,xml);
-        String expectedXML = FileUtils.readFileToString(new File("./snmptoolkit/src/test/java/resources/openwrt.xml"));
-        Assert.assertEquals(expectedXML, xml);
+
+        String xpath = "/root/iso/org/dod/internet/mgmt/mib-2/system/sysName/value";
+        Document doc = XMLUnit.buildControlDocument(xml);
+        XpathEngine engine = XMLUnit.newXpathEngine();
+        String value = engine.evaluate(xpath, doc);
+        Assert.assertEquals(value, "zeus.snmplabs.com");
     }
 ```
 ###SNMP2XML output
