@@ -21,10 +21,8 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit;
 
-import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.DefaultMessageDispatcherFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory;
-import net.itransformers.snmp2xml4j.snmptoolkit.transport.UdpTransportMappingFactory;
 import org.apache.log4j.Logger;
 import org.snmp4j.*;
 import org.snmp4j.event.ResponseEvent;
@@ -42,7 +40,6 @@ import org.snmp4j.transport.AbstractTransportMapping;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Vector;
 
 public class Get {
@@ -192,64 +189,7 @@ public class Get {
         snmp.close();
     }
 }
-    public static void main1(String[] args) throws IOException {
-        Map<CmdOptions,String> opts;
-        try {
-            opts = CmdParser.parseCmd(args);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            CmdParser.printGetUsage();
-            return;
-        }
-        String oid = opts.get(CmdOptions.OIDS);
-        if (oid == null) {
-            System.out.println("Missing option \"-"+ CmdOptions.OIDS.getName()+"\"");
-            CmdParser.printGetUsage();
-        }
-        String address = opts.get(CmdOptions.ADDRESS);
-        if (address == null) {
-            System.out.println("Missing option \"-"+ CmdOptions.ADDRESS.getName()+"\"");
-            CmdParser.printGetUsage();
-        }
-        String community = opts.get(CmdOptions.COMMUNITY);
-        if (community == null) {
-            System.out.println("Missing option \"-"+ CmdOptions.COMMUNITY.getName()+"\"");
-            CmdParser.printGetUsage();
-        }
-        int versionInt;
-        try {
-            String version = opts.get(CmdOptions.RETRIES);
-            versionInt = Integer.parseInt(version);
-        } catch (NumberFormatException nfe) {
-            System.out.println("Invalid parameter value for \"-"+ CmdOptions.VERSION + "\", int value is required");
-            CmdParser.printGetUsage();
-            return;
-        }
-        int retriesInt;
-        try {
-            String retries = opts.get(CmdOptions.RETRIES);
-            retriesInt = Integer.parseInt(retries);
-        } catch (NumberFormatException nfe) {
-            System.out.println("Invalid parameter value for \"-"+ CmdOptions.RETRIES + "\", int value is required");
-            CmdParser.printGetUsage();
-            return;
-        }
-        int timeoutInt;
-        try {
-            String timeout = opts.get(CmdOptions.TIMEOUT);
-            timeoutInt = Integer.parseInt(timeout);
-        } catch (NumberFormatException nfe) {
-            System.out.println("Invalid parameter value for \"-"+ CmdOptions.TIMEOUT + "\", int value is required");
-            CmdParser.printGetUsage();
-            return;
-        }
-//        Get get = new Get("1.3.6.1.2.1.1.5", "c82.16.36.1/161", retriesInt, timeoutInt, "public");
 
-        Get get = new Get(oid, address, versionInt, retriesInt, timeoutInt, community, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
-        String value = get.getSNMPValue();
-        System.out.println(value);
-
-    }
 
     public static void main(String[] args) throws IOException {
         LogFactory.setLogFactory(new Log4jLogFactory());

@@ -38,7 +38,7 @@
         <developer>
             <id>niau</id>
             <name>Nikolay Milovanov</name>
-            <email>nmil@itransformers.net</email>
+            <email>nmil itransformers dot net</email>
             <url>http://niau.org</url>
             <organization>iTransformers Labs</organization>
             <organizationUrl>http://itransformers.net</organizationUrl>
@@ -51,7 +51,7 @@
         <developer>
             <id>vasil-yordanov</id>
             <name>Vasil Yordanov</name>
-            <email>vasil.yordanov@gmail.com</email>
+            <email>vasil.yordanov gmail dot com</email>
             <organization>iTransformers Labs</organization>
             <organizationUrl>http://itransformers.net</organizationUrl>
             <roles>

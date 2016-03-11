@@ -1,5 +1,5 @@
 /*
- * WalkTestCase.java
+ * GetTestCase.java
  *
  * This work is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -22,30 +22,23 @@
 package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
 import junit.framework.Assert;
-import net.itransformers.snmp2xml4j.snmptoolkit.MibLoaderHolder;
-import net.itransformers.snmp2xml4j.snmptoolkit.Node;
+import net.itransformers.snmp2xml4j.snmptoolkit.Get;
 import net.itransformers.snmp2xml4j.snmptoolkit.ParemetersAssembler;
-import net.itransformers.snmp2xml4j.snmptoolkit.Walk;
 import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.DefaultMessageDispatcherFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.transport.UdpTransportMappingFactory;
-import net.percederberg.mibble.MibLoaderException;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.XpathEngine;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import org.snmp4j.CommunityTarget;
+import org.snmp4j.util.SnmpConfigurator;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Properties;
 
-public class WalkTestCase {
-
-
+/**
+ * Created by niau on 3/11/16.
+ */
+public class GetTestCase {
     private  static  HashMap<String,String> settings =  new HashMap<String, String>();
 
     @BeforeClass
@@ -53,30 +46,48 @@ public class WalkTestCase {
         settings.put("ipAddress","195.218.195.228");
         settings.put("community-ro","public");
         settings.put("version","2c");
-        settings.put("retries", "3");
-        settings.put("timeout", "1000");
+        settings.put("retries","3");
+        settings.put("timeout","1000");
     }
 
-
-
     @Test
-       public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
-        String oids = "system,host,ifEntry";
-        String mibDir = "mibs";
+    public void snmpGet() throws IOException {
 
         ParemetersAssembler paremetersAssembler = new ParemetersAssembler(settings);
 
-        MibLoaderHolder holder = new MibLoaderHolder(new File(System.getProperty("base.dir"), mibDir), false);
-        Walk walker = new Walk(holder, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
-        Node root = walker.walk(oids.split(","), paremetersAssembler.getProperties());
-        String xml = Walk.printTreeAsXML(root, true);
+        Properties parameters = paremetersAssembler.getProperties();
 
-        String xpath = "/root/iso/org/dod/internet/mgmt/mib-2/system/sysName/value";
-        Document doc = XMLUnit.buildControlDocument(xml);
-        XpathEngine engine = XMLUnit.newXpathEngine();
-        String value = engine.evaluate(xpath, doc);
-        Assert.assertEquals(value, "zeus.snmplabs.com");
+        SnmpConfigurator snmpConfig = new SnmpConfigurator();
+        CommunityTarget t = (CommunityTarget) snmpConfig.getTarget(parameters);
+        String oid = "1.3.6.1.2.1.1.1.0";
+
+        Get get = new Get(oid, t, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+
+
+        String value = get.getSNMPValue();
+        System.out.println(value);
+
+        Assert.assertEquals(value, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
     }
 
+    @Test
+    public void snmpGetNext() throws IOException {
 
+        ParemetersAssembler paremetersAssembler = new ParemetersAssembler(settings);
+
+        Properties parameters = paremetersAssembler.getProperties();
+
+        SnmpConfigurator snmpConfig = new SnmpConfigurator();
+
+        CommunityTarget t = (CommunityTarget) snmpConfig.getTarget(parameters);
+
+        String oid = "1.3.6.1.2.1.1.1";
+
+        Get get = new Get(oid, t, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
+
+        String value = get.getSNMPGetNextValue();
+        System.out.println(value);
+        Assert.assertEquals(value, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+
+    }
 }

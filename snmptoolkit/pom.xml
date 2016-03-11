@@ -43,7 +43,7 @@
         <developer>
             <id>niau</id>
             <name>Nikolay Milovanov</name>
-            <email>nmil@itransformers.net</email>
+            <email>nmil itransformers dot net</email>
             <url>http://niau.org</url>
             <organization>iTransformers Labs</organization>
             <organizationUrl>http://itransformers.net</organizationUrl>
@@ -56,7 +56,7 @@
         <developer>
             <id>vasil-yordanov</id>
             <name>Vasil Yordanov</name>
-            <email>vasil.yordanov@gmail.com</email>
+            <email>vasil.yordanov gmail dot com</email>
             <organization>iTransformers Labs</organization>
             <organizationUrl>http://itransformers.net</organizationUrl>
             <roles>
@@ -102,6 +102,11 @@
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
         </dependency>
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <version>1.6</version>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>iTransformers.iTransformer</groupId>-->
             <!--<artifactId>utils</artifactId>-->
@@ -123,6 +128,14 @@
                 <version>3.1</version>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <workingDirectory>${project.parent.basedir}</workingDirectory>
                 </configuration>
             </plugin>
         </plugins>

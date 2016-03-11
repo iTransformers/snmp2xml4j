@@ -211,6 +211,7 @@ public class Walk {
                 MibType syntax = snmpObjectType.getSyntax();
                 if (syntax instanceof SequenceType) {
                     ArrayList<OID> oidList = new ArrayList<OID>();
+                    int i = 0;
                     for (Node child : node.getChildren()) {
                         if (child.isDoWalk()) {
                             ObjectIdentifierValue childOid = child.getObjectIdentifierValue();
@@ -238,7 +239,8 @@ public class Walk {
 
                     final OID oid1 = new OID(node.getObjectIdentifierValue().toString());
                     VariableBinding vb = getSingleVariable(snmp, pduFactory, t, oid1);
-//                    logger.debug("Response: "+vb.getVariable().toString());
+                    //logger.debug("Response: " + vb.getVariable().toString());
+
                     node.setVb(vb);
                 }
             }
@@ -754,7 +756,7 @@ public class Walk {
         }
     }
 
-    static boolean fillParams(Map<CmdOptions, String> opts, Properties parameters) {
+    public static boolean fillParams(Map<CmdOptions, String> opts, Properties parameters) {
 
 
         String address = opts.get(CmdOptions.ADDRESS);
