@@ -37,10 +37,17 @@ import java.util.Properties;
 
 /**
  * Created by niau on 3/11/16.
+ *
+ * @author niau
+ * @version $Id: $Id
+ * @since 1.0
  */
 public class GetTestCase {
     private  static  HashMap<String,String> settings =  new HashMap<String, String>();
 
+    /**
+     * <p>prepareSettings.</p>
+     */
     @BeforeClass
     public static   void prepareSettings(){
         settings.put("ipAddress","195.218.195.228");
@@ -50,6 +57,11 @@ public class GetTestCase {
         settings.put("timeout","1000");
     }
 
+    /**
+     * <p>snmpGet.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     @Test
     public void snmpGet() throws IOException {
 
@@ -70,6 +82,11 @@ public class GetTestCase {
         Assert.assertEquals(value, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
     }
 
+    /**
+     * <p>snmpGetNext.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     @Test
     public void snmpGetNext() throws IOException {
 

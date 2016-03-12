@@ -57,6 +57,12 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.util.*;
 
+/**
+ * <p>Walk class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class Walk {
     static Logger logger = Logger.getLogger(Walk.class);
 
@@ -65,6 +71,15 @@ public class Walk {
     private TransportMappingAbstractFactory transportFactory;
     private MessageDispatcherAbstractFactory messageDispatcherFactory;
 
+    /**
+     * <p>Constructor for Walk.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public Walk(MibLoader loader, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherFactory) throws IOException, MibLoaderException {
         this(new MibLoaderHolder(loader), transportFactory, messageDispatcherFactory);
         final InetAddress localHost = InetAddress.getLocalHost();
@@ -72,6 +87,16 @@ public class Walk {
         localAddress = new UdpAddress(localHost, 0);
     }
 
+    /**
+     * <p>Constructor for Walk.</p>
+     *
+     * @param mibDir a {@link java.io.File} object.
+     * @param failOnError a boolean.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public Walk(File mibDir, boolean failOnError, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherFactory) throws IOException, MibLoaderException {
         this(new MibLoaderHolder(mibDir, failOnError), transportFactory, messageDispatcherFactory);
 //        final InetAddress localHost = InetAddress.getLocalHost();
@@ -80,6 +105,14 @@ public class Walk {
 //        localAddress = new UdpAddress(localHost, 0);
     }
 
+    /**
+     * <p>Constructor for Walk.</p>
+     *
+     * @param loader a {@link net.itransformers.snmp2xml4j.snmptoolkit.MibLoaderHolder} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     */
     public Walk(MibLoaderHolder loader, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherFactory) throws IOException {
         Walk.loader = loader;
 //        final InetAddress localHost = InetAddress.getLocalHost();
@@ -90,6 +123,15 @@ public class Walk {
         this.messageDispatcherFactory = messageDispatcherFactory;
     }
 
+    /**
+     * <p>Constructor for Walk.</p>
+     *
+     * @param mibFiles an array of {@link java.lang.String} objects.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public Walk(String[] mibFiles, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherFactory) throws IOException, MibLoaderException {
         this(new MibLoaderHolder(mibFiles), transportFactory, messageDispatcherFactory);
         final InetAddress localHost = InetAddress.getLocalHost();
@@ -97,10 +139,23 @@ public class Walk {
         localAddress = new UdpAddress(localHost, 0);
     }
 
+    /**
+     * <p>Getter for the field <code>loader</code>.</p>
+     *
+     * @return a {@link net.percederberg.mibble.MibLoader} object.
+     */
     public MibLoader getLoader() {
         return loader.getLoader();
     }
 
+    /**
+     * <p>walk.</p>
+     *
+     * @param includes an array of {@link java.lang.String} objects.
+     * @param parameters a {@link java.util.Map} object.
+     * @return a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     * @throws java.io.IOException if any.
+     */
     public Node walk(String[] includes, Map parameters) throws IOException {
         ObjectIdentifierValue oid = getLoader().getRootOid();
         Set<String> includesSet = new HashSet<String>(Arrays.asList(includes));
@@ -299,6 +354,12 @@ public class Walk {
         }
     }
 
+    /**
+     * <p>printTreeAsXML.</p>
+     *
+     * @param node a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String printTreeAsXML(Node node) {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" ?>\n");
@@ -309,6 +370,13 @@ public class Walk {
         return sb.toString();
     }
 
+    /**
+     * <p>printTreeAsXML.</p>
+     *
+     * @param node a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     * @param oidFlag a boolean.
+     * @return a {@link java.lang.String} object.
+     */
     public static String printTreeAsXML(Node node, boolean oidFlag) {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" ?>\n");
@@ -696,6 +764,16 @@ public class Walk {
         }
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     * @throws javax.xml.xpath.XPathExpressionException if any.
+     * @throws org.xml.sax.SAXException if any.
+     * @throws javax.xml.parsers.ParserConfigurationException if any.
+     */
     public static void main(String[] args) throws IOException, MibLoaderException, XPathExpressionException, SAXException, ParserConfigurationException {
         LogFactory.setLogFactory(new Log4jLogFactory());
         boolean oidFlag = false;
@@ -744,6 +822,13 @@ public class Walk {
         outputXml(opts, finalXmlBuffer.toString());
     }
 
+    /**
+     * <p>outputXml.</p>
+     *
+     * @param opts a {@link java.util.Map} object.
+     * @param finalXml a {@link java.lang.String} object.
+     * @throws java.io.FileNotFoundException if any.
+     */
     public static void outputXml(Map<CmdOptions, String> opts, String finalXml) throws FileNotFoundException {
         String outputFile = opts.get(CmdOptions.OUTPUT_FILE);
         if (outputFile == null) {
@@ -756,6 +841,13 @@ public class Walk {
         }
     }
 
+    /**
+     * <p>fillParams.</p>
+     *
+     * @param opts a {@link java.util.Map} object.
+     * @param parameters a {@link java.util.Properties} object.
+     * @return a boolean.
+     */
     public static boolean fillParams(Map<CmdOptions, String> opts, Properties parameters) {
 
 

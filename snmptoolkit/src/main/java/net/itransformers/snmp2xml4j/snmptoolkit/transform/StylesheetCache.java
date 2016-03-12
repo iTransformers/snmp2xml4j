@@ -32,6 +32,9 @@ import java.util.Map;
 /**
  * A utility class that caches XSLT
  * stylesheets in memory.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 public class StylesheetCache {
     // map xslt file names to MapEntry instances
@@ -67,6 +70,7 @@ public class StylesheetCache {
      *                     of an XSLT stylesheet.
      * @return a transformation context
      *         for the given stylesheet.
+     * @throws javax.xml.transform.TransformerConfigurationException if any.
      */
     public static synchronized Transformer newTransformer(File xsltFile)
             throws TransformerConfigurationException {

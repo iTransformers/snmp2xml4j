@@ -26,13 +26,22 @@ import java.io.*;
 import java.util.regex.Pattern;
 
 /**
-* Created by niau on 5/15/14.
-*/
+ * Created by niau on 5/15/14.
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class SnmpWalkToSnmpsimConvertor2 {
 
     static Pattern startPattern = Pattern.compile("^((\\.\\d+)+)\\.?.*");
     static Pattern oidPattern = Pattern.compile("^((\\.\\d+)+)\\.?\\s?");
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException {
 
         if(args.length!=2){

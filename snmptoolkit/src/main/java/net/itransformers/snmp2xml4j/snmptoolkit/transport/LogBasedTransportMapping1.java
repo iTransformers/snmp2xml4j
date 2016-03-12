@@ -37,7 +37,14 @@ import java.nio.ByteBuffer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>LogBasedTransportMapping1 class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class LogBasedTransportMapping1 extends AbstractTransportMapping implements TransportMapping {
+    /** Constant <code>p</code> */
     public static Pattern p = Pattern.compile("^(.*DefaultUdpTransportMapping.*Received message from /(.*) with length.*: )(.*)$");
     static Logger logger = Logger.getLogger(LogBasedTransportMapping1.class);
     protected TransportIpAddress udpAddress;
@@ -45,34 +52,58 @@ public class LogBasedTransportMapping1 extends AbstractTransportMapping implemen
     private Thread listeningThread;
     private BufferedReader reader;
 
+    /**
+     * <p>Constructor for LogBasedTransportMapping1.</p>
+     *
+     * @param reader a {@link java.io.BufferedReader} object.
+     * @param transportIpAddress a {@link org.snmp4j.smi.TransportIpAddress} object.
+     */
     public LogBasedTransportMapping1(BufferedReader reader, TransportIpAddress transportIpAddress) {
         this.udpAddress = transportIpAddress;
         this.reader = reader;
     }
 
+    /**
+     * <p>getSupportedAddressClass.</p>
+     *
+     * @return a {@link java.lang.Class} object.
+     */
     public Class getSupportedAddressClass() {
         return UdpAddress.class;
     }
 
+    /**
+     * <p>getListenAddress.</p>
+     *
+     * @return a {@link org.snmp4j.smi.Address} object.
+     */
     public Address getListenAddress() {
         return udpAddress;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         isListening = false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void listen() throws IOException {
         isListening = true;
         logger.debug("UDP receive buffer size for socket " +udpAddress + " is set to: ...");
     }
 
+    /**
+     * <p>isListening.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isListening() {
         return isListening;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void sendMessage(Address address, byte[] message) throws IOException {
 //        ByteBuffer buf = ByteBuffer.wrap(message);

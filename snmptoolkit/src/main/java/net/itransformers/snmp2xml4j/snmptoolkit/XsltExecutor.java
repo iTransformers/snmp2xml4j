@@ -40,12 +40,21 @@ import java.util.Map;
  * Date: 7/14/14
  * Time: 10:54 AM
  * To change this template use File | Settings | File Templates.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 public class XsltExecutor {
 
 
 
 
+        /**
+         * <p>main.</p>
+         *
+         * @param args an array of {@link java.lang.String} objects.
+         * @throws java.io.IOException if any.
+         */
         public static void main(String[] args) throws IOException {
 
             if(args.length!=3 && args.length !=4 ){

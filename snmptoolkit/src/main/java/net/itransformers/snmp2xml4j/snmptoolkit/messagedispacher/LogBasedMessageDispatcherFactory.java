@@ -33,14 +33,26 @@ import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>LogBasedMessageDispatcherFactory class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class LogBasedMessageDispatcherFactory implements MessageDispatcherAbstractFactory{
     private File file;
+    /** Constant <code>p</code> */
     public static Pattern p = Pattern.compile("^(.*Running pending sync request with handle PduHandle\\[(.*)\\] and retry count left)(.*)$");
 
     private int instNum = 1;
     private BufferedReader reader;
     static Logger logger = Logger.getLogger(LogBasedMessageDispatcherFactory.class);
 
+    /**
+     * <p>Constructor for LogBasedMessageDispatcherFactory.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     */
     public LogBasedMessageDispatcherFactory(File file) {
         this.file = file;
         try {
@@ -50,6 +62,11 @@ public class LogBasedMessageDispatcherFactory implements MessageDispatcherAbstra
         }
     }
 
+    /**
+     * <p>createMessageDispatcherMapping.</p>
+     *
+     * @return a {@link org.snmp4j.MessageDispatcher} object.
+     */
     public MessageDispatcher createMessageDispatcherMapping() {
         int id = getNextId();
         logger.debug("Creating new message dispatcher id="+id);
@@ -79,6 +96,11 @@ public class LogBasedMessageDispatcherFactory implements MessageDispatcherAbstra
 
     }
 
+    /**
+     * <p>initMessageDispatcher.</p>
+     *
+     * @param logBasedMessageDispatcher a {@link org.snmp4j.MessageDispatcher} object.
+     */
     protected final void initMessageDispatcher(MessageDispatcher logBasedMessageDispatcher) {
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv2c());
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv1());

@@ -29,13 +29,29 @@ import org.snmp4j.mp.MPv2c;
 import org.snmp4j.mp.MPv3;
 import org.snmp4j.security.SecurityProtocols;
 
+/**
+ * <p>DefaultMessageDispatcherFactory class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class DefaultMessageDispatcherFactory implements MessageDispatcherAbstractFactory{
+    /**
+     * <p>createMessageDispatcherMapping.</p>
+     *
+     * @return a {@link org.snmp4j.MessageDispatcher} object.
+     */
     public MessageDispatcher createMessageDispatcherMapping() {
         final MessageDispatcherImpl messageDispatcher = new MessageDispatcherImpl();
         initMessageDispatcher(messageDispatcher);
         return messageDispatcher;
     }
 
+    /**
+     * <p>initMessageDispatcher.</p>
+     *
+     * @param logBasedMessageDispatcher a {@link org.snmp4j.MessageDispatcher} object.
+     */
     protected final void initMessageDispatcher(MessageDispatcher logBasedMessageDispatcher) {
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv2c());
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv1());

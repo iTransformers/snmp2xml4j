@@ -33,6 +33,7 @@ import org.xml.sax.InputSource;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,9 +41,20 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
+/**
+ * <p>MainClass class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class MainClass {
 
-    public static void XML_parser(String input_file) throws Exception {
+    /**
+     * <p>XML_parser.</p>
+     *
+     * @param input_file a {@link java.lang.String} object.
+     */
+    public static void XML_parser(String input_file)  {
         XPath xpath = XPathFactory.newInstance().newXPath();
         String discoveredNeighbors = "//DiscoveredDevice/object/object[objectType = 'Discovered Neighbor']/name";
 
@@ -50,8 +62,13 @@ public class MainClass {
 
         InputSource inputSource = new InputSource(input_file);
 
-        NodeList nodes = (NodeList) xpath
-                .evaluate(discoveredNeighbors, inputSource, XPathConstants.NODESET);
+        NodeList nodes = null;
+        try {
+            nodes = (NodeList) xpath
+                    .evaluate(discoveredNeighbors, inputSource, XPathConstants.NODESET);
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
 
         int j = nodes.getLength();
 
@@ -60,6 +77,15 @@ public class MainClass {
         }
 
     }
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws javax.xml.transform.TransformerException if any.
+     * @throws javax.xml.transform.TransformerException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws TransformerException,
             IOException, MibLoaderException {
 //        if (args.length != 3) {

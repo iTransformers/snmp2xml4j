@@ -25,50 +25,107 @@ package net.itransformers.snmp2xml4j.snmptoolkit;
 
 import java.util.Set;
 
+/**
+ * <p>Device class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class Device {
     private String hostname;
     private String address;
     private Set<Device> neighbours;
     private Set<String> neighbourMacAddresses;
 
+    /**
+     * <p>Constructor for Device.</p>
+     *
+     * @param hostname a {@link java.lang.String} object.
+     * @param address a {@link java.lang.String} object.
+     */
     public Device(String hostname, String address) {
         this.hostname = hostname;
         this.address = address;
     }
 
 
+    /**
+     * <p>Getter for the field <code>hostname</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getHostname() {
         return hostname;
     }
 
+    /**
+     * <p>Setter for the field <code>hostname</code>.</p>
+     *
+     * @param hostname a {@link java.lang.String} object.
+     */
     public void setHostname(String hostname) {
         this.hostname = hostname;
     }
 
+    /**
+     * <p>Getter for the field <code>address</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * <p>Setter for the field <code>address</code>.</p>
+     *
+     * @param address a {@link java.lang.String} object.
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * <p>Getter for the field <code>neighbours</code>.</p>
+     *
+     * @return a {@link java.util.Set} object.
+     */
     public Set<Device> getNeighbours() {
         return neighbours;
     }
 
+    /**
+     * <p>Setter for the field <code>neighbours</code>.</p>
+     *
+     * @param neighbours a {@link java.util.Set} object.
+     */
     public void setNeighbours(Set<Device> neighbours) {
         this.neighbours = neighbours;
     }
 
+    /**
+     * <p>getWalkXmlFileName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getWalkXmlFileName(){
         return getHostname() + ".xml";
     }
 
+    /**
+     * <p>Getter for the field <code>neighbourMacAddresses</code>.</p>
+     *
+     * @return a {@link java.util.Set} object.
+     */
     public Set<String> getNeighbourMacAddresses() {
         return neighbourMacAddresses;
     }
 
+    /**
+     * <p>Setter for the field <code>neighbourMacAddresses</code>.</p>
+     *
+     * @param neighbourMacAddresses a {@link java.util.Set} object.
+     */
     public void setNeighbourMacAddresses(Set<String> neighbourMacAddresses) {
         this.neighbourMacAddresses = neighbourMacAddresses;
     }

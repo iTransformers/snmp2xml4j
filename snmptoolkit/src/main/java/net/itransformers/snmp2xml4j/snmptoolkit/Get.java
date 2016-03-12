@@ -42,6 +42,12 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 import java.io.IOException;
 import java.util.Vector;
 
+/**
+ * <p>Get class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class Get {
     static Logger logger = Logger.getLogger(Walk.class);
 
@@ -51,6 +57,14 @@ public class Get {
     private TransportMappingAbstractFactory transportFactory;
     private MessageDispatcherAbstractFactory messageDispatcherFactory;
     CommunityTarget target;
+    /**
+     * <p>Constructor for Get.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param target a {@link org.snmp4j.CommunityTarget} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherAbstractFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     */
     public Get(String oid, CommunityTarget target,TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherAbstractFactory){
         this.oid = oid;
 
@@ -61,6 +75,19 @@ public class Get {
         localAddress = new UdpAddress("0.0.0.0/0");
 
     }
+    /**
+     * <p>Constructor for Get.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param address a {@link java.lang.String} object.
+     * @param version a int.
+     * @param retries a int.
+     * @param timeout a long.
+     * @param community a {@link java.lang.String} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherAbstractFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     */
     public Get(String oid,
                String address,
                int version,
@@ -86,6 +113,12 @@ public class Get {
         localAddress = new UdpAddress("0.0.0.0/0");
     }
 
+    /**
+     * <p>getSNMPValue.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public String getSNMPValue() throws IOException {
 
         String result = "";
@@ -138,6 +171,12 @@ public class Get {
     }
 
 
+    /**
+     * <p>getSNMPGetNextValue.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public String getSNMPGetNextValue() throws IOException {
 
     String result = "";
@@ -191,6 +230,12 @@ public class Get {
 }
 
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException {
         LogFactory.setLogFactory(new Log4jLogFactory());
         CounterSupport.getInstance().addCounterListener(new DefaultCounterListener());

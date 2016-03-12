@@ -35,7 +35,27 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
+
+
+/**
+ * <p>XsltTransformer class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class XsltTransformer {
+    /**
+     * <p>transformXML.</p>
+     *
+     * @param xmlIn a {@link java.io.InputStream} object.
+     * @param xslt a {@link java.io.File} object.
+     * @param xmlOut a {@link java.io.OutputStream} object.
+     * @param params a {@link java.util.Map} object.
+     * @throws javax.xml.parsers.ParserConfigurationException if any.
+     * @throws java.io.IOException if any.
+     * @throws org.xml.sax.SAXException if any.
+     * @throws javax.xml.transform.TransformerException if any.
+     */
     public void transformXML(InputStream xmlIn, File xslt, OutputStream xmlOut, Map<String,String> params) throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
         // JAXP reads data using the Source interface

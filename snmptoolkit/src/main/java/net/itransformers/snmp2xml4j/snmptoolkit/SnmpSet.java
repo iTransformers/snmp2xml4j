@@ -41,6 +41,12 @@ import org.snmp4j.smi.*;
 import java.io.IOException;
 import java.util.Vector;
 
+/**
+ * <p>SnmpSet class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class SnmpSet {
     static Logger logger = Logger.getLogger(Walk.class);
 
@@ -55,6 +61,20 @@ public class SnmpSet {
     TransportMappingAbstractFactory transportFactory;
     MessageDispatcherAbstractFactory messageDispatcherFactory;
 
+    /**
+     * <p>Constructor for SnmpSet.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param address a {@link java.lang.String} object.
+     * @param version a int.
+     * @param retries a int.
+     * @param timeout a long.
+     * @param community a {@link java.lang.String} object.
+     * @param value a {@link java.lang.String} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherAbstractFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     */
     public SnmpSet(String oid,
                    String address,
                    int version,
@@ -80,6 +100,12 @@ public class SnmpSet {
         this.value=value;
     }
 
+    /**
+     * <p>setSNMPValue.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public String setSNMPValue() throws IOException {
 
         String result = "";
@@ -138,6 +164,20 @@ public class SnmpSet {
         }
     }
 
+    /**
+     * <p>createSNMPOID.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param address a {@link java.lang.String} object.
+     * @param port a int.
+     * @param version a int.
+     * @param retries a int.
+     * @param timeout a long.
+     * @param community a {@link java.lang.String} object.
+     * @param value a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public String createSNMPOID(String oid,
                                 String address,
                                 int port,
@@ -212,6 +252,12 @@ public class SnmpSet {
         }
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException {
         LogFactory.setLogFactory(new Log4jLogFactory());
         SnmpSet SetExampe = new SnmpSet(".1.3.6.1.2.1.1.4.0","10.10.10.10/161", SnmpConstants.version1,1,200,"publicw","test123",new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());

@@ -21,6 +21,12 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit;
 
+/**
+ * <p>CmdOptions class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public enum CmdOptions {
     ADDRESS("a", 1),
     COMMUNITY("c", 1),
@@ -43,10 +49,20 @@ public enum CmdOptions {
         this.valueSize = valueSize;
     }
 
+    /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * <p>Getter for the field <code>valueSize</code>.</p>
+     *
+     * @return a int.
+     */
     public int getValueSize() {
         return valueSize;
     }

@@ -26,13 +26,29 @@ package net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher;
 import org.snmp4j.MessageDispatcher;
 import org.snmp4j.MessageDispatcherImpl;
 
+/**
+ * <p>LogBasedMessageDispatcher class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class LogBasedMessageDispatcher extends MessageDispatcherImpl implements MessageDispatcher{
     private int nextTransactionID;
 
+    /**
+     * <p>Constructor for LogBasedMessageDispatcher.</p>
+     *
+     * @param nextTransactionID a int.
+     */
     public LogBasedMessageDispatcher(int nextTransactionID) {
         this.nextTransactionID = nextTransactionID;
     }
 
+    /**
+     * <p>getNextRequestID.</p>
+     *
+     * @return a int.
+     */
     public synchronized int getNextRequestID() {
       int nextID = nextTransactionID++;
       if (nextID <= 0) {

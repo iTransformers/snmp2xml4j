@@ -28,6 +28,19 @@ import org.snmp4j.smi.TransportIpAddress;
 
 import java.io.IOException;
 
+/**
+ * <p>TransportMappingAbstractFactory interface.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public interface TransportMappingAbstractFactory {
+    /**
+     * <p>createTransportMapping.</p>
+     *
+     * @param transportIpAddress a {@link org.snmp4j.smi.TransportIpAddress} object.
+     * @return a {@link org.snmp4j.TransportMapping} object.
+     * @throws java.io.IOException if any.
+     */
     TransportMapping createTransportMapping(TransportIpAddress transportIpAddress) throws IOException;
 }

@@ -29,22 +29,45 @@ import java.util.Properties;
 
 /**
  * Created by niau on 3/11/16.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 public class ParemetersAssembler {
 
     Properties properties = new Properties();
 
+    /**
+     * <p>Getter for the field <code>properties</code>.</p>
+     *
+     * @return a {@link java.util.Properties} object.
+     */
     public Properties getProperties() {
         return properties;
     }
 
+    /**
+     * <p>Setter for the field <code>properties</code>.</p>
+     *
+     * @param properties a {@link java.util.Properties} object.
+     */
     public void setProperties(Properties properties) {
         this.properties = properties;
     }
 
+    /**
+     * <p>Constructor for ParemetersAssembler.</p>
+     *
+     * @param properties a {@link java.util.Properties} object.
+     */
     public ParemetersAssembler(Properties properties) {
         this.properties = properties;
     }
+    /**
+     * <p>Constructor for ParemetersAssembler.</p>
+     *
+     * @param settings a {@link java.util.Map} object.
+     */
     public ParemetersAssembler(Map<String, String> settings) {
 
 

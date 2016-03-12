@@ -30,6 +30,12 @@ import org.snmp4j.util.TableEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>Node class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class Node {
     ObjectIdentifierValue objectIdentifierValue;
     List<Node> children = new ArrayList<Node>();
@@ -38,51 +44,108 @@ public class Node {
     boolean doWalk;
     Node parent;
 
+    /**
+     * <p>Constructor for Node.</p>
+     *
+     * @param objectIdentifierValue a {@link net.percederberg.mibble.value.ObjectIdentifierValue} object.
+     * @param parent a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     */
     public Node(ObjectIdentifierValue objectIdentifierValue, Node parent) {
         this.objectIdentifierValue = objectIdentifierValue;
         this.parent = parent;
     }
 
+    /**
+     * <p>Getter for the field <code>children</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Node> getChildren() {
         return children;
     }
 
+    /**
+     * <p>addChild.</p>
+     *
+     * @param child a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     */
     public void addChild(Node child){
         children.add(child);
     }
 
+    /**
+     * <p>Getter for the field <code>table</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<TableEvent> getTable() {
         return table;
     }
 
+    /**
+     * <p>Setter for the field <code>table</code>.</p>
+     *
+     * @param table a {@link java.util.List} object.
+     */
     public void setTable(List<TableEvent> table) {
         this.table = table;
     }
 
+    /**
+     * <p>Getter for the field <code>vb</code>.</p>
+     *
+     * @return a {@link org.snmp4j.smi.VariableBinding} object.
+     */
     public VariableBinding getVb() {
         return vb;
     }
 
+    /**
+     * <p>Setter for the field <code>vb</code>.</p>
+     *
+     * @param vb a {@link org.snmp4j.smi.VariableBinding} object.
+     */
     public void setVb(VariableBinding vb) {
         this.vb = vb;
     }
 
+    /**
+     * <p>isDoWalk.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isDoWalk() {
         return doWalk;
     }
 
+    /**
+     * <p>Setter for the field <code>doWalk</code>.</p>
+     *
+     * @param doWalk a boolean.
+     */
     public void setDoWalk(boolean doWalk) {
         this.doWalk = doWalk;
     }
 
+    /**
+     * <p>Getter for the field <code>parent</code>.</p>
+     *
+     * @return a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     */
     public Node getParent() {
         return parent;
     }
 
+    /**
+     * <p>Getter for the field <code>objectIdentifierValue</code>.</p>
+     *
+     * @return a {@link net.percederberg.mibble.value.ObjectIdentifierValue} object.
+     */
     public ObjectIdentifierValue getObjectIdentifierValue() {
         return objectIdentifierValue;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "Node{" +

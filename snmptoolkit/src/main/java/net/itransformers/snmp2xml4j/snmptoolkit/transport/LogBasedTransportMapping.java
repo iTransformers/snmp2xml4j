@@ -42,7 +42,14 @@ import java.nio.ByteBuffer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>LogBasedTransportMapping class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class LogBasedTransportMapping extends UdpTransportMapping implements TransportMapping {
+    /** Constant <code>p</code> */
     public static Pattern p = Pattern.compile("^(.*DefaultUdpTransportMapping.*Received message from /(.*) with length.*: )(.*)$");
 
     static Logger logger = Logger.getLogger(DefaultUdpTransportMapping.class);
@@ -57,13 +64,21 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
      * Creates a UDP transport with an arbitrary local port on all local
      * interfaces.
      *
-     * @throws IOException if socket binding fails.
+     * @throws java.io.IOException if socket binding fails.
+     * @param reader a {@link java.io.BufferedReader} object.
+     * @param transportIpAddress a {@link org.snmp4j.smi.TransportIpAddress} object.
      */
     public LogBasedTransportMapping(BufferedReader reader, TransportIpAddress transportIpAddress) throws IOException {
         super(new UdpAddress(InetAddress.getLocalHost(), 0));
         this.reader = reader;
     }
 
+    /**
+     * <p>sendMessage.</p>
+     *
+     * @param targetAddress a {@link org.snmp4j.smi.Address} object.
+     * @param message an array of byte.
+     */
     public void sendMessage(Address targetAddress, byte[] message)
             throws java.io.IOException {
         if (logger.isDebugEnabled()) {
@@ -76,7 +91,7 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
     /**
      * Closes the socket and stops the listener thread.
      *
-     * @throws IOException
+     * @throws java.io.IOException if any.
      */
     public void close() throws IOException {
         boolean interrupted = false;
@@ -103,7 +118,7 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
      * Nevertheless, the {@link #close()} method should be called to stop the
      * listen thread gracefully and free associated ressources.
      *
-     * @throws IOException
+     * @throws java.io.IOException if any.
      */
     public synchronized void listen() throws IOException {
         if (listener != null) {
@@ -134,8 +149,8 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
     /**
      * Returns the priority of the internal listen thread.
      *
-     * @return a value between {@link Thread#MIN_PRIORITY} and
-     *         {@link Thread#MAX_PRIORITY}.
+     * @return a value between {@link java.lang.Thread#MIN_PRIORITY} and
+     *         {@link java.lang.Thread#MAX_PRIORITY}.
      * @since 1.2.2
      */
     public int getPriority() {
@@ -177,6 +192,11 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
         }
     }
 
+    /**
+     * <p>setMaxInboundMessageSize.</p>
+     *
+     * @param maxInboundMessageSize a int.
+     */
     public void setMaxInboundMessageSize(int maxInboundMessageSize) {
         this.maxInboundMessageSize = maxInboundMessageSize;
     }
@@ -186,7 +206,7 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
      * This size might not reflect the actual size of the receive buffer, which
      * is implementation specific.
      *
-     * @return <=0 if the default buffer size of the OS is used, or a value >0 if the
+     * @return {@literal =}0 if the default buffer size of the OS is used, or a value {@literal >}0 if the
      *         user specified a buffer size.
      */
     public int getReceiveBufferSize() {
@@ -194,11 +214,11 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
     }
 
     /**
-     * Sets the receive buffer size, which should be > the maximum inbound message
+     * Sets the receive buffer size, which should be {@literal > } the maximum inbound message
      * size. This method has to be called before {@link #listen()} to be
      * effective.
      *
-     * @param receiveBufferSize an integer value >0 and > {@link #getMaxInboundMessageSize()}.
+     * @param receiveBufferSize an integer value {@literal <} 0 and {@literal >} {@link #getMaxInboundMessageSize()}.
      */
     public void setReceiveBufferSize(int receiveBufferSize) {
         if (receiveBufferSize <= 0) {
@@ -207,6 +227,11 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
         this.receiveBufferSize = receiveBufferSize;
     }
 
+    /**
+     * <p>isListening.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isListening() {
         return (listener != null);
     }

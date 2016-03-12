@@ -31,15 +31,36 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 
+/**
+ * <p>MibLoaderHolder class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class MibLoaderHolder {
     static Logger logger = Logger.getLogger(MibLoaderHolder.class);
 
     private MibLoader loader;
 
+    /**
+     * <p>Constructor for MibLoaderHolder.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public MibLoaderHolder(MibLoader loader) throws IOException, MibLoaderException {
         this.loader = loader;
     }
 
+    /**
+     * <p>Constructor for MibLoaderHolder.</p>
+     *
+     * @param mibDir a {@link java.io.File} object.
+     * @param failOnError a boolean.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public MibLoaderHolder(File mibDir, boolean failOnError) throws IOException, MibLoaderException {
         this.loader = new MibLoader();
         loader.addDir(mibDir);
@@ -67,6 +88,13 @@ public class MibLoaderHolder {
         }
     }
 
+    /**
+     * <p>Constructor for MibLoaderHolder.</p>
+     *
+     * @param mibFiles an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public MibLoaderHolder(String[] mibFiles) throws IOException, MibLoaderException {
         loader = new MibLoader();
         loader.addDir(new File("mibs"));
@@ -75,6 +103,11 @@ public class MibLoaderHolder {
         }
     }
 
+    /**
+     * <p>Getter for the field <code>loader</code>.</p>
+     *
+     * @return a {@link net.percederberg.mibble.MibLoader} object.
+     */
     public MibLoader getLoader() {
         return loader;
     }
@@ -97,6 +130,13 @@ public class MibLoaderHolder {
 //        return symbolByOid.getName();
 //    }
 
+    /**
+     * <p>getSymbolByOid.</p>
+     *
+     * @param mibName a {@link java.lang.String} object.
+     * @param oid a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getSymbolByOid(String mibName, String oid){
         logger.debug("getSymbolByOid, mibName="+mibName + ", oid="+oid);
         Mib mib = loader.getMib(mibName);
@@ -113,11 +153,24 @@ public class MibLoaderHolder {
 
         return symbolByOid.getName();
     }
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public static void main(String[] args) throws IOException, MibLoaderException {
         String oid = "1.3.6.1.4.1.2636.1.1.1.2.1";
         MibLoaderHolder holder = new MibLoaderHolder(new File("snmptoolkit/mibs"), false);
         System.out.println(holder.getSymbolByOid( "JUNIPER-CHASSIS-DEFINES-MIB", oid));
     }
+    /**
+     * <p>main1.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main1(String[] args) throws IOException {
         String[] mibFiles = new String[]{"CISCO-CDP-MIB"};
         MibLoader loader = new MibLoader();

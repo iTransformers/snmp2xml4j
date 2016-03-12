@@ -29,11 +29,22 @@ import org.snmp4j.smi.TransportIpAddress;
 
 import java.io.*;
 
+/**
+ * <p>LogBasedTransportMappingFactory class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class LogBasedTransportMappingFactory implements TransportMappingAbstractFactory{
     private File log;
     private BufferedReader reader;
     static Logger logger = Logger.getLogger(LogBasedTransportMappingFactory.class);
 
+    /**
+     * <p>Constructor for LogBasedTransportMappingFactory.</p>
+     *
+     * @param log a {@link java.io.File} object.
+     */
     public LogBasedTransportMappingFactory(File log) {
         this.log = log;
         try {
@@ -44,6 +55,7 @@ public class LogBasedTransportMappingFactory implements TransportMappingAbstract
 
     }
 
+    /** {@inheritDoc} */
     public TransportMapping createTransportMapping(TransportIpAddress transportIpAddress) throws IOException {
         LogBasedTransportMapping logBasedTransportMapping1 = new LogBasedTransportMapping(reader, transportIpAddress);
         return logBasedTransportMapping1;

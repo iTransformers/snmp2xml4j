@@ -25,32 +25,47 @@ import net.sf.saxon.event.Emitter;
 import net.sf.saxon.trans.XPathException;
 import org.apache.log4j.Logger;
 
+/**
+ * <p>Log4jEmitter class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class Log4jEmitter extends Emitter {
     Logger logger = Logger.getLogger(Log4jEmitter.class.getName());
+    /** {@inheritDoc} */
     @Override
     public void open() throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void startDocument(int i) throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void endDocument() throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void startElement(int i, int i1, int i2, int i3) throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void namespace(int i, int i1) throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void attribute(int i, int i1, CharSequence charSequence, int i2, int i3) throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void startContent() throws XPathException {   }
 
+    /** {@inheritDoc} */
     @Override
     public void endElement() throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void characters(CharSequence charSequence, int i, int i1) throws XPathException {
         String msg = charSequence.toString();
@@ -78,12 +93,15 @@ public class Log4jEmitter extends Emitter {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void processingInstruction(String s, CharSequence charSequence, int i, int i1) throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void comment(CharSequence charSequence, int i, int i1) throws XPathException { }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws XPathException { }
 

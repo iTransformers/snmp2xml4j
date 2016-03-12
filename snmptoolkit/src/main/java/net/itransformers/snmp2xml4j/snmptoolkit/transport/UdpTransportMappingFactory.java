@@ -31,7 +31,14 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 import java.io.IOException;
 
+/**
+ * <p>UdpTransportMappingFactory class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class UdpTransportMappingFactory implements TransportMappingAbstractFactory {
+    /** {@inheritDoc} */
     public TransportMapping createTransportMapping(TransportIpAddress transportIpAddress) throws IOException {
         AbstractTransportMapping transport = new DefaultUdpTransportMapping((UdpAddress) transportIpAddress);
         return transport;

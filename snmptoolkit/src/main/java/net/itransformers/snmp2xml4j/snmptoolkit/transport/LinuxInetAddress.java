@@ -27,20 +27,26 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+/**
+ * <p>LinuxInetAddress class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public class LinuxInetAddress {
 
 	/**
 	 * Returns an InetAddress representing the address
-of the localhost.
+	 *of the localhost.
 	 * Every attempt is made to find an address for this
-host that is not
+	 *host that is not
 	 * the loopback address.  If no other address can
-be found, the
+	 *be found, the
 	 * loopback will be returned.
 	 *
 	 * @return InetAddress - the address of localhost
-	 * @throws UnknownHostException - if there is a
-problem determing the address
+	 * @throws java.net.UnknownHostException - if there is a
+	 *problem determing the address
 	 */
 	public static InetAddress getLocalHost() throws
 UnknownHostException {
@@ -59,17 +65,17 @@ return addrs[i];
 
 	/**
 	 * This method attempts to find all InetAddresses
-for this machine in a
+	 *for this machine in a
 	 * conventional way (via InetAddress).  If only one
-address is found
+	 *address is found
 	 * and it is the loopback, an attempt is made to
-determine the addresses
+	 *determine the addresses
 	 * for this machine using NetworkInterface.
 	 *
 	 * @return InetAddress[] - all addresses assigned to
-the local machine
-	 * @throws UnknownHostException - if there is a
-problem determining addresses
+	 *the local machine
+	 * @throws java.net.UnknownHostException - if there is a
+	 *problem determining addresses
 	 */
 	public static InetAddress[] getAllLocal() throws
 UnknownHostException {
@@ -124,6 +130,13 @@ addresses.get(i);
 	}
 
     // Determine localhostaddress depending of the destination
+    /**
+     * <p>getLocalHostAddress.</p>
+     *
+     * @param intendedDestination a {@link java.net.InetAddress} object.
+     * @return a {@link java.net.InetAddress} object.
+     * @throws java.net.SocketException if any.
+     */
     public static InetAddress getLocalHostAddress(InetAddress intendedDestination)
         throws SocketException
     {

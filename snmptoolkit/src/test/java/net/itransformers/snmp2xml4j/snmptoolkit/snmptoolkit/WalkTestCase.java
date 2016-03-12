@@ -43,11 +43,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * <p>WalkTestCase class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ * @since 1.0
+ */
 public class WalkTestCase {
 
 
     private  static  HashMap<String,String> settings =  new HashMap<String, String>();
 
+    /**
+     * <p>prepareSettings.</p>
+     */
     @BeforeClass
     public static   void prepareSettings(){
         settings.put("ipAddress","195.218.195.228");
@@ -59,6 +69,16 @@ public class WalkTestCase {
 
 
 
+    /**
+     * <p>openWrtTestWalk.</p>
+     *
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     * @throws javax.xml.parsers.ParserConfigurationException if any.
+     * @throws org.xml.sax.SAXException if any.
+     * @throws javax.xml.xpath.XPathExpressionException if any.
+     * @throws java.io.IOException if any.
+     * @throws org.custommonkey.xmlunit.exceptions.XpathException if any.
+     */
     @Test
        public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
         String oids = "system,host,ifEntry";

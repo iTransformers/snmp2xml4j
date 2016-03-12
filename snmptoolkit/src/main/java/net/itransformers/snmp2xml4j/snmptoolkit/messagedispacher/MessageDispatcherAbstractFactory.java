@@ -25,6 +25,17 @@ package net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher;
 
 import org.snmp4j.MessageDispatcher;
 
+/**
+ * <p>MessageDispatcherAbstractFactory interface.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public interface MessageDispatcherAbstractFactory {
+    /**
+     * <p>createMessageDispatcherMapping.</p>
+     *
+     * @return a {@link org.snmp4j.MessageDispatcher} object.
+     */
     MessageDispatcher createMessageDispatcherMapping();
 }
