@@ -56,7 +56,7 @@ public class Get {
     private UdpAddress localAddress;
     private TransportMappingAbstractFactory transportFactory;
     private MessageDispatcherAbstractFactory messageDispatcherFactory;
-    CommunityTarget target;
+    CommunityTarget target = new CommunityTarget();
     /**
      * <p>Constructor for Get.</p>
      *
@@ -99,7 +99,7 @@ public class Get {
     ) throws IOException {
 
         this.oid = oid;
-
+        target = new CommunityTarget();
         target.setAddress(new UdpAddress(address));
         target.setRetries(retries);
         target.setTimeout(timeout);
