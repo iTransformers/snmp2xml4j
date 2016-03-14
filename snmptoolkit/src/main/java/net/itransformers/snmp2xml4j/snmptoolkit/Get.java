@@ -195,17 +195,15 @@ public class Get {
         this.oid = oid;
         this.securityName = securityName;
         UserTarget targett = new UserTarget();
-        UdpAddress udpAddress = new UdpAddress(address+"/161");
-        targett.setAuthoritativeEngineID(hexStringToByteArray(securityEngineId));
+        UdpAddress udpAddress = new UdpAddress(address + "/161");
+        if (securityEngineId != null) {
+            targett.setAuthoritativeEngineID(hexStringToByteArray(securityEngineId));
+        }
         targett.setAddress(udpAddress);
         targett.setRetries(retries);
         targett.setTimeout(timeout);
         targett.setVersion(version);
         targett.setMaxSizeRequestPDU(65535);
-        targett.setSecurityLevel(SecurityLevel.AUTH_NOPRIV);
-        targett.setSecurityName(new OctetString(securityName));
-        this.target = targett;
-
 
 
         OID authenticationProtocolOID = null;
@@ -223,9 +221,29 @@ public class Get {
             privacyProtocolOID= Priv3DES.ID;
         }
 
+        if (authenticationProtocol ==null &&  privacyProtocol==null){
+            targett.setSecurityLevel(SecurityLevel.NOAUTH_NOPRIV);
+            user =  new UsmUser(null, null, null, null, null);
+
+        }else if (authenticationProtocol != null && privacyProtocol == null){
+            targett.setSecurityLevel(SecurityLevel.AUTH_NOPRIV);
+            user =  new UsmUser(new OctetString(securityName), authenticationProtocolOID, new OctetString(authenticationPassShare), null, null);
+
+
+        } else {
+            targett.setSecurityLevel(SecurityLevel.AUTH_PRIV);
+            user =  new UsmUser(new OctetString(securityName), authenticationProtocolOID, new OctetString(authenticationPassShare), privacyProtocolOID, new OctetString(privacyProtocolPassShare));
+
+        }
+        targett.setSecurityName(new OctetString(securityName));
+        this.target = targett;
+
+
+
+
+
         this.usm = new USM(SecurityProtocols.getInstance(), new OctetString(MPv3.createLocalEngineID()), 0);
 
-        user =  new UsmUser(new OctetString(securityName), authenticationProtocolOID, new OctetString(authenticationPassShare), null, null);
 
         usm.addUser(new OctetString(securityName), user);
 
@@ -446,13 +464,20 @@ public class Get {
 
     }
     private static byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+        if (s!=null){
+
+
+            int len = s.length();
+            byte[] data = new byte[len / 2];
+            for (int i = 0; i < len; i += 2) {
+                data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                        + Character.digit(s.charAt(i+1), 16));
+            }
+            return data;
+
+        }  else {
+            return null;
         }
-        return data;
     }
 
 }

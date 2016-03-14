@@ -47,13 +47,11 @@ public class Getv3TestCase {
     @BeforeClass
     public static   void prepareSettings(){
         settings.put("ipAddress","195.218.195.228");
-        settings.put("securityName"," usr-md5-none");
+        settings.put("securityName","usr-md5-none");
         settings.put("authPassPhrase","authkey1");
         settings.put("version","3");
         settings.put("retries","3");
         settings.put("timeout","1000");
-        settings.put("entineId","0x80004fb805636c6f75644dab22cc");
-
     }
 
     /**
@@ -72,6 +70,7 @@ public class Getv3TestCase {
 
 
         String value = get.getSNMPValue();
+        System.out.println("VALUE IS: " +value);
 
         Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",value);
     }
