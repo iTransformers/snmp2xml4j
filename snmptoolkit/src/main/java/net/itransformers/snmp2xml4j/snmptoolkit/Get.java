@@ -223,7 +223,7 @@ public class Get {
 
         if (authenticationProtocol ==null &&  privacyProtocol==null){
             targett.setSecurityLevel(SecurityLevel.NOAUTH_NOPRIV);
-            user =  new UsmUser(null, null, null, null, null);
+            user =  new UsmUser(new OctetString(securityName), null, null, null, null);
 
         }else if (authenticationProtocol != null && privacyProtocol == null){
             targett.setSecurityLevel(SecurityLevel.AUTH_NOPRIV);
@@ -355,11 +355,29 @@ public class Get {
     vbs.add(vb);
 
     Snmp snmp = createSession();
-    snmp.listen();
+        if (target.getVersion() == SnmpConstants.version3){
+
+            //UserTarget targett = (UserTarget)target;
+
+            SecurityModels.getInstance().addSecurityModel(usm);
+
+
+            snmp.getUSM().addUser(new OctetString(securityName), user);
+            //snmp.discoverAuthoritativeEngineID(targett.getAuthoritativeEngineID(),targett.getTimeout());
+
+        }
+
+        snmp.listen();
 
     try {
 
-        PDU request = new PDU();
+        PDU request;
+        if (target.getVersion() == SnmpConstants.version3){
+            request = new ScopedPDU();
+        } else {
+            request =new PDU();
+        }
+
         request.setType(PDU.GETNEXT);
 
         for (int i = 0; i < vbs.size(); i++) {
@@ -367,7 +385,7 @@ public class Get {
         }
 
         long startTime = System.currentTimeMillis();
-        ResponseEvent responseEvent = snmp.send(request, target, transport);
+        ResponseEvent responseEvent = snmp.send(request, target);
 
         PDU response = null;
         if (responseEvent != null) {

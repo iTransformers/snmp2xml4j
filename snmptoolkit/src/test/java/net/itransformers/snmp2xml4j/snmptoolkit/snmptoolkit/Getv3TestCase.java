@@ -47,57 +47,120 @@ public class Getv3TestCase {
     @BeforeClass
     public static   void prepareSettings(){
         settings.put("ipAddress","195.218.195.228");
-        settings.put("securityName","usr-md5-none");
-        settings.put("authPassPhrase","authkey1");
         settings.put("version","3");
-        settings.put("retries","3");
-        settings.put("timeout","1000");
+        settings.put("retries", "3");
+        settings.put("timeout", "1000");
     }
 
     /**
-     * <p>snmpGet.</p>
+     * <p>snmpGetAuthNoPriv.</p>
      *
      * @throws IOException if any.
      */
     @Test
-    public void snmpGet() throws IOException {
+    public void snmpGetAuthNoPriv() throws IOException {
 
 
         String oid = "1.3.6.1.2.1.1.1.0";
 
 
-        Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),settings.get("securityName"),settings.get("authPassPhrase"),"MD5",null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
+        Get get = new Get(oid,settings.get("ipAddress"),null,"usr-md5-none","authkey1","MD5",null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
+
+
+        String value = get.getSNMPValue();
+        System.out.println("VALUE IS: " + value);
+
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m", value);
+    }
+
+    /**
+     * <p>snmpGetNextAuthNoPriv.</p>
+     *
+     * @throws IOException if any.
+     */
+    @Test
+    public void snmpGetNextAuthNoPriv() throws IOException {
+
+        String oid = "1.3.6.1.2.1.1.1";
+
+
+        Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-md5-none","authkey1","MD5",null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
+
+
+        String value = get.getSNMPGetNextValue();
+        System.out.println("VALUE IS: " + value);
+
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m", value);
+
+
+    }
+
+    @Test
+    public void snmpGetAuthPriv() throws IOException {
+
+        String oid = "1.3.6.1.2.1.1.1.0";
+
+
+        Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-md5-des","authkey1","MD5","DES","privkey1",3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
 
 
         String value = get.getSNMPValue();
         System.out.println("VALUE IS: " +value);
 
         Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",value);
+
+
     }
 
-    /**
-     * <p>snmpGetNext.</p>
-     *
-     * @throws IOException if any.
-     */
-//    @Test
-//    public void snmpGetNext() throws IOException {
-//
-//        ParemetersAssembler paremetersAssembler = new ParemetersAssembler(settings);
-//
-//        Properties parameters = paremetersAssembler.getProperties();
-//
-//        SnmpConfigurator snmpConfig = new SnmpConfigurator();
-//
-//        CommunityTarget t = (CommunityTarget) snmpConfig.getTarget(parameters);
-//
-//        String oid = "1.3.6.1.2.1.1.1";
-//
-//        Get get = new Get(oid, t, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
-//
-//        String value = get.getSNMPGetNextValue();
-//        System.out.println(value);
-//        Assert.assertEquals(value, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
-//
-//    }
+    @Test
+    public void snmpGetNextAuthPriv() throws IOException {
+
+        String oid = "1.3.6.1.2.1.1.1";
+
+
+        Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-md5-des","authkey1","MD5","DES","privkey1",3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
+
+
+        String value = get.getSNMPGetNextValue();
+        System.out.println("VALUE IS: " +value);
+
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",value);
+
+
+    }
+
+
+    @Test
+    public void snmpGetNoAuthNoPriv() throws IOException {
+
+        String oid = "1.3.6.1.2.1.1.1.0";
+
+
+        Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-none-none",null,null,null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
+
+
+        String value = get.getSNMPValue();
+        System.out.println("VALUE IS: " +value);
+
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",value);
+
+
+    }
+
+    @Test
+    public void snmpGetNextNoAuthNoPriv() throws IOException {
+
+        String oid = "1.3.6.1.2.1.1.1";
+
+
+        Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-none-none",null,null,null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
+
+
+        String value = get.getSNMPGetNextValue();
+        System.out.println("VALUE IS: " +value);
+
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",value);
+
+
+    }
 }
