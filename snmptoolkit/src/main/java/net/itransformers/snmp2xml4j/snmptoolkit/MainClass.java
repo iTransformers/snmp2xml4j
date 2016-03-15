@@ -83,6 +83,8 @@ public class MainClass {
      * @param args an array of {@link java.lang.String} objects.
      * @throws javax.xml.transform.TransformerException if any.
      * @throws javax.xml.transform.TransformerException if any.
+     * @throws javax.xml.transform.TransformerException if any.
+     * @throws javax.xml.transform.TransformerException if any.
      * @throws net.percederberg.mibble.MibLoaderException if any.
      * @throws java.io.IOException if any.
      */

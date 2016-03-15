@@ -100,19 +100,15 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
             <version>4.8.2</version>
         </dependency>
         <dependency>
             <groupId>xmlunit</groupId>
             <artifactId>xmlunit</artifactId>
+            <scope>test</scope>
             <version>1.6</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>iTransformers.iTransformer</groupId>-->
-            <!--<artifactId>utils</artifactId>-->
-            <!--<version>0.7-SNAPSHOT</version>-->
-
-        <!--</dependency>-->
 
     </dependencies>
     <build>

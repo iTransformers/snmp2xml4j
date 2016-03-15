@@ -23,6 +23,9 @@ package net.itransformers.snmp2xml4j.snmptoolkit;
 
 /**
  * Created by niau on 3/14/16.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 import org.snmp4j.*;
 import org.snmp4j.event.ResponseEvent;
@@ -33,7 +36,6 @@ import org.snmp4j.smi.*;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 import java.io.IOException;
-
 public class SnmpManager{
     Snmp snmp    = null;
     String address    = null;
@@ -46,9 +48,8 @@ public class SnmpManager{
     /**
      * Constructor
      *
-     * @param add
+     * @param add a {@link java.lang.String} object.
      */
-
     public SnmpManager(String add)
     {
         address = add;
@@ -58,9 +59,8 @@ public class SnmpManager{
      * Start the Snmp session. If you forget the listen() method you will not get any answers because the communication is asynchronous and the
      * listen() method listens for answers.
      *
-     * @throws IOException
+     * @throws java.io.IOException if any.
      */
-
     public void start() throws IOException {
         TransportMapping transport = new DefaultUdpTransportMapping();
 
@@ -81,16 +81,23 @@ public class SnmpManager{
     /**
      * Method which takes a single OID and returns the response from the agent as a String.
      *
-     * @param oid
-     * @return
-     * @throws IOException
+     * @param oid a {@link org.snmp4j.smi.OID} object.
+     * @throws java.io.IOException if any.
+     * @return a {@link java.lang.String} object.
      */
-
     public String getAsString(OID oid) throws IOException {
         ResponseEvent event = get(new OID[] { oid });
         return event.getResponse().get(0).getVariable().toString();
     }
 
+    /**
+     * <p>setIntFromString.</p>
+     *
+     * @param value a int.
+     * @param oid a {@link org.snmp4j.smi.OID} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public String setIntFromString(int value, OID oid) throws IOException {
 
         ResponseEvent event = set(new OID[] { oid }, value);
@@ -99,6 +106,14 @@ public class SnmpManager{
 
     }
 
+    /**
+     * <p>set.</p>
+     *
+     * @param oids an array of {@link org.snmp4j.smi.OID} objects.
+     * @param value a int.
+     * @return a {@link org.snmp4j.event.ResponseEvent} object.
+     * @throws java.io.IOException if any.
+     */
     public ResponseEvent set(OID oids[], int value) throws IOException {
 
         PDU pdu;
@@ -134,11 +149,10 @@ public class SnmpManager{
     /**
      * This method is capable of handling multiple OIDs
      *
-     * @param oids
-     * @return
-     * @throws IOException
+     * @param oids an array of {@link org.snmp4j.smi.OID} objects.
+     * @throws java.io.IOException if any.
+     * @return a {@link org.snmp4j.event.ResponseEvent} object.
      */
-
     public ResponseEvent get(OID oids[]) throws IOException {
         PDU pdu;
 
@@ -211,6 +225,12 @@ public class SnmpManager{
         return target;
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException {
 
         SnmpManager snmpManager = new SnmpManager("195.218.195.228/161");

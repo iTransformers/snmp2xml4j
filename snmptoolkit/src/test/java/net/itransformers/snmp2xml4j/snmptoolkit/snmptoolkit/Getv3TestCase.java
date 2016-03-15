@@ -59,14 +59,8 @@ public class Getv3TestCase {
      */
     @Test
     public void snmpGetAuthNoPriv() throws IOException {
-
-
         String oid = "1.3.6.1.2.1.1.1.0";
-
-
         Get get = new Get(oid,settings.get("ipAddress"),null,"usr-md5-none","authkey1","MD5",null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
-
-
         String value = get.getSNMPValue();
         System.out.println("VALUE IS: " + value);
 
@@ -82,11 +76,7 @@ public class Getv3TestCase {
     public void snmpGetNextAuthNoPriv() throws IOException {
 
         String oid = "1.3.6.1.2.1.1.1";
-
-
         Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-md5-none","authkey1","MD5",null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
-
-
         String value = get.getSNMPGetNextValue();
         System.out.println("VALUE IS: " + value);
 
@@ -116,11 +106,7 @@ public class Getv3TestCase {
     public void snmpGetNextAuthPriv() throws IOException {
 
         String oid = "1.3.6.1.2.1.1.1";
-
-
         Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-md5-des","authkey1","MD5","DES","privkey1",3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
-
-
         String value = get.getSNMPGetNextValue();
         System.out.println("VALUE IS: " +value);
 
@@ -134,11 +120,7 @@ public class Getv3TestCase {
     public void snmpGetNoAuthNoPriv() throws IOException {
 
         String oid = "1.3.6.1.2.1.1.1.0";
-
-
         Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-none-none",null,null,null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
-
-
         String value = get.getSNMPValue();
         System.out.println("VALUE IS: " +value);
 
@@ -151,11 +133,7 @@ public class Getv3TestCase {
     public void snmpGetNextNoAuthNoPriv() throws IOException {
 
         String oid = "1.3.6.1.2.1.1.1";
-
-
         Get get = new Get(oid,settings.get("ipAddress"),settings.get("entineId"),"usr-none-none",null,null,null,null,3,3,1000,new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory() );
-
-
         String value = get.getSNMPGetNextValue();
         System.out.println("VALUE IS: " +value);
 

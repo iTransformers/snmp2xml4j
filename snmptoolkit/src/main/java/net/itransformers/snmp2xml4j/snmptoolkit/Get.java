@@ -90,6 +90,14 @@ public class Get {
 
     }
 
+    /**
+     * <p>Constructor for Get.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param target a {@link org.snmp4j.UserTarget} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherAbstractFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     */
     public Get(String oid, UserTarget target,TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherAbstractFactory)  {
         this.oid = oid;
         this.target = target;
@@ -158,6 +166,13 @@ public class Get {
             e.printStackTrace();
         }
     }
+    /**
+     * <p>Constructor for Get.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherAbstractFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     */
     public Get(String oid, TransportMappingAbstractFactory transportFactory, MessageDispatcherAbstractFactory messageDispatcherAbstractFactory){
         this.oid = oid;
         this.target = new UserTarget();
@@ -177,6 +192,24 @@ public class Get {
         }
 
     }
+    /**
+     * <p>Constructor for Get.</p>
+     *
+     * @param oid a {@link java.lang.String} object.
+     * @param address a {@link java.lang.String} object.
+     * @param securityEngineId a {@link java.lang.String} object.
+     * @param securityName a {@link java.lang.String} object.
+     * @param authenticationPassShare a {@link java.lang.String} object.
+     * @param authenticationProtocol a {@link java.lang.String} object.
+     * @param privacyProtocol a {@link java.lang.String} object.
+     * @param privacyProtocolPassShare a {@link java.lang.String} object.
+     * @param version a int.
+     * @param retries a int.
+     * @param timeout a long.
+     * @param transportFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory} object.
+     * @param messageDispatcherAbstractFactory a {@link net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory} object.
+     * @throws java.io.IOException if any.
+     */
     public Get(String oid,
                String address,
                String securityEngineId,
