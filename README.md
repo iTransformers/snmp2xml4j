@@ -9,6 +9,9 @@ It provides a bridge between MIBs and raw data received from the SNMP enabled de
 
 
 ###Building the tool 
+
+[ ![Codeship Status for iTransformers/snmp2xml4j](https://codeship.com/projects/aaab93a0-d1cd-0133-f9dd-62f740529cd9/status?branch=master)](https://codeship.com/projects/141649)
+
 Checkout the code, install maven and run 'mvn package' in the main project folder.
 
 The final built will be in ./distribution/target/snmp2xml-bin/snmp2xml 
@@ -20,6 +23,7 @@ The MIB files will be in ./distribution/target/snmp2xml-bin/snmp2xml/mibs
 The executables will be in ./distribution/target/snmp2xml-bin/snmp2xml/bin
 
 The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
+
 
 
 
