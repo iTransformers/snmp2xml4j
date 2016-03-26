@@ -108,6 +108,9 @@ public class SnmpUdpV3Manager extends SnmpManager {
                 privacyProtocolOID = PrivDES.ID;
             } else if ("3DES".equals(privacyProtocol)) {
                 privacyProtocolOID = Priv3DES.ID;
+            }else {
+                privacyProtocolOID = PrivAES128.ID;
+
             }
 
 

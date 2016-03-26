@@ -174,6 +174,37 @@ public abstract class SnmpManager {
     }
 
 
+    public ResponseEvent getNext(OID oids[]) throws IOException {
+        PDU pdu =  pduFactory.createPDU(getTarget());
+
+        for (OID oid : oids) {
+            pdu.add(new VariableBinding(oid));
+        }
+
+        pdu.setType(PDU.GETNEXT);
+
+        ResponseEvent response;
+
+
+        response = snmp.send(pdu, getTarget());
+
+
+        if (response != null) {
+            PDU responsePDU = response.getResponse();
+            if (responsePDU != null) {
+                if (responsePDU.getErrorStatus() == PDU.noError) {
+                    return response;
+                }
+            }
+            logger.log(Priority.INFO, "GET reposne from " + getTarget().getAddress() + " was null!");
+            return null;
+
+        }
+        logger.log(Priority.INFO, "GET from " + getTarget().getAddress() + " has timed out!");
+        return null;
+    }
+
+
     protected abstract Target getTarget();
 
     protected abstract PDU createPDU();
