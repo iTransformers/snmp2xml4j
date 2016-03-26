@@ -27,101 +27,93 @@ package net.itransformers.snmp2xml4j.snmptoolkit;
  * @author niau
  * @version $Id: $Id
  */
+
+import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.DefaultMessageDispatcherFactory;
+import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory;
+import net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory;
+import net.percederberg.mibble.MibLoader;
+import net.percederberg.mibble.MibLoaderException;
+import net.percederberg.mibble.MibType;
+import net.percederberg.mibble.MibValueSymbol;
+import net.percederberg.mibble.snmp.SnmpObjectType;
+import net.percederberg.mibble.type.*;
+import net.percederberg.mibble.value.ObjectIdentifierValue;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.snmp4j.*;
 import org.snmp4j.event.ResponseEvent;
-import org.snmp4j.mp.MPv3;
-import org.snmp4j.mp.SnmpConstants;
-import org.snmp4j.security.*;
-import org.snmp4j.smi.*;
-import org.snmp4j.transport.DefaultUdpTransportMapping;
+import org.snmp4j.mp.CounterSupport;
+import org.snmp4j.mp.DefaultCounterListener;
+import org.snmp4j.security.SecurityLevel;
+import org.snmp4j.smi.Integer32;
+import org.snmp4j.smi.OID;
+import org.snmp4j.smi.TransportIpAddress;
+import org.snmp4j.smi.VariableBinding;
+import org.snmp4j.util.DefaultPDUFactory;
+import org.snmp4j.util.PDUFactory;
+import org.snmp4j.util.TableUtils;
 
+import java.io.File;
 import java.io.IOException;
-public class SnmpManager{
-    Snmp snmp    = null;
-    String address    = null;
+import java.util.*;
 
-    int  SNMPversion   = 3;
+public abstract class SnmpManager {
 
-    String ver3Username  = "usr-md5-none";
-    String ver3AuthPasscode = "authkey1";
+    protected Snmp snmp = null;
+    static Logger logger = Logger.getLogger(SnmpManager.class);
 
-    /**
-     * Constructor
-     *
-     * @param add a {@link java.lang.String} object.
-     */
-    public SnmpManager(String add)
-    {
-        address = add;
+    protected int retries;
+    protected int timeout;
+    protected int maxSizeRequestPDU = 65535;
+    protected int destinationPort = 161;
+    private MessageDispatcherAbstractFactory messageDispatcherFactory;
+    private TransportMappingAbstractFactory transportMappingAbstractFactory;
+    private TransportIpAddress transportIpAddress;
+    protected MibLoader loader;
+    protected PDUFactory pduFactory;
+
+
+    public SnmpManager(MibLoader loader, int retries, int timeout, int maxSizeRequestPDU, int destinationPort, TransportMappingAbstractFactory transportMappingAbstractFactory, TransportIpAddress transportIpAddress) throws IOException {
+        this.retries = retries;
+        this.timeout = timeout;
+        this.maxSizeRequestPDU = maxSizeRequestPDU;
+        this.destinationPort = destinationPort;
+        this.messageDispatcherFactory = new DefaultMessageDispatcherFactory();
+        this.transportMappingAbstractFactory = transportMappingAbstractFactory;
+        this.pduFactory = new DefaultPDUFactory();
+        this.transportIpAddress = transportIpAddress;
+        this.loader = loader;
     }
 
-    /**
-     * Start the Snmp session. If you forget the listen() method you will not get any answers because the communication is asynchronous and the
-     * listen() method listens for answers.
-     *
-     * @throws java.io.IOException if any.
-     */
-    public void start() throws IOException {
-        TransportMapping transport = new DefaultUdpTransportMapping();
 
-        if (SNMPversion == 3) {
-            USM usm = new USM(SecurityProtocols.getInstance(), new OctetString(MPv3.createLocalEngineID()), 0);
-            SecurityModels.getInstance().addSecurityModel(usm);
-        }
-        snmp = new Snmp(transport);
+    protected abstract void doInit() throws IOException;
 
-        if (SNMPversion == 3)
-            snmp.getUSM().addUser(new OctetString(ver3Username),
-                    new UsmUser(new OctetString(ver3Username), AuthMD5.ID, new OctetString(ver3AuthPasscode), null, null));
+    public void init() throws IOException {
 
-        // Do not forget this line!
-        transport.listen();
-    }
 
-    /**
-     * Method which takes a single OID and returns the response from the agent as a String.
-     *
-     * @param oid a {@link org.snmp4j.smi.OID} object.
-     * @throws java.io.IOException if any.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getAsString(OID oid) throws IOException {
-        ResponseEvent event = get(new OID[] { oid });
-        return event.getResponse().get(0).getVariable().toString();
-    }
+        TransportMapping transportMapping = transportMappingAbstractFactory.createTransportMapping(transportIpAddress);
+        MessageDispatcher messageDispatcher = messageDispatcherFactory.createMessageDispatcherMapping();
+        snmp = new Snmp(messageDispatcher, transportMapping);
 
-    /**
-     * <p>setIntFromString.</p>
-     *
-     * @param value a int.
-     * @param oid a {@link org.snmp4j.smi.OID} object.
-     * @return a {@link java.lang.String} object.
-     * @throws java.io.IOException if any.
-     */
-    public String setIntFromString(int value, OID oid) throws IOException {
+        doInit();
 
-        ResponseEvent event = set(new OID[] { oid }, value);
+        transportMapping.listen();
 
-        return event.getResponse().get(0).getVariable().toString();
 
     }
+
 
     /**
      * <p>set.</p>
      *
-     * @param oids an array of {@link org.snmp4j.smi.OID} objects.
+     * @param oids  an array of {@link org.snmp4j.smi.OID} objects.
      * @param value a int.
      * @return a {@link org.snmp4j.event.ResponseEvent} object.
      * @throws java.io.IOException if any.
      */
     public ResponseEvent set(OID oids[], int value) throws IOException {
 
-        PDU pdu;
-
-        if (SNMPversion == 3)
-            pdu = new ScopedPDU();
-        else
-            pdu = new PDU();
+        PDU pdu = createPDU();
 
         for (OID oid : oids) {
             pdu.add(new VariableBinding(oid, new Integer32(value)));
@@ -131,10 +123,8 @@ public class SnmpManager{
         ResponseEvent event = null;
 
         try {
-            if (SNMPversion == 3)
-                event = snmp.send(pdu, getSNMPv3Target(), null);
-            else
-                event = snmp.send(pdu, getTarget(), null);
+
+            event = snmp.send(pdu, getTarget(), null);
 
         } catch (IOException ioe) {
             System.out.println("Error SNMP SET");
@@ -150,16 +140,11 @@ public class SnmpManager{
      * This method is capable of handling multiple OIDs
      *
      * @param oids an array of {@link org.snmp4j.smi.OID} objects.
-     * @throws java.io.IOException if any.
      * @return a {@link org.snmp4j.event.ResponseEvent} object.
+     * @throws java.io.IOException if any.
      */
     public ResponseEvent get(OID oids[]) throws IOException {
-        PDU pdu;
-
-        if (SNMPversion == 3)
-            pdu = new ScopedPDU();
-        else
-            pdu = new PDU();
+        PDU pdu =  pduFactory.createPDU(getTarget());
 
         for (OID oid : oids) {
             pdu.add(new VariableBinding(oid));
@@ -169,10 +154,9 @@ public class SnmpManager{
 
         ResponseEvent response;
 
-        if (SNMPversion == 3)
-            response = snmp.send(pdu, getSNMPv3Target());
-        else
-            response = snmp.send(pdu, getTarget());
+
+        response = snmp.send(pdu, getTarget());
+
 
         if (response != null) {
             PDU responsePDU = response.getResponse();
@@ -181,48 +165,141 @@ public class SnmpManager{
                     return response;
                 }
             }
-            throw new RuntimeException("reposne was null");
+            logger.log(Priority.INFO, "GET reposne from " + getTarget().getAddress() + " was null!");
+            return null;
+
         }
-        throw new RuntimeException("GET timed out");
+        logger.log(Priority.INFO, "GET from " + getTarget().getAddress() + " has timed out!");
+        return null;
     }
 
-    /**
-     * This method returns a Target, which contains information about where the data should be fetched and how.
-     *
-     * @return
-     */
 
-    private Target getSNMPv3Target() {
-        Address targetAddress = GenericAddress.parse(address);
-        UserTarget target = new UserTarget();
+    protected abstract Target getTarget();
 
-        target.setAddress(targetAddress);
+    protected abstract PDU createPDU();
 
-        target.setVersion(SnmpConstants.version3); // SnmpConstants.version3
-        target.setRetries(2);
-        target.setTimeout(2500);
-        target.setSecurityLevel(SecurityLevel.AUTH_NOPRIV); // SecurityLevel.AUTH_NOPRIV
-        target.setSecurityName(new OctetString(ver3Username));
+    public Node walk(String[] includes) throws IOException {
+        ObjectIdentifierValue oid = loader.getRootOid();
+        Set<String> includesSet = new HashSet<String>(Arrays.asList(includes));
+        Node rootNode = new Node(oid, null);
+        fillTreeFromMib(rootNode);
 
-        return target;
+        fillDoWalk(rootNode, includesSet);
+        fillTreeFromSNMP(rootNode);
+
+        return rootNode;
     }
 
-    private Target getTarget() {
+    private void fillTreeFromMib(Node node) {
+        ObjectIdentifierValue oid = node.getObjectIdentifierValue();
+        ObjectIdentifierValue[] children = oid.getAllChildren();
+        for (ObjectIdentifierValue child : children) {
+            if (child == null) {  // in case it is not found
+                continue;
+            }
 
-        Address targetAddress = GenericAddress.parse(address);
-        CommunityTarget target = new CommunityTarget();
+            Node childNode = new Node(child, node);
+            node.addChild(childNode);
+            fillTreeFromMib(childNode);
+        }
+    }
 
-        target.setCommunity(new OctetString("public"));
+    protected void fillTreeFromSNMP(Node root) throws IOException {
+        CounterSupport.getInstance().addCounterListener(new DefaultCounterListener());
+//         AbstractTransportMapping transport = new DefaultUdpTransportMapping(localAddress);
+        try {
+//
+            TableUtils tutils = new TableUtils(snmp, pduFactory);
+            fillTreeFromSNMP(root, tutils);
+        } finally {
+            snmp.close();
+        }
+    }
 
-        target.setAddress(targetAddress);
 
-        target.setRetries(2);
+    private void fillDoWalk(Node node, Set includes) {
+        if (includes.contains(node.getObjectIdentifierValue().getName())) {
+            // set parents and itself
+            Node currentNode = node;
+            while (currentNode != null) {
+                currentNode.setDoWalk(true);
+                currentNode = currentNode.getParent();
+            }
+            fillDoWalkChildren(node);
+        }
+        for (Node child : node.getChildren()) {
+            fillDoWalk(child, includes);
+        }
+    }
 
-        target.setTimeout(1500);
+    private void fillDoWalkChildren(Node node) {
+        for (Node child : node.getChildren()) {
+            child.setDoWalk(true);
+            fillDoWalkChildren(child);
+        }
+    }
 
-        target.setVersion(SnmpConstants.version2c);
 
-        return target;
+    private void fillTreeFromSNMP(Node node, TableUtils tutils ) throws IOException {
+        if (!node.isDoWalk()) return;
+        ObjectIdentifierValue oid = node.getObjectIdentifierValue();
+        MibValueSymbol mibValueSymbol = oid.getSymbol();
+        if (mibValueSymbol != null) {
+            MibType mibType = mibValueSymbol.getType();
+            if (mibType instanceof SnmpObjectType) {
+                SnmpObjectType snmpObjectType = (SnmpObjectType) mibType;
+                MibType syntax = snmpObjectType.getSyntax();
+                if (syntax instanceof SequenceType) {
+                    ArrayList<OID> oidList = new ArrayList<OID>();
+                    int i = 0;
+                    for (Node child : node.getChildren()) {
+                        if (child.isDoWalk()) {
+                            ObjectIdentifierValue childOid = child.getObjectIdentifierValue();
+                            oidList.add(new OID(childOid.getSymbol().getValue().toString()));
+                        }
+                    }
+                    if (oidList.size() > 0) {
+                        OID[] oids = oidList.toArray(new OID[oidList.size()]);
+                        List table = tutils.getTable(getTarget(), oids, new OID("0"), null);
+
+                        node.setTable(table);
+                    }
+                    return;
+                } else if (syntax instanceof BitSetType
+                        || syntax instanceof BooleanType
+                        || syntax instanceof ChoiceType
+                        || syntax instanceof IntegerType
+                        || syntax instanceof NullType
+                        || syntax instanceof ObjectIdentifierType
+                        || syntax instanceof RealType
+                        || syntax instanceof ElementType
+                        || syntax instanceof StringType
+                        || syntax instanceof TypeReference
+                        ) {
+
+                    final OID oid1 = new OID(node.getObjectIdentifierValue().toString());
+                    VariableBinding vb = getSingleVariable(oid1);
+                    //logger.debug("Response: " + vb.getVariable().toString());
+
+                    node.setVb(vb);
+                }
+            }
+        }
+        for (Node child : node.getChildren()) {
+            fillTreeFromSNMP(child, tutils);
+        }
+    }
+
+    private VariableBinding getSingleVariable(OID oid) throws IOException {
+        PDU pdu = this.pduFactory.createPDU(getTarget());
+        pdu.setType(PDU.GETNEXT);
+        pdu.add(new VariableBinding(oid));
+        ResponseEvent responseEvent = snmp.send(pdu, getTarget());
+        PDU responsePDU = null;
+        if (responseEvent != null) responsePDU = responseEvent.getResponse();
+        VariableBinding vb = null;
+        if (responsePDU != null) vb = responsePDU.get(0);
+        return vb;
     }
 
     /**
@@ -231,26 +308,62 @@ public class SnmpManager{
      * @param args an array of {@link java.lang.String} objects.
      * @throws java.io.IOException if any.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpManager("195.218.195.228/161");
 
+        MibLoaderHolder mibLoaderHolder = new MibLoaderHolder(new File("mibs"), false);
+
+
+        SnmpManager snmpUdpv2Manager = new SnmpUdpV2Manager(mibLoaderHolder.getLoader(), "195.218.195.228", "public", 1, 1000, 65535, 161);
         String oid1 = "1.3.6.1.2.1.1.1.0";
-        snmpManager.start();
+        snmpUdpv2Manager.init();
         OID oid = new OID(oid1);
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.get(oids);
-        PDU response = responseEvent.getResponse();
+        ResponseEvent responseEvent = snmpUdpv2Manager.get(oids);
 
-        for (int i = 0; i < response.size(); i++) {
-            VariableBinding vb1 = response.get(i);
-            System.out.println(vb1.toString());
+        PDU response;
+        if (responseEvent!=null) {
+            response = responseEvent.getResponse();
+            if (response != null) {
+
+                for (int i = 0; i < response.size(); i++) {
+                    VariableBinding vb1 = response.get(i);
+                    System.out.println(vb1.toString());
+
+                }
+            }
+        } else {
+            System.out.println("PDU response event is null");
         }
 
 
-        //System.out.println(responseEvent.getResponse().toString());
+        SnmpManager snmpUdpv3Manager = new SnmpUdpV3Manager(mibLoaderHolder.getLoader(), "195.218.195.228", SecurityLevel.AUTH_NOPRIV, "usr-md5-none", "authkey1", "MD5", null, null, 2, 1000, 65535, 161);
+
+        snmpUdpv3Manager.init();
+        responseEvent = snmpUdpv3Manager.get(oids);
+
+        if (responseEvent!=null) {
+            response = responseEvent.getResponse();
+            if (response != null) {
+
+                for (int i = 0; i < response.size(); i++) {
+                    VariableBinding vb1 = response.get(i);
+                    System.out.println(vb1.toString());
+
+                }
+            }
+        } else {
+            System.out.println("PDU response event is null");
+        }
+       SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(),snmpUdpv3Manager.walk(new String[]{"system", "interfaces"}));
+
+        String xml = xmlPrinter.printTreeAsXML(true);
+
+
+        System.out.println(xml);
 
 
     }
+
 
 }
