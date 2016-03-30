@@ -7,60 +7,95 @@ Snmp2xml4j contains several Java Written tools easing the process of performing 
 Currently the it is able to do snmpget, snmptset, snmpwalk and to transform the results through xslt. 
 It provides a bridge between MIBs and raw data received from the SNMP enabled devices.
 
+###License
+snmp2xml4j has been licensed under GPL. If you need a commercial license and support or developemnt services releated to it please let us know at info at itransformers.net. 
 
 ###Building the tool 
 
-[ ![Codeship Status for iTransformers/snmp2xml4j](https://codeship.com/projects/aaab93a0-d1cd-0133-f9dd-62f740529cd9/status?branch=master)](https://codeship.com/projects/141649)
+[ ![Current Build Status for iTransformers/snmp2xml4j](https://codeship.com/projects/aaab93a0-d1cd-0133-f9dd-62f740529cd9/status?branch=master)](https://codeship.com/projects/141649)
 
-Checkout the code, install maven and run 'mvn package' in the main project folder.
+In order to build the tool you will have to checkout the code, install maven then run 'mvn package' in the main project folder.
 
-The final built will be in ./distribution/target/snmp2xml-bin/snmp2xml 
+The final built will be in ./distribution/target/snmp2xml-bin 
 
-The libraries will be in ./distribution/target/snmp2xml-bin/snmp2xml/lib
+The libraries will be in ./distribution/target/snmp2xml-bin/lib
 
-The MIB files will be in ./distribution/target/snmp2xml-bin/snmp2xml/mibs
+The MIB files will be in ./distribution/target/snmp2xml-bin/mibs
 
-The executables will be in ./distribution/target/snmp2xml-bin/snmp2xml/bin
+The executables will be in ./distribution/target/snmp2xml-bin/bin
 
-The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
-
-
+The XSLT files will be in ./distribution/target/snmp2xml-bin/conf/xslt
 
 
+### Getting the latest stable release
 
-###snmp2xml4j console tools
-[Running the tool](./conf/bat/snmp2xml4jReadme.md)
+You can download the latest stable release from here 
+https://github.com/iTransformers/snmp2xml4j/releases
+
+
+### Including snmp2xml4j in your application 
+snmp2xml4j has been published in [maven central repository](http://search.maven.org/#search|ga|1|snmp2xml4j). 
+All our code is in snmptoolkit and the best way to integrate is simply to add the following dependency in your maven pom file.
+
+```
+<dependency>
+    <groupId>net.itransformers.snmp2xml4j</groupId>
+    <artifactId>snmptoolkit</artifactId>
+    <version>1.0.1</version>
+</dependency>
+```
+
+
+###snmp2xml4j console utilities
+Please read our [Running the tool readme](./conf/bat/Readme.md)
 
 [Transforming the results through xslt] (./conf/bat/XsltTransformerReadme.md)
 
-[Fix NET-SNMP snmpwalks to work with snmpsim (snmp simulator)] (./conf/bat/snmpwalk2snmpsimReadme.md)
+
+### snmp2xml4j to snmpsim integration
+Snmpsim is a great snmp simulator. It allows you to run a fully numeric snmpwalk with the standard net-snmp utilties. Then you can pass that one to snmpsim and have a simulator that will respond to your requrests as the original device. However there are somedata types and some other small issues with the orignical snmpwalks. Thus we did a tool able to fix the original snmpwalk captures so to work well with snmpsim. If you are interested in it please have a look  [on] (./conf/bat/snmpwalk2snmpsimReadme.md)
 
 
-###Junit test case
+###Snmp2xml4j for developers 
+snmp2xml4j is aiming to halp mostly to enterprise or let's say just java developers to integrate their applications with snmp without bodering too much on how to load certain mib or how to parse snmp walks. All you need to do is to copy your snmpmibs to the mibs folder (if they are already not present there) and to use our [junit test cases](https://github.com/iTransformers/snmp2xml4j/tree/master/snmptoolkit/src/test/java/net/itransformers/snmp2xml4j/snmptoolkit/snmptoolkit) as a base for your integration. 
+
+#### Example usages
+
+##### SNMP v2 
+
 ```java
-     @BeforeClass
-    public static   void prepareSettings(){
-        settings.put("ipAddress","195.218.195.228");
-        settings.put("community-ro","public");
-        settings.put("version","2c");
-        settings.put("retries", "3");
-        settings.put("timeout", "1000");
+public class SnmpV2UdpTestCase {
+    private static SnmpManager snmpManager = null;
+    private  static MibLoaderHolder mibLoaderHolder = null;
+      @BeforeClass
+    public static   void prepareSettings() throws IOException, MibLoaderException {
+        mibLoaderHolder =  new MibLoaderHolder(new File("mibs"), false);
+        snmpManager = new SnmpUdpV2Manager(mibLoaderHolder.getLoader(), "195.218.195.228", "public", 1, 1000, 65535, 161);
+        snmpManager.init();
     }
-
-
-
     @Test
-       public void openWrtTestWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
+    public void snmpGet() throws IOException {
+        OID oid = new OID("1.3.6.1.2.1.1.1.0");
+        OID oids[] = new OID[]{oid};
+        ResponseEvent responseEvent = snmpManager.get(oids);
+        PDU response = responseEvent.getResponse();
+        VariableBinding vb1 = response.get(0);
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+    }
+    @Test
+    public void snmpGetNext() throws IOException {
+        OID oid = new OID("1.3.6.1.2.1.1.1");
+        OID oids[] = new OID[]{oid};
+        ResponseEvent responseEvent = snmpManager.getNext(oids);
+        PDU response = responseEvent.getResponse();
+        VariableBinding vb1 = response.get(0);
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+    }
+    @Test
+    public void snmpWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
         String oids = "system,host,ifEntry";
-        String mibDir = "mibs";
-
-        ParemetersAssembler paremetersAssembler = new ParemetersAssembler(settings);
-
-        MibLoaderHolder holder = new MibLoaderHolder(new File(System.getProperty("base.dir"), mibDir), false);
-        Walk walker = new Walk(holder, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory());
-        Node root = walker.walk(oids.split(","), paremetersAssembler.getProperties());
-        String xml = Walk.printTreeAsXML(root, true);
-
+        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(), snmpManager.walk(oids.split(",")));
+        String xml = xmlPrinter.printTreeAsXML(true);
         String xpath = "/root/iso/org/dod/internet/mgmt/mib-2/system/sysName/value";
         Document doc = XMLUnit.buildControlDocument(xml);
         XpathEngine engine = XMLUnit.newXpathEngine();
@@ -68,7 +103,54 @@ The XSLT files will be in ./distribution/target/snmp2xml-bin/snmp2xml/conf/xslt
         Assert.assertEquals(value, "zeus.snmplabs.com");
     }
 ```
-###SNMP2XML output
+##### SNMP v3
+````java
+public class SnmpV3UdpAuthPrivTestCase {
+    private static SnmpManager snmpManager = null;
+    private  static MibLoaderHolder mibLoaderHolder = null;
+    @BeforeClass
+    public static   void prepareSettings() throws IOException, MibLoaderException {
+        mibLoaderHolder =  new MibLoaderHolder(new File("mibs"), false);
+        snmpManager = new SnmpUdpV3Manager(mibLoaderHolder.getLoader(), "195.218.195.228", SecurityLevel.AUTH_PRIV, "usr-sha-aes", "authkey1", "SHA", "AES", "privkey1", 2, 1000, 65535, 161);
+        snmpManager.init();
+    }
+    @Test
+    public void snmpGet() throws IOException {
+        OID oid = new OID("1.3.6.1.2.1.1.1.0");
+        OID oids[] = new OID[]{oid};
+        ResponseEvent responseEvent = snmpManager.get(oids);
+        PDU response = responseEvent.getResponse();
+        VariableBinding vb1 = response.get(0);
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+    }
+    @Test
+    public void snmpGetNext() throws IOException {
+
+        OID oid = new OID("1.3.6.1.2.1.1.1");
+        OID oids[] = new OID[]{oid};
+        ResponseEvent responseEvent = snmpManager.getNext(oids);
+        PDU response = responseEvent.getResponse();
+        VariableBinding vb1 = response.get(0);
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+    }
+    @Test
+    public void snmpWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
+        String oids = "system,host,ifEntry";
+        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(), snmpManager.walk(oids.split(",")));
+        String xml = xmlPrinter.printTreeAsXML(true);
+        String xpath = "/root/iso/org/dod/internet/mgmt/mib-2/system/sysName/value";
+        Document doc = XMLUnit.buildControlDocument(xml);
+        XpathEngine engine = XMLUnit.newXpathEngine();
+        String value = engine.evaluate(xpath, doc);
+        Assert.assertEquals(value, "zeus.snmplabs.com");
+    }
+}
+````
+
+
+
+### SNMP walk outputs
+The most useful part of the SNMP2XML4j is the way it is ou outputing snmpwalks into a structured xpath/xquery querable xml. Here is an exmaple 
 ```xml
 <?xml version="1.0" ?>
 <root>
