@@ -47,9 +47,8 @@ All our code is in snmptoolkit and the best way to integrate is simply to add th
 
 
 ###snmp2xml4j console utilities
-Please read our [Running the tool readme](./conf/bat/Readme.md)
-
-[Transforming the results through xslt] (./conf/bat/XsltTransformerReadme.md)
+If you are willing to use snmp2xml4j through Windows/Linux console please consult with that [readme](./conf/bat/Readme.md)
+If you are willing to transform the snmpwalk xml results through  xslt please review the  [xslt transformation readme](./conf/bat/XsltTransformerReadme.md)
 
 
 ### snmp2xml4j to snmpsim integration
