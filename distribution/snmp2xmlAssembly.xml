@@ -26,7 +26,7 @@
     <!-- http://maven.apache.org/plugins/maven-assembly-plugin/assembly.html#class_moduleSet -->
     <id>bin</id>
     <formats>
-        <format>zip</format>
+        <!--<format>zip</format>-->
         <format>dir</format>
     </formats>
 
@@ -40,6 +40,8 @@
     <!--<outputDirectory>/</outputDirectory>-->
     <!--</fileSet>-->
     <!--</fileSets>-->
+    <includeBaseDirectory>false</includeBaseDirectory>
+
     <moduleSets>
 
 
@@ -71,12 +73,13 @@
                 <!--<unpack>false</unpack>-->
             <!--</binaries>-->
         <!--</moduleSet>-->
-
         <moduleSet>
             <!-- Enable access to all projects in the current multimodule build! -->
             <!--<useAllReactorProjects>false</useAllReactorProjects>-->
-
+            <useAllReactorProjects>false</useAllReactorProjects>
             <!-- Now, select which projects to include in this module-set. -->
+            <!--<includeSubModules>true</includeSubModules>-->
+
             <includes>
                 <!--<include>iTransformers.iTransformer:utils</include>-->
                 <include>net.itransformers.snmp2xml4j.snmptoolkit</include>
@@ -100,6 +103,17 @@
                 <unpack>false</unpack>
             </binaries>
         </moduleSet>
+
+        <!--<dependencySets>-->
+            <!--<dependencySet>-->
+                <!--<includes>-->
+                    <!--<include>${project.groupId}:*:jar:${project.version}</include>-->
+                <!--</includes>-->
+                <!--<useProjectArtifact>true</useProjectArtifact>-->
+                <!--<outputDirectory>webapp</outputDirectory>-->
+                <!--<unpack>false</unpack>-->
+            <!--</dependencySet>-->
+        <!--</dependencySets>-->
 
         <!--moduleSet>
             <useAllReactorProjects>true</useAllReactorProjects>
@@ -138,6 +152,7 @@
             <directory>../mibs</directory>
             <outputDirectory>mibs</outputDirectory>
         </fileSet>
+
     </fileSets>
     <files>
         <file>
@@ -145,8 +160,13 @@
             <outputDirectory>bin</outputDirectory>
         </file>
 
+        <!--<file>-->
+            <!--<source>../snmptoolkit/target/snmptoolkit-1.0.1.jar</source>-->
+            <!--<outputDirectory>lib</outputDirectory>-->
+        <!--</file>-->
     </files>
     <dependencySets>
+
         <dependencySet>
             <outputDirectory>lib/</outputDirectory>
         </dependencySet>
