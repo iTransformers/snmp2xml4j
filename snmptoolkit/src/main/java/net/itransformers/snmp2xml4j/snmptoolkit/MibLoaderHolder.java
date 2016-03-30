@@ -46,10 +46,8 @@ public class MibLoaderHolder {
      * <p>Constructor for MibLoaderHolder.</p>
      *
      * @param loader a {@link net.percederberg.mibble.MibLoader} object.
-     * @throws java.io.IOException if any.
-     * @throws net.percederberg.mibble.MibLoaderException if any.
      */
-    public MibLoaderHolder(MibLoader loader) throws IOException, MibLoaderException {
+    public MibLoaderHolder(MibLoader loader)  {
         this.loader = loader;
     }
 
@@ -143,7 +141,7 @@ public class MibLoaderHolder {
         if (mib == null) {
              logger.error("Can not find symbol by mib, mibName="+mibName + ", oid="+oid);
         }
-        final MibValueSymbol symbolByOid = mib.getSymbolByOid(oid);
+        final MibValueSymbol symbolByOid = mib != null ? mib.getSymbolByOid(oid) : null;
 
         if (symbolByOid == null) {
             logger.error("Can not find symbol by OID, mibName="+mibName + ", oid="+oid);

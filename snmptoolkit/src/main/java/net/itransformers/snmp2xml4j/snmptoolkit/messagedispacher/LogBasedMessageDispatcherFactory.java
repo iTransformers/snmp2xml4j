@@ -42,18 +42,18 @@ import java.util.regex.Pattern;
 public class LogBasedMessageDispatcherFactory implements MessageDispatcherAbstractFactory{
     private File file;
     /** Constant <code>p</code> */
-    public static Pattern p = Pattern.compile("^(.*Running pending sync request with handle PduHandle\\[(.*)\\] and retry count left)(.*)$");
+    private static Pattern p = Pattern.compile("^(.*Running pending sync request with handle PduHandle\\[(.*)\\] and retry count left)(.*)$");
 
     private int instNum = 1;
     private BufferedReader reader;
-    static Logger logger = Logger.getLogger(LogBasedMessageDispatcherFactory.class);
+    private  static Logger logger = Logger.getLogger(LogBasedMessageDispatcherFactory.class);
 
     /**
      * <p>Constructor for LogBasedMessageDispatcherFactory.</p>
      *
      * @param file a {@link java.io.File} object.
      */
-    public LogBasedMessageDispatcherFactory(File file) {
+    private LogBasedMessageDispatcherFactory(File file) {
         this.file = file;
         try {
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -92,7 +92,7 @@ public class LogBasedMessageDispatcherFactory implements MessageDispatcherAbstra
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
-        return Integer.parseInt(msgIdStr);
+        return Integer.parseInt(msgIdStr != null ? msgIdStr : null);
 
     }
 

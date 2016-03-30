@@ -243,7 +243,7 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
         private volatile boolean stop = false;
 
 
-        public ListenThread() throws SocketException {
+        public ListenThread()  {
             buf = new byte[getMaxInboundMessageSize()];
         }
 

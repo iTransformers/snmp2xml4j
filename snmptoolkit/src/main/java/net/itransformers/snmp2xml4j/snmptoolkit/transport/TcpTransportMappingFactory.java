@@ -26,7 +26,6 @@ package net.itransformers.snmp2xml4j.snmptoolkit.transport;
 import org.snmp4j.TransportMapping;
 import org.snmp4j.smi.TcpAddress;
 import org.snmp4j.smi.TransportIpAddress;
-import org.snmp4j.transport.AbstractTransportMapping;
 import org.snmp4j.transport.DefaultTcpTransportMapping;
 
 import java.io.IOException;
@@ -40,7 +39,6 @@ import java.io.IOException;
 public class TcpTransportMappingFactory implements TransportMappingAbstractFactory {
     /** {@inheritDoc} */
     public TransportMapping createTransportMapping(TransportIpAddress transportIpAddress) throws IOException {
-        AbstractTransportMapping transport = new DefaultTcpTransportMapping((TcpAddress) transportIpAddress);
-        return transport;
+        return new DefaultTcpTransportMapping((TcpAddress) transportIpAddress);
     }
 }

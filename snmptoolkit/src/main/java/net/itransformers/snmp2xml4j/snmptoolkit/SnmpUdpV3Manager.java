@@ -102,7 +102,7 @@ public class SnmpUdpV3Manager extends SnmpManager {
             } else if ("SHA".equals(authenticationProtocol)) {
                 authenticationProtocolOID = AuthSHA.ID;
             }
-            OID privacyProtocolOID = null;
+            OID privacyProtocolOID;
 
             if ("DES".equals(privacyProtocol)) {
                 privacyProtocolOID = PrivDES.ID;

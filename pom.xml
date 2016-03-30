@@ -27,7 +27,7 @@
 
     <groupId>net.itransformers</groupId>
     <artifactId>snmp2xml4j</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <description>snmp2xml4j is a tool for performing snmpwalks and outputting the result in xml</description>
     <organization>
         <name>iTransformers Labs</name>

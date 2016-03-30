@@ -41,7 +41,7 @@ public class Node {
     List<Node> children = new ArrayList<Node>();
     List<TableEvent> table; //comes from snmp bulk command
     VariableBinding vb; // comes from snmp get command
-    boolean doWalk;
+    boolean doWalk = false;
     Node parent;
 
     /**

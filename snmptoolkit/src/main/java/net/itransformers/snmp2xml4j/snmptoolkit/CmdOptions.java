@@ -33,13 +33,21 @@ public enum CmdOptions {
     VERSION("v", 1),
     TIMEOUT("t", 1),
     RETRIES("r", 1),
-    MAX_REPETITIONS("m", 1),
     OUTPUT_FILE("f", 1),
-    PORT ("p",1),
+    PROTOCOL("pr",1),
     OIDS("o", 1),
     DELTA("d", 1),
     MIBS_DIR("md", 1),
-    PRINT_LOADED_MIBS("pm", 0);
+    PRINT_LOADED_MIBS("pm", 1),
+    SECURITY_NAME("u",1),
+    AUTH_LEVEL("aa",1),
+    AUTH_PASSPHRASE("A",1),
+    PRIV_PASSPHRASE("Y",1),
+    AUTH_PROTOCOL("ap",1),
+    PRIV_PROTOCOL("pp",1),
+    OPERATION("O",1),
+    PORT("P",1),
+    OUTPUT_XML("f",1);
 
     private final String name;
     private final int valueSize;

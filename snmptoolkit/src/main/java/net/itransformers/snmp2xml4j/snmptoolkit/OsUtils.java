@@ -1,7 +1,5 @@
-
-
 /*
- * UdpTransportMappingFactory.java
+ * OsUtils.java
  *
  * This work is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -21,25 +19,21 @@
  * Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
  */
 
-package net.itransformers.snmp2xml4j.snmptoolkit.transport;
+package net.itransformers.snmp2xml4j.snmptoolkit;
 
-import org.snmp4j.TransportMapping;
-import org.snmp4j.smi.TransportIpAddress;
-import org.snmp4j.smi.UdpAddress;
-import org.snmp4j.transport.DefaultUdpTransportMapping;
+public  final class OsUtils
+{
+   private static String OS = null;
+   public static String getOsName()
+   {
+      if(OS == null) { OS = System.getProperty("os.name"); }
+      return OS;
+   }
+   public static boolean isWindows()
+   {
+      return getOsName().startsWith("Windows");
+   }
 
-import java.io.IOException;
-
-/**
- * <p>UdpTransportMappingFactory class.</p>
- *
- * @author niau
- * @version $Id: $Id
- */
-public class UdpTransportMappingFactory implements TransportMappingAbstractFactory {
-    /** {@inheritDoc} */
-    public TransportMapping createTransportMapping(TransportIpAddress transportIpAddress) throws IOException {
-
-        return new DefaultUdpTransportMapping((UdpAddress) transportIpAddress);
-    }
+   public static boolean isMac(){return getOsName().startsWith("Mac");}
+   public static  boolean isLinux(){return getOsName().startsWith("Linux");}
 }

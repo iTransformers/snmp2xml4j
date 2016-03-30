@@ -26,13 +26,13 @@
 
     <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>distribution</artifactId>
-    <version>1.0</version><!--Change for new version-->
+    <version>1.0.1</version><!--Change for new version-->
     <packaging>pom</packaging>
 
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0</version><!--Change for new version-->
+        <version>1.0.1</version><!--Change for new version-->
     </parent>
     <organization>
         <name>iTransformers Labs</name>

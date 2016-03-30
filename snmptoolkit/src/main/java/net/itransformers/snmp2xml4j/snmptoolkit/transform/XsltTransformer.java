@@ -56,7 +56,7 @@ public class XsltTransformer {
      * @throws org.xml.sax.SAXException if any.
      * @throws javax.xml.transform.TransformerException if any.
      */
-    public void transformXML(InputStream xmlIn, File xslt, OutputStream xmlOut, Map<String,String> params) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void transformXML(InputStream xmlIn, File xslt, OutputStream xmlOut, Map<String,String> params) throws IOException, SAXException, ParserConfigurationException, TransformerException  {
 
         // JAXP reads data using the Source interface
         Source xmlSource = new StreamSource(xmlIn);

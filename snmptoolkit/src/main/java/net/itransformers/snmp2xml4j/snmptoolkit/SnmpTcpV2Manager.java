@@ -52,7 +52,7 @@ public class SnmpTcpV2Manager extends SnmpManager {
 
 
     @Override
-    protected void doInit() throws IOException {
+    protected void doInit() {
 
     }
 

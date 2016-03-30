@@ -99,12 +99,12 @@ public class XsltExecutor {
             XsltTransformer xsltTransformer = new XsltTransformer();
             try {
                 xsltTransformer.transformXML(inputStream1,xsltFileName1,outputStream1,params);
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (SAXException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (TransformerException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
             }
             FileUtils.writeStringToFile(new File(outputFilePath),new String(outputStream1.toByteArray()));
 

@@ -95,7 +95,6 @@ public class SnmpXmlPrinter {
         String units = "";
         if (null!=symbol && symbol.getType() instanceof SnmpObjectType){
             SnmpObjectType symbolType = (SnmpObjectType) symbol.getType();
-            MibType syntax = symbolType.getSyntax();
             syntaxString = symbolType.getName();
             snmpSyntax =  determineSyntaxType(symbolType.getSyntax());
             SnmpAccess access = symbolType.getAccess();
@@ -267,8 +266,8 @@ public class SnmpXmlPrinter {
         if (snmpObjectType == null) return;
         ArrayList indexes = snmpObjectType.getIndex();
         if (indexOID != null) {
-            StringBuffer instance = new StringBuffer();
-            StringBuffer instanceValues = new StringBuffer();
+            StringBuilder instance = new StringBuilder();
+            StringBuilder instanceValues = new StringBuilder();
 
 
             if (indexes != null && indexes.size() > 0) {
@@ -282,7 +281,7 @@ public class SnmpXmlPrinter {
                         final ObjectIdentifierValue childByName = objectIdentifierValue.getChildByName(indexName);
                         //Why do we need childbyName ! To determine the syntax and access... But there are cases in which this does not work.Thus for those we set the syntax and access to UNKNOWN
 
-                        MibValueSymbol symbol = null;
+                        MibValueSymbol symbol;
                         String syntaxString = "UNKNOWN";
                         String accessString = "UNKNOWN";
                         String snmpSyntax = "UNKNOWN";
@@ -341,7 +340,7 @@ public class SnmpXmlPrinter {
                             }
                             if (i != indexes.size() - 1) {
                                 instance.append(indexName + "");
-                                instanceValues.append(indexVal + "");
+                                instanceValues.append(indexVal).append("");
                             } else {
                                 instance.append(indexName);
                                 instanceValues.append(indexVal);
@@ -375,11 +374,11 @@ public class SnmpXmlPrinter {
 
 
                             if (i != indexes.size() - 1) {
-                                instance.append(indexName + "");
-                                instanceValues.append(indexVal + "");
+                                instance.append(indexName).append("");
+                                instanceValues.append(indexVal).append("");
                             } else {
-                                instance.append(indexName+".");
-                                instanceValues.append(indexVal+".");
+                                instance.append(indexName).append(".");
+                                instanceValues.append(indexVal).append(".");
 
                             }
 
@@ -480,13 +479,13 @@ public class SnmpXmlPrinter {
     private MibValueSymbol findSymbolFromMibs(String oidName){
         Mib mibs[] = this.loader.getAllMibs();
         MibValueSymbol symbol11 = null;
-        for (int i = 0; i <mibs.length;i++){
-            symbol11 = (MibValueSymbol)mibs[i].findSymbol(oidName,true);
-            if(symbol11!=null){
-                return   symbol11;
+        for (Mib mib : mibs) {
+            symbol11 = (MibValueSymbol) mib.findSymbol(oidName, true);
+            if (symbol11 != null) {
+                return symbol11;
 
             }
         }
-        return   symbol11;
+        return null;
     }
 }

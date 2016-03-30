@@ -8,5 +8,5 @@ IF "%SNMP2XML4J%"=="" (
 	set BASE_DIR=%SNMP2XML4J%
 	set LIB=%SNMP2XML4J%/lib
     set CLASSPATH=".;%LIB%\*"
-    java -Xms256m -Xmx512m -Dbase.dir=%BASE_DIR%  -classpath %CLASSPATH% net.itransformers.snmp2xml4j.snmptoolkit.Get %*
+    java -Xms256m -Xmx512m -Dbase.dir=%BASE_DIR%  -classpath %CLASSPATH% net.itransformers.snmp2xml4j.snmptoolkit.MainClass -O get %*
 )

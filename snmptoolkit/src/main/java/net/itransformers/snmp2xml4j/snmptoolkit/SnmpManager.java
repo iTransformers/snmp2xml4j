@@ -31,10 +31,7 @@ package net.itransformers.snmp2xml4j.snmptoolkit;
 import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.DefaultMessageDispatcherFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.MessageDispatcherAbstractFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.transport.TransportMappingAbstractFactory;
-import net.percederberg.mibble.MibLoader;
-import net.percederberg.mibble.MibLoaderException;
-import net.percederberg.mibble.MibType;
-import net.percederberg.mibble.MibValueSymbol;
+import net.percederberg.mibble.*;
 import net.percederberg.mibble.snmp.SnmpObjectType;
 import net.percederberg.mibble.type.*;
 import net.percederberg.mibble.value.ObjectIdentifierValue;
@@ -68,12 +65,12 @@ public abstract class SnmpManager {
     protected int destinationPort = 161;
     private MessageDispatcherAbstractFactory messageDispatcherFactory;
     private TransportMappingAbstractFactory transportMappingAbstractFactory;
-    private TransportIpAddress transportIpAddress;
+    private TransportIpAddress transportLocalIpAddress;
     protected MibLoader loader;
     protected PDUFactory pduFactory;
 
 
-    public SnmpManager(MibLoader loader, int retries, int timeout, int maxSizeRequestPDU, int destinationPort, TransportMappingAbstractFactory transportMappingAbstractFactory, TransportIpAddress transportIpAddress) throws IOException {
+    public SnmpManager(MibLoader loader, int retries, int timeout, int maxSizeRequestPDU, int destinationPort, TransportMappingAbstractFactory transportMappingAbstractFactory, TransportIpAddress transportLocalIpAddress)  {
         this.retries = retries;
         this.timeout = timeout;
         this.maxSizeRequestPDU = maxSizeRequestPDU;
@@ -81,7 +78,7 @@ public abstract class SnmpManager {
         this.messageDispatcherFactory = new DefaultMessageDispatcherFactory();
         this.transportMappingAbstractFactory = transportMappingAbstractFactory;
         this.pduFactory = new DefaultPDUFactory();
-        this.transportIpAddress = transportIpAddress;
+        this.transportLocalIpAddress = transportLocalIpAddress;
         this.loader = loader;
     }
 
@@ -91,7 +88,7 @@ public abstract class SnmpManager {
     public void init() throws IOException {
 
 
-        TransportMapping transportMapping = transportMappingAbstractFactory.createTransportMapping(transportIpAddress);
+        TransportMapping transportMapping = transportMappingAbstractFactory.createTransportMapping(transportLocalIpAddress);
         MessageDispatcher messageDispatcher = messageDispatcherFactory.createMessageDispatcherMapping();
         snmp = new Snmp(messageDispatcher, transportMapping);
 
@@ -109,9 +106,8 @@ public abstract class SnmpManager {
      * @param oids  an array of {@link org.snmp4j.smi.OID} objects.
      * @param value a int.
      * @return a {@link org.snmp4j.event.ResponseEvent} object.
-     * @throws java.io.IOException if any.
      */
-    public ResponseEvent set(OID oids[], int value) throws IOException {
+    public ResponseEvent set(OID oids[], int value)  {
 
         PDU pdu = createPDU();
 
@@ -139,10 +135,32 @@ public abstract class SnmpManager {
     /**
      * This method is capable of handling multiple OIDs
      *
-     * @param oids an array of {@link org.snmp4j.smi.OID} objects.
+     * @param oidStrings an array of {@link String} objects.
      * @return a {@link org.snmp4j.event.ResponseEvent} object.
      * @throws java.io.IOException if any.
      */
+    public ResponseEvent get(ArrayList<String> oidStrings) throws IOException {
+        OID oidOids[] = new OID[oidStrings.size()];
+        int i = 0;
+        for (String oid : oidStrings) {
+            MibValueSymbol symbol = findSymbolFromMibs(oid);
+            if (symbol == null) {
+
+                oidOids[i] = new OID(oid);
+
+            }else {
+                String oidd = symbol.getValue().toString();
+
+                oidOids[i] = new OID(oidd);
+            }
+            i++;
+        }
+        return getNext(oidOids);
+
+
+
+
+    }
     public ResponseEvent get(OID oids[]) throws IOException {
         PDU pdu =  pduFactory.createPDU(getTarget());
 
@@ -282,7 +300,7 @@ public abstract class SnmpManager {
                 MibType syntax = snmpObjectType.getSyntax();
                 if (syntax instanceof SequenceType) {
                     ArrayList<OID> oidList = new ArrayList<OID>();
-                    int i = 0;
+
                     for (Node child : node.getChildren()) {
                         if (child.isDoWalk()) {
                             ObjectIdentifierValue childOid = child.getObjectIdentifierValue();
@@ -338,6 +356,8 @@ public abstract class SnmpManager {
      *
      * @param args an array of {@link java.lang.String} objects.
      * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+
      */
     public static void main(String[] args) throws IOException, MibLoaderException {
 
@@ -379,7 +399,7 @@ public abstract class SnmpManager {
 
                 for (int i = 0; i < response.size(); i++) {
                     VariableBinding vb1 = response.get(i);
-                    System.out.println(vb1.toString());
+                    System.out.println(vb1.getVariable().toString());
 
                 }
             }
@@ -388,13 +408,29 @@ public abstract class SnmpManager {
         }
        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(),snmpUdpv3Manager.walk(new String[]{"system", "interfaces"}));
 
-        String xml = xmlPrinter.printTreeAsXML(true);
+      //TODO add a parameter for detailed XML output
+       String xml = xmlPrinter.printTreeAsXML(true);
 
 
         System.out.println(xml);
 
 
     }
+    private MibValueSymbol findSymbolFromMibs(String oidName){
+        Mib mibs[] = loader.getAllMibs();
+        MibValueSymbol symbol11 = null;
+        for (Mib mib : mibs) {
+            symbol11 = (MibValueSymbol) mib.findSymbol(oidName, true);
+            if (symbol11 != null) {
+                return symbol11;
+
+            }
+        }
+        return null;
+    }
+
+
+
 
 
 }

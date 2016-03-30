@@ -47,8 +47,10 @@ import java.util.Vector;
  * @author niau
  * @version $Id: $Id
  */
+
+@Deprecated
 public class SnmpSet {
-    static Logger logger = Logger.getLogger(Walk.class);
+    static Logger logger = Logger.getLogger(SnmpSet.class);
 
     String oid;
     String address;

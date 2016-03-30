@@ -32,7 +32,7 @@ import java.util.Map;
  * @author niau
  * @version $Id: $Id
  */
-public class CmdParser {
+class CmdParser {
     /**
      * <p>parseCmd.</p>
      *
@@ -68,38 +68,100 @@ public class CmdParser {
 
     /**
      * <p>printWalkUsage.</p>
+     * @param os
+     * ADDRESS("a", 1),
+    COMMUNITY("c", 1),
+    VERSION("v", 1),
+    TIMEOUT("t", 1),
+    RETRIES("r", 1),
+    MAX_REPETITIONS("m", 1),
+    OUTPUT_FILE("f", 1),
+    PROTOCOL("P",0),
+    OIDS("o", 1),
+    DELTA("d", 1),
+    MIBS_DIR("md", 1),
+    PRINT_LOADED_MIBS("pm", 0),
+    SECURITY_NAME("u",0),
+    AUTH_LEVEL("aa",0),
+    AUTH_PASSPHRASE("A",0),
+    PRIV_PASSPHRASE("Y",0),
+    AUTH_PROTOCOL("ap",0),
+    PRIV_PROTOCOL("pp",0),
+    OPERATION("o",1),
+    PORT("P",0),
+    OUTPUT_XML("f",0);
      */
-    public static void printWalkUsage() {
-        System.out.println("Usage: snmpwalk.sh -md <mibs_dir> -a <address>/<port> -c <community> " +
-                "-v <version> -t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
-        System.out.println("snmpwalk.sh -md snmptoolkit/mibs -a 10.129.3.1/161 -c public -v 2c -t 1000 " +
-                "-r 1 -m 100 [-f out.xml] -o \"ifIndex ifDescr ifOperStatus ifAdminStatus ifNumber ifAlias ifPhysAddress ifType dot1dTpFdb dot1dTpFdbAddress dot1dTpFdbStatus dot1dTpFdbPort dot1dBasePort dot1dBasePortIfIndex system dot1dBaseBridgeAddress dot1dStpPort ipNetToMediaTable ipAddrTable lldpRemoteSystemsData cdpCacheDevicePort cdpCacheDevicePlatform cdpCacheDeviceId cdpCacheIfIndex\"");
+    public static void printWalkUsage(String os) {
+        if ("Windows".equalsIgnoreCase(os)) {
+            System.out.println("Usage: snmpwalk.bat -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
+                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
+                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
+            System.out.println("Example v1/v2c: snmpwalk.bat -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
+            System.out.println("Example v3c: snmpwalk.bat  -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
+
+        } else {
+            System.out.println("Usage: snmpwalk.sh -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
+                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
+                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
+            System.out.println("Example v1/v2c: snmpwalk.sh -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
+            System.out.println("Example v3c: snmpwalk.sh -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
+        }
     }
 
-    /**
-     * <p>bgpPeeringUpdateGrapherUsage.</p>
-     */
-    public static void bgpPeeringUpdateGrapherUsage() {
-        System.out.println("Usage bgpPeeringUpdateGrapher.sh -a <IP ADDRESS/PORT> -d <DELTA INTERVAL -c <SNMP-COMMUNITY> -r <RETRY -v <SNMP VERSION - V1 (0), V2C(1), V3(2) -t <SNMP TIMEOUT> -o <SNMP OID> 1.3.6.1.2.1.15.3.1.10.<NEIGHBOUR_IP_ADDRESS" +
-                "-d 3600000 -a 10.10.10.10.10/161 -c test-r -r 2 -v 0 -t 1000 -o 1.3.6.1.2.1.15.3.1.10.10.10.10.11");
-    }
     /**
      * <p>printGetUsage.</p>
+     * @param os -> Operating system
      */
-    public static void printGetUsage() {
-        System.out.println("snmpget.sh -md <mibs_dir> -a <address>/<port> -c <community> " +
-                "-v <version> -t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
-        System.out.println("Example: snmpget.sh -md snmptoolkit/mibs -a 10.129.3.1/161 -c public -v 2c -t 1000 " +
-                "-r 1 -m 100 [-f out.xml] -o \"ifIndex ifDescr ifOperStatus ifAdminStatus ifNumber ifAlias ifPhysAddress ifType dot1dTpFdb dot1dTpFdbAddress dot1dTpFdbStatus dot1dTpFdbPort dot1dBasePort dot1dBasePortIfIndex system dot1dBaseBridgeAddress dot1dStpPort ipNetToMediaTable ipAddrTable lldpRemoteSystemsData cdpCacheDevicePort cdpCacheDevicePlatform cdpCacheDeviceId cdpCacheIfIndex\"");
+    private static void printGetUsage(String os) {
+        if ("Windows".equalsIgnoreCase(os)){
 
+            System.out.println("snmpget.bat -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
+                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
+                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
+            System.out.println("Example v1/v2c: snmpget.bat -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.1\"");
+            System.out.println("Example v3c - Auth-noPriv: snmpget.bat -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
+            System.out.println("Example v3c - Auth-noPriv: snmpget.bat -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
+
+        }   else {
+            System.out.println("snmpget.sh -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
+                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
+                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
+            System.out.println("Example v1/v2c: snmpget.sh -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.1\"");
+            System.out.println("Example v3c - Auth-noPriv: snmpget.sh  -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
+            System.out.println("Example v3c - Auth-noPriv: snmpget.s -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
+
+        }
+        //
     }
 
-    /**
-     * <p>snmpWalktoSnmpSimUsage.</p>
-     */
-    public static void snmpWalktoSnmpSimUsage() {
-        System.out.println("Usage bgpPeeringUpdateGrapher.sh -a <IP ADDRESS/PORT> -d <DELTA INTERVAL -c <SNMP-COMMUNITY> -r <RETRY -v <SNMP VERSION - V1 (0), V2C(1), V3(2) -t <SNMP TIMEOUT> -o <SNMP OID> 1.3.6.1.2.1.15.3.1.10.<NEIGHBOUR_IP_ADDRESS" +
-                "-d 3600000 -a 10.10.10.10.10/161 -c test-r -r 2 -v 0 -t 1000 -o 1.3.6.1.2.1.15.3.1.10.10.10.10.11");
-    }
 
+    public static void printUsage(String operation) {
+        String os;
+        if (OsUtils.isWindows()) {
+         os = "Windows";
+        }else {
+         os = "Unix";
+        }
+        if ("get".equalsIgnoreCase(operation)){
+
+            printGetUsage(os);
+        } else if ("walk".equalsIgnoreCase(operation)){
+            printWalkUsage(os);
+        } else if ("set".equalsIgnoreCase(operation)){
+            printSetUsage(os);
+        }
+    }
+    //TODO define set
+    private static void printSetUsage(String os) {
+    }
 }

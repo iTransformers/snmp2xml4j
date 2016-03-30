@@ -35,6 +35,7 @@ import org.snmp4j.security.SecurityProtocols;
  * @author niau
  * @version $Id: $Id
  */
+@SuppressWarnings("ALL")
 public class DefaultMessageDispatcherFactory implements MessageDispatcherAbstractFactory{
     /**
      * <p>createMessageDispatcherMapping.</p>
@@ -52,7 +53,7 @@ public class DefaultMessageDispatcherFactory implements MessageDispatcherAbstrac
      *
      * @param logBasedMessageDispatcher a {@link org.snmp4j.MessageDispatcher} object.
      */
-    protected final void initMessageDispatcher(MessageDispatcher logBasedMessageDispatcher) {
+    private void initMessageDispatcher(MessageDispatcher logBasedMessageDispatcher) {
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv2c());
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv1());
       logBasedMessageDispatcher.addMessageProcessingModel(new MPv3());

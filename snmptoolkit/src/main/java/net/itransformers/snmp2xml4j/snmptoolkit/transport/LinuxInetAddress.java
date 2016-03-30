@@ -33,7 +33,7 @@ import java.util.Enumeration;
  * @author niau
  * @version $Id: $Id
  */
-public class LinuxInetAddress {
+class LinuxInetAddress {
 
 	/**
 	 * Returns an InetAddress representing the address
@@ -56,9 +56,9 @@ InetAddress.getLocalHost();
 localHost;
 		InetAddress[] addrs =
 getAllLocalUsingNetworkInterface();
-		for(int i=0; i<addrs.length; i++) {
-			if(!addrs[i].isLoopbackAddress())
-return addrs[i];
+		for (InetAddress addr : addrs) {
+			if (!addr.isLoopbackAddress())
+				return addr;
 		}
 		return localHost;
 	}
@@ -103,7 +103,7 @@ problem determining addresses
 getAllLocalUsingNetworkInterface() throws
 UnknownHostException {
 		ArrayList addresses = new ArrayList();
-		Enumeration e = null;
+		Enumeration e;
 		try {
 			e =
 NetworkInterface.getNetworkInterfaces();

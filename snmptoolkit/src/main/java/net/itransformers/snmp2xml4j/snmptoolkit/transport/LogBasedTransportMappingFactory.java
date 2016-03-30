@@ -57,7 +57,6 @@ public class LogBasedTransportMappingFactory implements TransportMappingAbstract
 
     /** {@inheritDoc} */
     public TransportMapping createTransportMapping(TransportIpAddress transportIpAddress) throws IOException {
-        LogBasedTransportMapping logBasedTransportMapping1 = new LogBasedTransportMapping(reader, transportIpAddress);
-        return logBasedTransportMapping1;
+        return new LogBasedTransportMapping(reader, transportIpAddress);
     }
 }
