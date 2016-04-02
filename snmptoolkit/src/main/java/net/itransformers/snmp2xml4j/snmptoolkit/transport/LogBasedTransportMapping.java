@@ -78,7 +78,7 @@ public class LogBasedTransportMapping extends UdpTransportMapping implements Tra
      *
      * @param targetAddress a {@link org.snmp4j.smi.Address} object.
      * @param message an array of byte.
-     * @throws IOException if any.
+     * @throws java.io.IOException if any.
      */
     public void sendMessage(Address targetAddress, byte[] message)
             throws java.io.IOException {

@@ -21,19 +21,45 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit;
 
+/**
+ * <p>OsUtils class.</p>
+ *
+ * @author niau
+ * @version $Id: $Id
+ */
 public  final class OsUtils
 {
    private static String OS = null;
+   /**
+    * <p>getOsName.</p>
+    *
+    * @return a {@link java.lang.String} object.
+    */
    public static String getOsName()
    {
       if(OS == null) { OS = System.getProperty("os.name"); }
       return OS;
    }
+   /**
+    * <p>isWindows.</p>
+    *
+    * @return a boolean.
+    */
    public static boolean isWindows()
    {
       return getOsName().startsWith("Windows");
    }
 
+   /**
+    * <p>isMac.</p>
+    *
+    * @return a boolean.
+    */
    public static boolean isMac(){return getOsName().startsWith("Mac");}
+   /**
+    * <p>isLinux.</p>
+    *
+    * @return a boolean.
+    */
    public static  boolean isLinux(){return getOsName().startsWith("Linux");}
 }

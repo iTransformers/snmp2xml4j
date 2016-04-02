@@ -21,6 +21,7 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit;
 
+import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.DefaultMessageDispatcherFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.transport.TcpTransportMappingFactory;
 import net.percederberg.mibble.MibLoader;
 import org.snmp4j.CommunityTarget;
@@ -31,9 +32,13 @@ import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.TcpAddress;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by niau on 3/24/16.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 public class SnmpTcpV2Manager extends SnmpManager {
 
@@ -42,20 +47,55 @@ public class SnmpTcpV2Manager extends SnmpManager {
 
 
 
-    public SnmpTcpV2Manager(MibLoader loader, String ipAddress, String snmpCommunity,int retries, int timeout, int maxSizeRequestPDU, int destinationPort) throws IOException {
-        super(loader, retries, timeout, maxSizeRequestPDU,destinationPort,new TcpTransportMappingFactory(),new TcpAddress("0.0.0.0/0"));
+    /**
+     * <p>Constructor for SnmpTcpV2Manager.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     * @param ipAddress a {@link java.lang.String} object.
+     * @param snmpCommunity a {@link java.lang.String} object.
+     * @param retries a int.
+     * @param timeout a int.
+     * @param maxSizeRequestPDU a int.
+     * @param maxRepetitions a int.
+     * @param destinationPort a int.
+     * @throws java.io.IOException if any.
+     */
+    public SnmpTcpV2Manager(MibLoader loader, String ipAddress, String snmpCommunity,int retries, int timeout,  int maxSizeRequestPDU,int maxRepetitions, int destinationPort) throws IOException {
+        super(loader, retries, timeout, maxSizeRequestPDU,maxRepetitions, new TcpTransportMappingFactory(),new TcpAddress("0.0.0.0/0"));
         this.snmpCommunity = snmpCommunity;
-
         this.tcpAddress =  new TcpAddress(ipAddress+"/"+destinationPort);
 
     }
+    /**
+     * <p>Constructor for SnmpTcpV2Manager.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     */
+    public SnmpTcpV2Manager(MibLoader loader) {
+        super(loader,new TcpTransportMappingFactory(),new DefaultMessageDispatcherFactory(),new TcpAddress("0.0.0.0/0"));
+    }
 
 
+    /** {@inheritDoc} */
     @Override
     protected void doInit() {
 
     }
+    /** {@inheritDoc} */
+    @Override
+    public void doSetParameters(Map<String, String> conParams) {
+        super.setParameters(conParams);
+        int destinationPort = super.convertStringToIntParam("destinationPort",conParams.get("destinationPort"),161);
+        this.tcpAddress = new TcpAddress(conParams.get("ipAddress")+"/"+destinationPort);
+        this.snmpCommunity=conParams.get("snmpCommunity");
+    }
 
+
+    /**
+     * <p>getTarget.</p>
+     *
+     * @return a {@link org.snmp4j.Target} object.
+     */
     protected Target getTarget() {
 
         CommunityTarget target = new CommunityTarget();
@@ -67,10 +107,46 @@ public class SnmpTcpV2Manager extends SnmpManager {
 
         return target;
     }
+    /** {@inheritDoc} */
     @Override
     protected PDU createPDU() {
         return  new PDU();
 
     }
 
+    /**
+     * <p>Getter for the field <code>snmpCommunity</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String getSnmpCommunity() {
+        return snmpCommunity;
+    }
+
+    /**
+     * <p>Setter for the field <code>snmpCommunity</code>.</p>
+     *
+     * @param snmpCommunity a {@link java.lang.String} object.
+     */
+    public void setSnmpCommunity(String snmpCommunity) {
+        this.snmpCommunity = snmpCommunity;
+    }
+
+    /**
+     * <p>Getter for the field <code>tcpAddress</code>.</p>
+     *
+     * @return a {@link org.snmp4j.smi.TcpAddress} object.
+     */
+    public TcpAddress getTcpAddress() {
+        return tcpAddress;
+    }
+
+    /**
+     * <p>Setter for the field <code>tcpAddress</code>.</p>
+     *
+     * @param tcpAddress a {@link org.snmp4j.smi.TcpAddress} object.
+     */
+    public void setTcpAddress(TcpAddress tcpAddress) {
+        this.tcpAddress = tcpAddress;
+    }
 }

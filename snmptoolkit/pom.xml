@@ -27,11 +27,11 @@
 
     <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>snmptoolkit</artifactId>
-    <version>1.0.1</version><!--Change for new version-->
+    <version>1.0.2</version><!--Change for new version-->
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.1</version><!--Change for new version-->
+        <version>1.0.2</version><!--Change for new version-->
     </parent>
 
     <organization>
@@ -102,7 +102,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-            <version>4.8.2</version>
+            <version>4.12</version>
         </dependency>
         <dependency>
             <groupId>xmlunit</groupId>

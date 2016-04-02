@@ -53,7 +53,7 @@ public class LogBasedMessageDispatcherFactory implements MessageDispatcherAbstra
      *
      * @param file a {@link java.io.File} object.
      */
-    private LogBasedMessageDispatcherFactory(File file) {
+    protected LogBasedMessageDispatcherFactory(File file) {
         this.file = file;
         try {
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));

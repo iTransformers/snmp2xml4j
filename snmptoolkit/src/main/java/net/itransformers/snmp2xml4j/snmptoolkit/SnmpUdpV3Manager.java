@@ -21,6 +21,7 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit;
 
+import net.itransformers.snmp2xml4j.snmptoolkit.messagedispacher.DefaultMessageDispatcherFactory;
 import net.itransformers.snmp2xml4j.snmptoolkit.transport.UdpTransportMappingFactory;
 import net.percederberg.mibble.MibLoader;
 import org.snmp4j.PDU;
@@ -35,9 +36,13 @@ import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.UdpAddress;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by niau on 3/24/16.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 public class SnmpUdpV3Manager extends SnmpManager {
 
@@ -53,8 +58,27 @@ public class SnmpUdpV3Manager extends SnmpManager {
 
 
 
-    public SnmpUdpV3Manager(MibLoader loader, String ipAddress, int ver3mode, String ver3Username, String ver3AuthPasscode, String authenticationProtocol, String privacyProtocol, String privacyProtocolPassShare,  int retries, int timeout, int maxSizeRequestPDU, int destinationPort) throws IOException {
-        super(loader, retries, timeout, maxSizeRequestPDU,destinationPort,new UdpTransportMappingFactory(),new UdpAddress("0.0.0.0/0"));
+    /**
+     * <p>Constructor for SnmpUdpV3Manager.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     * @param ipAddress a {@link java.lang.String} object.
+     * @param ver3mode a int.
+     * @param ver3Username a {@link java.lang.String} object.
+     * @param ver3AuthPasscode a {@link java.lang.String} object.
+     * @param authenticationProtocol a {@link java.lang.String} object.
+     * @param privacyProtocol a {@link java.lang.String} object.
+     * @param privacyProtocolPassShare a {@link java.lang.String} object.
+     * @param privacyProtocolPassShare a {@link java.lang.String} object.
+     * @param retries a int.
+     * @param timeout a int.
+     * @param maxSizeRequestPDU a int.
+     * @param maxRepetitions a int.
+     * @param destinationPort a int.
+     * @throws java.io.IOException if any.
+     */
+    public SnmpUdpV3Manager(MibLoader loader, String ipAddress, int ver3mode, String ver3Username, String ver3AuthPasscode, String authenticationProtocol, String privacyProtocol, String privacyProtocolPassShare,  int retries, int timeout, int maxSizeRequestPDU, int maxRepetitions, int destinationPort) throws IOException {
+        super(loader, retries, timeout, maxSizeRequestPDU,maxRepetitions, new UdpTransportMappingFactory(),new UdpAddress("0.0.0.0/0"));
         this.ver3mode = ver3mode;
         this.ver3Username = ver3Username;
         this.ver3AuthPasscode = ver3AuthPasscode;
@@ -64,7 +88,32 @@ public class SnmpUdpV3Manager extends SnmpManager {
         this.udpAddress =  new UdpAddress(ipAddress+"/"+destinationPort);
 
     }
+    /**
+     * <p>Constructor for SnmpUdpV3Manager.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     */
+    public SnmpUdpV3Manager(MibLoader loader) {
+        super(loader,new UdpTransportMappingFactory(),new DefaultMessageDispatcherFactory(),new UdpAddress("0.0.0.0/0"));
+    }
+    /** {@inheritDoc} */
+    @Override
+    public void doSetParameters(Map<String, String> conParams) {
+        int destinationPort = super.convertStringToIntParam("destinationPort",conParams.get("destinationPort"),161);
+        this.udpAddress = new UdpAddress(conParams.get("ipAddress")+"/"+destinationPort);
+        this.ver3Username = conParams.get("ver3Username");
+        this.ver3AuthPasscode = conParams.get("ver3Username");
+        this.authenticationProtocol = conParams.get("authenticationProtocol");
+        this.privacyProtocol = conParams.get("privacyProtocol");
+        this.privacyProtocolPassShare = conParams.get("privacyProtocolPassShare");
+    }
 
+
+    /**
+     * <p>getTarget.</p>
+     *
+     * @return a {@link org.snmp4j.Target} object.
+     */
     protected Target getTarget() {
 
         UserTarget target = new UserTarget();
@@ -81,6 +130,7 @@ public class SnmpUdpV3Manager extends SnmpManager {
 
     }
 
+    /** {@inheritDoc} */
     @Override
     protected PDU createPDU() {
         return  new ScopedPDU();
@@ -88,10 +138,11 @@ public class SnmpUdpV3Manager extends SnmpManager {
     }
 
 
+
+
+    /** {@inheritDoc} */
     @Override
     protected void doInit() {
-
-
 
             USM usm = new USM(SecurityProtocols.getInstance(), new OctetString(MPv3.createLocalEngineID()), 0);
             SecurityModels.getInstance().addSecurityModel(usm);
@@ -135,4 +186,129 @@ public class SnmpUdpV3Manager extends SnmpManager {
 
     }
 
+    /**
+     * <p>Getter for the field <code>ver3Username</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String getVer3Username() {
+        return ver3Username;
+    }
+
+    /**
+     * <p>Setter for the field <code>ver3Username</code>.</p>
+     *
+     * @param ver3Username a {@link java.lang.String} object.
+     */
+    public void setVer3Username(String ver3Username) {
+        this.ver3Username = ver3Username;
+    }
+
+    /**
+     * <p>Getter for the field <code>ver3AuthPasscode</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String getVer3AuthPasscode() {
+        return ver3AuthPasscode;
+    }
+
+    /**
+     * <p>Setter for the field <code>ver3AuthPasscode</code>.</p>
+     *
+     * @param ver3AuthPasscode a {@link java.lang.String} object.
+     */
+    public void setVer3AuthPasscode(String ver3AuthPasscode) {
+        this.ver3AuthPasscode = ver3AuthPasscode;
+    }
+
+    /**
+     * <p>Getter for the field <code>ver3mode</code>.</p>
+     *
+     * @return a int.
+     */
+    public int getVer3mode() {
+        return ver3mode;
+    }
+
+    /**
+     * <p>Setter for the field <code>ver3mode</code>.</p>
+     *
+     * @param ver3mode a int.
+     */
+    public void setVer3mode(int ver3mode) {
+        this.ver3mode = ver3mode;
+    }
+
+    /**
+     * <p>Getter for the field <code>authenticationProtocol</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String getAuthenticationProtocol() {
+        return authenticationProtocol;
+    }
+
+    /**
+     * <p>Setter for the field <code>authenticationProtocol</code>.</p>
+     *
+     * @param authenticationProtocol a {@link java.lang.String} object.
+     */
+    public void setAuthenticationProtocol(String authenticationProtocol) {
+        this.authenticationProtocol = authenticationProtocol;
+    }
+
+    /**
+     * <p>Getter for the field <code>privacyProtocol</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String getPrivacyProtocol() {
+        return privacyProtocol;
+    }
+
+    /**
+     * <p>Setter for the field <code>privacyProtocol</code>.</p>
+     *
+     * @param privacyProtocol a {@link java.lang.String} object.
+     */
+    public void setPrivacyProtocol(String privacyProtocol) {
+        this.privacyProtocol = privacyProtocol;
+    }
+
+    /**
+     * <p>Getter for the field <code>privacyProtocolPassShare</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String getPrivacyProtocolPassShare() {
+        return privacyProtocolPassShare;
+    }
+
+    /**
+     * <p>Setter for the field <code>privacyProtocolPassShare</code>.</p>
+     *
+     * @param privacyProtocolPassShare a {@link java.lang.String} object.
+     */
+    public void setPrivacyProtocolPassShare(String privacyProtocolPassShare) {
+        this.privacyProtocolPassShare = privacyProtocolPassShare;
+    }
+
+    /**
+     * <p>Getter for the field <code>udpAddress</code>.</p>
+     *
+     * @return a {@link org.snmp4j.smi.UdpAddress} object.
+     */
+    public UdpAddress getUdpAddress() {
+        return udpAddress;
+    }
+
+    /**
+     * <p>Setter for the field <code>udpAddress</code>.</p>
+     *
+     * @param udpAddress a {@link org.snmp4j.smi.UdpAddress} object.
+     */
+    public void setUdpAddress(UdpAddress udpAddress) {
+        this.udpAddress = udpAddress;
+    }
 }

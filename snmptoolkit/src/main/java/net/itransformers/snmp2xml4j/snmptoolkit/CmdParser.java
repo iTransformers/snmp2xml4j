@@ -68,28 +68,29 @@ class CmdParser {
 
     /**
      * <p>printWalkUsage.</p>
+     *
      * @param os
      * ADDRESS("a", 1),
-    COMMUNITY("c", 1),
-    VERSION("v", 1),
-    TIMEOUT("t", 1),
-    RETRIES("r", 1),
-    MAX_REPETITIONS("m", 1),
-    OUTPUT_FILE("f", 1),
-    PROTOCOL("P",0),
-    OIDS("o", 1),
-    DELTA("d", 1),
-    MIBS_DIR("md", 1),
-    PRINT_LOADED_MIBS("pm", 0),
-    SECURITY_NAME("u",0),
-    AUTH_LEVEL("aa",0),
-    AUTH_PASSPHRASE("A",0),
-    PRIV_PASSPHRASE("Y",0),
-    AUTH_PROTOCOL("ap",0),
-    PRIV_PROTOCOL("pp",0),
-    OPERATION("o",1),
-    PORT("P",0),
-    OUTPUT_XML("f",0);
+     *    COMMUNITY("c", 1),
+     *    VERSION("v", 1),
+     *    TIMEOUT("t", 1),
+     *    RETRIES("r", 1),
+     *    MAX_REPETITIONS("m", 1),
+     *    OUTPUT_FILE("f", 1),
+     *    PROTOCOL("P",0),
+     *    OIDS("o", 1),
+     *    DELTA("d", 1),
+     *    MIBS_DIR("md", 1),
+     *    PRINT_LOADED_MIBS("pm", 0),
+     *    SECURITY_NAME("u",0),
+     *    AUTH_LEVEL("aa",0),
+     *    AUTH_PASSPHRASE("A",0),
+     *    PRIV_PASSPHRASE("Y",0),
+     *    AUTH_PROTOCOL("ap",0),
+     *    PRIV_PROTOCOL("pp",0),
+     *    OPERATION("o",1),
+     *    PORT("P",0),
+     *    OUTPUT_XML("f",0);
      */
     public static void printWalkUsage(String os) {
         if ("Windows".equalsIgnoreCase(os)) {
@@ -145,6 +146,11 @@ class CmdParser {
     }
 
 
+    /**
+     * <p>printUsage.</p>
+     *
+     * @param operation a {@link java.lang.String} object.
+     */
     public static void printUsage(String operation) {
         String os;
         if (OsUtils.isWindows()) {
@@ -152,7 +158,7 @@ class CmdParser {
         }else {
          os = "Unix";
         }
-        if ("get".equalsIgnoreCase(operation)){
+        if ("snmpGet".equalsIgnoreCase(operation)){
 
             printGetUsage(os);
         } else if ("walk".equalsIgnoreCase(operation)){

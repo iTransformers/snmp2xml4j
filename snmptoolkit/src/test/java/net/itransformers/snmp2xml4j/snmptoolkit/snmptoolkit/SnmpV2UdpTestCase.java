@@ -22,7 +22,6 @@
 package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
 import junit.framework.Assert;
-import net.itransformers.snmp2xml4j.snmptoolkit.MibLoaderHolder;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpManager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV2Manager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpXmlPrinter;
@@ -41,7 +40,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -53,17 +51,15 @@ import java.io.IOException;
  */
 public class SnmpV2UdpTestCase {
     private static SnmpManager snmpManager = null;
-    private  static MibLoaderHolder mibLoaderHolder = null;
 
 
     /**
      * <p>prepareSettings.</p>
      */
     @BeforeClass
-    public static   void prepareSettings() throws IOException, MibLoaderException {
+    public static void prepareSettings() throws IOException, MibLoaderException {
 
-        mibLoaderHolder =  new MibLoaderHolder(new File("mibs"), false);
-        snmpManager = new SnmpUdpV2Manager(mibLoaderHolder.getLoader(), "195.218.195.228", "public", 1, 1000, 65535, 161);
+        snmpManager = new SnmpUdpV2Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535, 10, 161);
         snmpManager.init();
 
     }
@@ -78,14 +74,12 @@ public class SnmpV2UdpTestCase {
 
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.get(oids);
+        ResponseEvent responseEvent = snmpManager.snmpGet(oids);
 
         PDU response = responseEvent.getResponse();
 
         VariableBinding vb1 = response.get(0);
         Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
-
-
 
 
     }
@@ -100,7 +94,7 @@ public class SnmpV2UdpTestCase {
 
         OID oid = new OID("1.3.6.1.2.1.1.1");
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.getNext(oids);
+        ResponseEvent responseEvent = snmpManager.snmpGetNext(oids);
 
         PDU response = responseEvent.getResponse();
 
@@ -108,12 +102,13 @@ public class SnmpV2UdpTestCase {
         Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
 
     }
+
     @Test
     public void snmpWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
         String oids = "system,host,ifEntry";
 
 
-        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(), snmpManager.walk(oids.split(",")));
+        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(TestResources.getMibLoaderHolder().getLoader(), snmpManager.snmpWalk(oids.split(",")));
 
 
         String xml = xmlPrinter.printTreeAsXML(true);
@@ -126,3 +121,4 @@ public class SnmpV2UdpTestCase {
 
     }
 }
+

@@ -40,7 +40,7 @@ public class Node {
     ObjectIdentifierValue objectIdentifierValue;
     List<Node> children = new ArrayList<Node>();
     List<TableEvent> table; //comes from snmp bulk command
-    VariableBinding vb; // comes from snmp get command
+    VariableBinding vb; // comes from snmp snmpGet command
     boolean doWalk = false;
     Node parent;
 

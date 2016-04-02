@@ -38,7 +38,7 @@ public class MainClassTestCase {
 
     @Test
     public void snmpGetV3AuthNoPrivMainTestCase() throws TransformerException, IOException, MibLoaderException {
-       String  mainArgs = "-O get -md mibs -v 3 -a 195.218.195.228 -P 161 -pr udp -aa AUTH_NOPRIV -ap MD5 -u usr-md5-none -A authkey1 -t 1000 -r 1 -m 100 -o sysName,sysDescr";
+       String  mainArgs = "-O snmpGet -md mibs -v 3 -a 195.218.195.228 -P 161 -pr udp -aa AUTH_NOPRIV -ap MD5 -u usr-md5-none -A authkey1 -t 1000 -r 1 -m 100 -o sysName,sysDescr";
         System.out.println("snmpGetV3AuthNoPrivMainTestCase");
 
         StringTokenizer tokenizer = new StringTokenizer(mainArgs, " ");
@@ -55,7 +55,7 @@ public class MainClassTestCase {
     @Test
     public void snmpGetV3NoAuthNoPrivMainTestCase() throws TransformerException, IOException, MibLoaderException {
         System.out.println("snmpGetV3NoAuthNoPrivMainTestCase");
-        String  mainArgs = "-O get -md mibs -v 3 -a 195.218.195.228 -P 161 -pr udp -aa NOAUTH_NOPRIV -ap MD5 -u usr-none-none -t 1000 -r 1 -m 100 -o sysDescr,sysName";
+        String  mainArgs = "-O snmpGet -md mibs -v 3 -a 195.218.195.228 -P 161 -pr udp -aa NOAUTH_NOPRIV -ap MD5 -u usr-none-none -t 1000 -r 1 -m 100 -o sysDescr,sysName";
 
         StringTokenizer tokenizer = new StringTokenizer(mainArgs, " ");
         ArrayList<String> includesList = new ArrayList<String>();
@@ -70,7 +70,7 @@ public class MainClassTestCase {
 
     @Test
     public void snmpGetV3AuthPrivMainTestCase() throws TransformerException, IOException, MibLoaderException {
-        String  mainArgs = "-O get -md mibs -v 3 -a 195.218.195.228 -P 161 -pr udp -aa AUTH_PRIV -ap SHA -u usr-sha-aes -A authkey1 -Y privkey1 -pp AES  -t 1000 -r 1 -m 100 -o sysDescr,sysName";
+        String  mainArgs = "-O snmpGet -md mibs -v 3 -a 195.218.195.228 -P 161 -pr udp -aa AUTH_PRIV -ap SHA -u usr-sha-aes -A authkey1 -Y privkey1 -pp AES  -t 1000 -r 1 -m 100 -o sysDescr,sysName";
         System.out.println("snmpGetV3AuthPrivMainTestCase");
         StringTokenizer tokenizer = new StringTokenizer(mainArgs, " ");
         ArrayList<String> includesList = new ArrayList<String>();

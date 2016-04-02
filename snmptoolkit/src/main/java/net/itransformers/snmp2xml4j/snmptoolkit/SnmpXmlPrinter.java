@@ -39,12 +39,21 @@ import java.util.ArrayList;
 
 /**
  * Created by niau on 3/26/16.
+ *
+ * @author niau
+ * @version $Id: $Id
  */
 public class SnmpXmlPrinter {
     protected Node node;
     static Logger logger = Logger.getLogger(SnmpXmlPrinter.class);
     protected MibLoader loader;
 
+    /**
+     * <p>Constructor for SnmpXmlPrinter.</p>
+     *
+     * @param loader a {@link net.percederberg.mibble.MibLoader} object.
+     * @param node a {@link net.itransformers.snmp2xml4j.snmptoolkit.Node} object.
+     */
     public SnmpXmlPrinter(MibLoader loader, Node node) {
         this.loader = loader;
         this.node = node;
@@ -401,7 +410,7 @@ public class SnmpXmlPrinter {
 //                                    if (constraint instanceof SizeConstraint) {
 //                                        ArrayList list = ((SizeConstraint) constraint).getValues();
 //                                        if (list.size() == 1) {
-//                                            Constraint constraint1 = (Constraint) list.get(0);
+//                                            Constraint constraint1 = (Constraint) list.snmpGet(0);
 //                                            if (constraint1 instanceof ValueConstraint) {
 //                                                MibValue val = ((ValueConstraint) constraint1).getValue();
 //                                                if (val instanceof NumberValue) {

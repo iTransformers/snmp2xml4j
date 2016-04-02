@@ -47,7 +47,8 @@ public enum CmdOptions {
     PRIV_PROTOCOL("pp",1),
     OPERATION("O",1),
     PORT("P",1),
-    OUTPUT_XML("f",1);
+    OUTPUT_XML("f",1),
+    MAX_REPETITIONS("m",1);
 
     private final String name;
     private final int valueSize;

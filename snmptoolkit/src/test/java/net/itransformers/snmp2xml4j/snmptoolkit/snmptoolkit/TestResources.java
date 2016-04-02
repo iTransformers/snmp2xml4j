@@ -1,7 +1,5 @@
-
-
 /*
- * MainClass.java
+ * TestResources.java
  *
  * This work is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -21,39 +19,37 @@
  * Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
  */
 
-package net.itransformers.snmp2xml4j.snmptoolkit;
+package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
+import net.itransformers.snmp2xml4j.snmptoolkit.MibLoaderHolder;
 import net.percederberg.mibble.MibLoaderException;
+import org.junit.rules.ExternalResource;
 
-import javax.xml.transform.TransformerException;
+import java.io.File;
 import java.io.IOException;
 
 /**
- * <p>MainClass class.</p>
- *
- * @author niau
- * @version $Id: $Id
+ * Created by niau on 4/1/16.
  */
-public class MainClass {
+public class TestResources extends ExternalResource {
+    private static MibLoaderHolder mibLoaderHolder;
 
-
-    /**
-     * <p>main.</p>
-     *
-     * @param args an array of {@link java.lang.String} objects.
-     * @throws javax.xml.transform.TransformerException if any.
-     * @throws java.io.IOException if any.
-     * @throws net.percederberg.mibble.MibLoaderException if any.
-     */
-    public static void main(String[] args) throws TransformerException, IOException, MibLoaderException {
-
-        Launcher.run(args);
-
-
+    static {
+        try {
+            mibLoaderHolder = new MibLoaderHolder(new File("mibs"), false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MibLoaderException e) {
+            e.printStackTrace();
+        }
     }
 
 
+    public static MibLoaderHolder getMibLoaderHolder() {
+        return mibLoaderHolder;
+    }
 
-
+    public static void setMibLoaderHolder(MibLoaderHolder mibLoaderHolder) {
+        TestResources.mibLoaderHolder = mibLoaderHolder;
+    }
 }
-

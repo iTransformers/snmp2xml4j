@@ -40,6 +40,13 @@ import java.util.StringTokenizer;
  */
 class Launcher {
 
+    /**
+     * <p>run.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     * @throws net.percederberg.mibble.MibLoaderException if any.
+     */
     public static  void run(String [] args) throws IOException, MibLoaderException {
         SnmpManager snmpManager = null;
 
@@ -57,7 +64,7 @@ class Launcher {
 
         String operation = opts.get(CmdOptions.OPERATION);
         if (operation == null){
-            System.out.println("Missing option \"-" + CmdOptions.OPERATION.getName()  +" Possible options are get,set,walk "+ "\"");
+            System.out.println("Missing option \"-" + CmdOptions.OPERATION.getName()  +" Possible options are snmpGet,set,walk "+ "\"");
             CmdParser.printUsage("GET");
             return;
 
@@ -134,18 +141,19 @@ class Launcher {
             System.out.println("Using default retries: 1");
         }
 
+        String maxRepetitions = opts.get(CmdOptions.MAX_REPETITIONS);
 
-
-//        if (maxRepetitions != null) {
-//            try {
-//                maxRepetitionsInt = Integer.parseInt(maxRepetitions);
-//            } catch (NumberFormatException nfe) {
-//                System.out.println("Invalid parameter value for \"-" + CmdOptions.MAX_REPETITIONS + "\", int value is required");
-//                CmdParser.printWalkUsage(operation);
-//            }
-//        } else {
-//            System.out.println("Using default maxRepetitions: 10");
-//        }
+        int maxRepetitionsInt=10;
+        if (maxRepetitions != null) {
+            try {
+                maxRepetitionsInt = Integer.parseInt(maxRepetitions);
+            } catch (NumberFormatException nfe) {
+                System.out.println("Invalid parameter value for \"-" + CmdOptions.MAX_REPETITIONS + "\", int value is required");
+                CmdParser.printWalkUsage(operation);
+            }
+        } else {
+            System.out.println("Using default maxRepetitions: 10");
+        }
 
         String version = opts.get(CmdOptions.VERSION);
         if (version != null) {
@@ -159,10 +167,10 @@ class Launcher {
             String community = opts.get(CmdOptions.COMMUNITY);
             if (community != null) {
                 if ("udp".equals(protocol)){
-                    snmpManager = new SnmpUdpV1Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,portInt);
+                    snmpManager = new SnmpUdpV1Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,maxRepetitionsInt,portInt);
 
                 } else{
-                    snmpManager = new SnmpTcpV1Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,portInt);
+                    snmpManager = new SnmpTcpV1Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,maxRepetitionsInt,portInt);
 
                 }            } else {
                 System.out.println("Missing option \"-" + CmdOptions.COMMUNITY.getName() + "\"");
@@ -173,10 +181,10 @@ class Launcher {
             String community = opts.get(CmdOptions.COMMUNITY);
             if (community != null) {
                 if ("udp".equals(protocol)){
-                    snmpManager = new SnmpUdpV2Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,portInt);
+                    snmpManager = new SnmpUdpV2Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,maxRepetitionsInt,portInt);
 
                 } else{
-                    snmpManager = new SnmpTcpV2Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,portInt);
+                    snmpManager = new SnmpTcpV2Manager(mibLoaderHolder.getLoader(),address,community,retriesInt,timeoutInt,65535,maxRepetitionsInt,portInt);
 
                 }
             } else {
@@ -275,10 +283,10 @@ class Launcher {
 
 
             if ("udp".equals(protocol)){
-                snmpManager = new SnmpUdpV3Manager(mibLoaderHolder.getLoader(),address,authLevelInt,securityName,authPassshare,authProtocol,privacyProtocol,privacyPassshare,retriesInt,timeoutInt,65535,portInt);
+                snmpManager = new SnmpUdpV3Manager(mibLoaderHolder.getLoader(),address,authLevelInt,securityName,authPassshare,authProtocol,privacyProtocol,privacyPassshare,retriesInt,timeoutInt,65535,maxRepetitionsInt,portInt);
 
             } else{
-                snmpManager = new SnmpTcpV3Manager(mibLoaderHolder.getLoader(),address,authLevelInt,securityName,authPassshare,authProtocol,privacyProtocol,privacyPassshare,retriesInt,timeoutInt,65535,portInt);
+                snmpManager = new SnmpTcpV3Manager(mibLoaderHolder.getLoader(),address,authLevelInt,securityName,authPassshare,authProtocol,privacyProtocol,privacyPassshare,retriesInt,timeoutInt,65535,maxRepetitionsInt,portInt);
 
             }
 
@@ -305,14 +313,14 @@ class Launcher {
         }
 
         if (operation.equalsIgnoreCase("walk")) {
-            Node root = snmpManager.walk(includesList.toArray(new String[includesList.size()]));
+            Node root = snmpManager.snmpWalk(includesList.toArray(new String[includesList.size()]));
             snmpXmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(),root);
             String xml =snmpXmlPrinter.printTreeAsXML();
 
             outputXml(opts, xml);
 
-        }else if (operation.equalsIgnoreCase("get")) {
-            ResponseEvent responseEvent = snmpManager.get( includesList);
+        }else if (operation.equalsIgnoreCase("snmpGet")) {
+            ResponseEvent responseEvent = snmpManager.snmpGet(includesList);
 
             PDU response;
             if (responseEvent!=null) {

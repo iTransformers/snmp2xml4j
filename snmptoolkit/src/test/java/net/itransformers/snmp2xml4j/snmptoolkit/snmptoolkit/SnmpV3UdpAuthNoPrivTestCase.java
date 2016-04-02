@@ -22,7 +22,6 @@
 package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
 import junit.framework.Assert;
-import net.itransformers.snmp2xml4j.snmptoolkit.MibLoaderHolder;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpManager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV3Manager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpXmlPrinter;
@@ -42,7 +41,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -54,7 +52,6 @@ import java.io.IOException;
  */
 public class SnmpV3UdpAuthNoPrivTestCase {
     private static SnmpManager snmpManager = null;
-    private  static MibLoaderHolder mibLoaderHolder = null;
 
 
     /**
@@ -63,8 +60,7 @@ public class SnmpV3UdpAuthNoPrivTestCase {
     @BeforeClass
     public static   void prepareSettings() throws IOException, MibLoaderException {
 
-        mibLoaderHolder =  new MibLoaderHolder(new File("mibs"), false);
-        snmpManager = new SnmpUdpV3Manager(mibLoaderHolder.getLoader(), "195.218.195.228", SecurityLevel.AUTH_NOPRIV, "usr-md5-none", "authkey1", "MD5", null, null, 2, 1000, 65535, 161);
+        snmpManager = new SnmpUdpV3Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", SecurityLevel.AUTH_NOPRIV, "usr-md5-none", "authkey1", "MD5", null, null, 2, 1000, 65535,10, 161);
         snmpManager.init();
 
     }
@@ -79,7 +75,7 @@ public class SnmpV3UdpAuthNoPrivTestCase {
 
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.get(oids);
+        ResponseEvent responseEvent = snmpManager.snmpGet(oids);
 
         PDU response = responseEvent.getResponse();
 
@@ -101,7 +97,7 @@ public class SnmpV3UdpAuthNoPrivTestCase {
 
         OID oid = new OID("1.3.6.1.2.1.1.1");
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.getNext(oids);
+        ResponseEvent responseEvent = snmpManager.snmpGetNext(oids);
 
         PDU response = responseEvent.getResponse();
 
@@ -114,7 +110,7 @@ public class SnmpV3UdpAuthNoPrivTestCase {
         String oids = "system,host,ifEntry";
 
 
-        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(), snmpManager.walk(oids.split(",")));
+        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(TestResources.getMibLoaderHolder().getLoader(), snmpManager.snmpWalk(oids.split(",")));
 
 
         String xml = xmlPrinter.printTreeAsXML(true);

@@ -26,13 +26,13 @@
 
     <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>distribution</artifactId>
-    <version>1.0.1</version><!--Change for new version-->
+    <version>1.0.2</version><!--Change for new version-->
     <packaging>pom</packaging>
 
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.1</version><!--Change for new version-->
+        <version>1.0.2</version><!--Change for new version-->
     </parent>
     <organization>
         <name>iTransformers Labs</name>
@@ -72,19 +72,19 @@
          Since we only include the child1 module in our assembly, we only need to ensure this
          distribution project builds AFTER that one...
     -->
-    <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>iTransformers.iTransformer</groupId>-->
-            <!--<artifactId>utils</artifactId>-->
-            <!--<version>0.7-SNAPSHOT</version>&lt;!&ndash;Change for new version&ndash;&gt;-->
-        <!--</dependency>-->
+    <!--<dependencies>-->
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;<groupId>iTransformers.iTransformer</groupId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<artifactId>utils</artifactId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<version>0.7-SNAPSHOT</version>&lt;!&ndash;Change for new version&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
 
-        <dependency>
-            <groupId>net.itransformers.snmp2xml4j</groupId>
-            <artifactId>snmptoolkit</artifactId>
-            <version>1.0.1</version><!--Change for new version-->
-        </dependency>
-    </dependencies>
+        <!--<dependency>-->
+            <!--<groupId>net.itransformers.snmp2xml4j</groupId>-->
+            <!--<artifactId>snmptoolkit</artifactId>-->
+            <!--<version>1.0.2</version>&lt;!&ndash;Change for new version&ndash;&gt;-->
+        <!--</dependency>-->
+    <!--</dependencies>-->
 
     <build>
         <plugins>

@@ -21,8 +21,6 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
-import junit.framework.Assert;
-import net.itransformers.snmp2xml4j.snmptoolkit.MibLoaderHolder;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpManager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV1Manager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpXmlPrinter;
@@ -30,6 +28,7 @@ import net.percederberg.mibble.MibLoaderException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.XpathEngine;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.snmp4j.PDU;
@@ -41,8 +40,9 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by niau on 3/11/16.
@@ -51,19 +51,18 @@ import java.io.IOException;
  * @version $Id: $Id
  * @since 1.0
  */
-public class SnmpV1UdpTestCase {
+public class SnmpV1UdpTestCase  {
     private static SnmpManager snmpManager = null;
-    private static MibLoaderHolder mibLoaderHolder = null;
 
 
     /**
      * <p>prepareSettings.</p>
      */
+
     @BeforeClass
     public static void prepareSettings() throws IOException, MibLoaderException {
 
-        mibLoaderHolder = new MibLoaderHolder(new File("mibs"), false);
-        snmpManager = new SnmpUdpV1Manager(mibLoaderHolder.getLoader(), "195.218.195.228", "public", 1, 1000, 65535, 161);
+        snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535,10, 161);
         snmpManager.init();
 
     }
@@ -78,12 +77,32 @@ public class SnmpV1UdpTestCase {
 
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.get(oids);
+        ResponseEvent responseEvent = snmpManager.snmpGet(oids);
 
         PDU response = responseEvent.getResponse();
 
         VariableBinding vb1 = response.get(0);
         Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+
+    }
+
+
+    @Test
+    public void snmpGetToString() throws IOException {
+
+        String snmpGetValue= snmpManager.snmpGet("1.3.6.1.2.1.1.1.0");
+
+        Assert.assertEquals(snmpGetValue, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+
+    }
+
+
+    @Test
+    public void snmpGetNextToString() throws IOException {
+
+        String snmpGetValue= snmpManager.snmpGetNext("1.3.6.1.2.1.1.1");
+
+        Assert.assertEquals(snmpGetValue, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
 
     }
 
@@ -97,7 +116,7 @@ public class SnmpV1UdpTestCase {
 
         OID oid = new OID("1.3.6.1.2.1.1.1");
         OID oids[] = new OID[]{oid};
-        ResponseEvent responseEvent = snmpManager.getNext(oids);
+        ResponseEvent responseEvent = snmpManager.snmpGetNext(oids);
 
         PDU response = responseEvent.getResponse();
 
@@ -106,12 +125,83 @@ public class SnmpV1UdpTestCase {
 
     }
 
+
+
+
+    /**
+     * <p>snmpGetNext.</p>
+     *
+     * @throws IOException if any.
+     */
+    @Test
+    public void AssertGetChangeIpAddress() throws IOException {
+
+        Map<String,String> conParams = new HashMap<String,String>();
+        conParams.put("ipAddress", "192.168.1.1");
+        conParams.put("snmpCommunity", "public");
+
+        OID oid = new OID("1.3.6.1.2.1.1.1.0");
+        OID oids[] = new OID[]{oid};
+
+        SnmpManager snmpManager1 = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader());
+        snmpManager1.init();
+        snmpManager1.setParameters(conParams);
+        ResponseEvent responseEvent =  snmpManager1.snmpGet(oids);
+
+        org.junit.Assert.assertEquals(responseEvent, null);
+        conParams.put("ipAddress", "195.218.195.228");
+
+        snmpManager1.setParameters(conParams);
+
+        ResponseEvent responseEvent2 =  snmpManager1.snmpGet(oids);
+
+
+        PDU response = responseEvent2.getResponse();
+
+        VariableBinding vb1 = response.get(0);
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+
+
+    }
+
+
+    @Test
+    public void AssertGetChangeSnmpCommunity() throws IOException {
+
+        Map<String,String> conParams = new HashMap<String,String>();
+        conParams.put("ipAddress", "195.218.195.228");
+        conParams.put("snmpCommunity", "test123");
+
+        OID oid = new OID("1.3.6.1.2.1.1.1.0");
+        OID oids[] = new OID[]{oid};
+
+        SnmpManager snmpManager1 = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader());
+        snmpManager1.init();
+        snmpManager1.setParameters(conParams);
+        ResponseEvent responseEvent =  snmpManager1.snmpGet(oids);
+
+        org.junit.Assert.assertEquals(responseEvent, null);
+        conParams.put("snmpCommunity", "public");
+
+        snmpManager1.setParameters(conParams);
+
+        ResponseEvent responseEvent2 =   snmpManager1.snmpGet(oids);
+
+
+        PDU response = responseEvent2.getResponse();
+
+        VariableBinding vb1 = response.get(0);
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+
+
+    }
+
     @Test
     public void snmpWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
         String oids = "system,host,ifEntry";
 
 
-        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(), snmpManager.walk(oids.split(",")));
+        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(TestResources.getMibLoaderHolder().getLoader(), snmpManager.snmpWalk(oids.split(",")));
 
 
         String xml = xmlPrinter.printTreeAsXML(true);

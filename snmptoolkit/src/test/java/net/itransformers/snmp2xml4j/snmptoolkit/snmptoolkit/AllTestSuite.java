@@ -24,8 +24,11 @@ package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+
+   SnmpManagerTests.class,
    SnmpV1UdpTestCase.class,
    SnmpV2UdpTestCase.class,
    SnmpV3UdpAuthNoPrivTestCase.class,
@@ -33,5 +36,7 @@ import org.junit.runners.Suite;
    SnmpV3UdpAuthPrivTestCase.class,
    MainClassTestCase.class
 })
+
 public class AllTestSuite {
-}  	
+   TestResources resources = new TestResources();
+}
