@@ -21,7 +21,6 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
-import junit.framework.Assert;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpManager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV3Manager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpXmlPrinter;
@@ -29,6 +28,7 @@ import net.percederberg.mibble.MibLoaderException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.XpathEngine;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.snmp4j.PDU;
@@ -122,4 +122,7 @@ public class SnmpV3UdpAuthPrivTestCase {
         Assert.assertEquals(value, "zeus.snmplabs.com");
 
     }
+
+
+
 }

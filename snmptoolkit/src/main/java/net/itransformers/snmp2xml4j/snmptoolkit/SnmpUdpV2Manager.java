@@ -84,7 +84,6 @@ public class SnmpUdpV2Manager extends SnmpManager {
     /** {@inheritDoc} */
     @Override
     public void doSetParameters(Map<String, String> conParams) {
-        super.setParameters(conParams);
         int destinationPort = super.convertStringToIntParam("destinationPort",conParams.get("destinationPort"),161);
         this.udpAddress = new UdpAddress(conParams.get("ipAddress")+"/"+destinationPort);
         this.snmpCommunity=conParams.get("snmpCommunity");

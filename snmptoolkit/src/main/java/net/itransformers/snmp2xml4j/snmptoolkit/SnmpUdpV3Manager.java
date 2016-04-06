@@ -94,7 +94,7 @@ public class SnmpUdpV3Manager extends SnmpManager {
      * @param loader a {@link net.percederberg.mibble.MibLoader} object.
      */
     public SnmpUdpV3Manager(MibLoader loader) {
-        super(loader,new UdpTransportMappingFactory(),new DefaultMessageDispatcherFactory(),new UdpAddress("0.0.0.0/0"));
+        super(loader, new UdpTransportMappingFactory(), new DefaultMessageDispatcherFactory(), new UdpAddress("0.0.0.0/0"));
     }
     /** {@inheritDoc} */
     @Override
@@ -102,12 +102,32 @@ public class SnmpUdpV3Manager extends SnmpManager {
         int destinationPort = super.convertStringToIntParam("destinationPort",conParams.get("destinationPort"),161);
         this.udpAddress = new UdpAddress(conParams.get("ipAddress")+"/"+destinationPort);
         this.ver3Username = conParams.get("ver3Username");
-        this.ver3AuthPasscode = conParams.get("ver3Username");
+
+        this.ver3AuthPasscode = conParams.get("ver3AuthPasscode");
         this.authenticationProtocol = conParams.get("authenticationProtocol");
         this.privacyProtocol = conParams.get("privacyProtocol");
         this.privacyProtocolPassShare = conParams.get("privacyProtocolPassShare");
+        setVer3Mode(conParams.get("ver3mode"));
     }
 
+
+
+    private void setVer3Mode(String ver3ModeString){
+
+        if ("AUTH_PRIV".equals(ver3ModeString)){
+            ver3mode=SecurityLevel.AUTH_PRIV;
+
+        }   else if ("AUTH_NOPRIV".equalsIgnoreCase(ver3ModeString)){
+            ver3mode=SecurityLevel.AUTH_NOPRIV;
+
+
+        }
+        else {
+            ver3mode=SecurityLevel.NOAUTH_NOPRIV;
+
+        }
+
+    }
 
     /**
      * <p>getTarget.</p>
@@ -120,10 +140,10 @@ public class SnmpUdpV3Manager extends SnmpManager {
 
         target.setAddress(udpAddress);
 
-        target.setVersion(SnmpConstants.version3); // SnmpConstants.version3
+        target.setVersion(SnmpConstants.version3);
         target.setRetries(retries);
         target.setTimeout(timeout);
-        target.setSecurityLevel(ver3mode); // SecurityLevel.AUTH_NOPRIV
+        target.setSecurityLevel(ver3mode);
         target.setSecurityName(new OctetString(ver3Username));
 
         return target;
@@ -175,7 +195,7 @@ public class SnmpUdpV3Manager extends SnmpManager {
                         new UsmUser(new OctetString(ver3Username), authenticationProtocolOID, new OctetString(ver3AuthPasscode), null, null));
 
 
-            } else {
+            } else if (ver3mode == SecurityLevel.AUTH_PRIV) {
 
                 snmp.getUSM().addUser(new OctetString(ver3Username),
                         new UsmUser(new OctetString(ver3Username), authenticationProtocolOID, new OctetString(ver3AuthPasscode), privacyProtocolOID, new OctetString(privacyProtocolPassShare)));

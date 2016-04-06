@@ -425,6 +425,18 @@ public abstract class SnmpManager {
         return rootNode;
     }
 
+    public String snmpWalkToString(String[] includes) throws IOException {
+        ObjectIdentifierValue oid = loader.getRootOid();
+        Set<String> includesSet = new HashSet<String>(Arrays.asList(includes));
+        Node rootNode = new Node(oid, null);
+        fillTreeFromMib(rootNode);
+
+        fillDoWalk(rootNode, includesSet);
+        fillTreeFromSNMP(rootNode);
+        SnmpXmlPrinter snmpXmlPrinter = new SnmpXmlPrinter(loader,rootNode);
+        return snmpXmlPrinter.printTreeAsXML();
+    }
+
     private void fillTreeFromMib(Node node) {
         ObjectIdentifierValue oid = node.getObjectIdentifierValue();
         ObjectIdentifierValue[] children = oid.getAllChildren();
@@ -734,5 +746,13 @@ public abstract class SnmpManager {
      */
     public void setMaxRepetitions(int maxRepetitions) {
         this.maxRepetitions = maxRepetitions;
+    }
+
+    public MibLoader getLoader() {
+        return loader;
+    }
+
+    public void setLoader(MibLoader loader) {
+        this.loader = loader;
     }
 }

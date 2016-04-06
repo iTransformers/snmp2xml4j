@@ -130,11 +130,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.10</version>
+                <version>2.19.1</version>
                 <configuration>
                     <workingDirectory>${project.parent.basedir}</workingDirectory>
+                    <!--<parallel>classes</parallel>-->
+                    <!--<threadCount>5</threadCount>-->
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.19.1</version>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>

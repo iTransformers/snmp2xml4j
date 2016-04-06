@@ -100,7 +100,6 @@ public class SnmpTcpV3Manager extends SnmpManager {
     /** {@inheritDoc} */
     @Override
     public void doSetParameters(Map<String, String> conParams) {
-        super.setParameters(conParams);
         int destinationPort = super.convertStringToIntParam("destinationPort",conParams.get("destinationPort"),161);
         this.tcpAddress = new TcpAddress(conParams.get("ipAddress")+"/"+destinationPort);
         this.ver3Username = conParams.get("ver3Username");

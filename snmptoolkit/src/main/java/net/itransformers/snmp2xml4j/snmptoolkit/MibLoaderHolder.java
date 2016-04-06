@@ -51,6 +51,9 @@ public class MibLoaderHolder {
         this.loader = loader;
     }
 
+
+
+
     /**
      * <p>Constructor for MibLoaderHolder.</p>
      *
@@ -183,4 +186,7 @@ public class MibLoaderHolder {
         }
     }
 
+    public void setLoader(MibLoader loader) {
+        this.loader = loader;
+    }
 }

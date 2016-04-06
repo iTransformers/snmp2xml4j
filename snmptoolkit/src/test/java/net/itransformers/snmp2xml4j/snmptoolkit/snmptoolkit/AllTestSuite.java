@@ -34,7 +34,9 @@ import org.junit.runners.Suite;
    SnmpV3UdpAuthNoPrivTestCase.class,
    SnmpV3UdpNoAuthNoPrivTestCase.class,
    SnmpV3UdpAuthPrivTestCase.class,
+   SnmpV3UdpAuthPrivDESTestCase.class,
    MainClassTestCase.class
+
 })
 
 public class AllTestSuite {
