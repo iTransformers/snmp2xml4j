@@ -59,7 +59,7 @@ public class SnmpV2UdpTestCase {
     @BeforeClass
     public static void prepareSettings() throws IOException, MibLoaderException {
 
-        snmpManager = new SnmpUdpV2Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535, 10, 161);
+        snmpManager = new SnmpUdpV2Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 3, 1000, 65535, 10, 161);
         snmpManager.init();
 
     }

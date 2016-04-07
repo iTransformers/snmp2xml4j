@@ -60,7 +60,7 @@ public class SnmpV3UdpAuthNoPrivTestCase {
     @BeforeClass
     public static   void prepareSettings() throws IOException, MibLoaderException {
 
-        snmpManager = new SnmpUdpV3Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", SecurityLevel.AUTH_NOPRIV, "usr-md5-none", "authkey1", "MD5", null, null, 2, 1000, 65535,10, 161);
+        snmpManager = new SnmpUdpV3Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", SecurityLevel.AUTH_NOPRIV, "usr-md5-none", "authkey1", "MD5", null, null, 3, 1000, 65535,10, 161);
         snmpManager.init();
 
     }

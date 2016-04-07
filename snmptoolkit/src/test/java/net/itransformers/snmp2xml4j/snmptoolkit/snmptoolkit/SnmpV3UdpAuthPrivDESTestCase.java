@@ -57,8 +57,9 @@ public class SnmpV3UdpAuthPrivDESTestCase {
         conParams.put("privacyProtocolPassShare", "privkey123");
         SnmpManager snmpManager = new SnmpUdpV3Manager(TestResources.getMibLoaderHolder().getLoader());
 
-        snmpManager.init();
         snmpManager.setParameters(conParams);
+        snmpManager.init();
+
 
         Node rootNode = snmpManager.snmpWalk(oids.split(","));
         SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(TestResources.getMibLoaderHolder().getLoader(), rootNode);

@@ -23,11 +23,7 @@ package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpManager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV1Manager;
-import net.itransformers.snmp2xml4j.snmptoolkit.SnmpXmlPrinter;
 import net.percederberg.mibble.MibLoaderException;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.XpathEngine;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,14 +31,8 @@ import org.snmp4j.PDU;
 import org.snmp4j.event.ResponseEvent;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.VariableBinding;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by niau on 3/11/16.
@@ -62,7 +52,7 @@ public class SnmpV1UdpTestCase  {
     @BeforeClass
     public static void prepareSettings() throws IOException, MibLoaderException {
 
-        snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535,10, 161);
+        snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 3, 2000, 65535,10, 161);
         snmpManager.init();
 
     }
@@ -78,11 +68,16 @@ public class SnmpV1UdpTestCase  {
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};
         ResponseEvent responseEvent = snmpManager.snmpGet(oids);
+        if (responseEvent !=null){
+            PDU response = responseEvent.getResponse();
 
-        PDU response = responseEvent.getResponse();
+            VariableBinding vb1 = response.get(0);
+            Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
 
-        VariableBinding vb1 = response.get(0);
-        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+        }else {
+            Assert.assertEquals(responseEvent.getResponse(), null);
+        }
+
 
     }
 
@@ -92,7 +87,7 @@ public class SnmpV1UdpTestCase  {
 
         String snmpGetValue= snmpManager.snmpGet("1.3.6.1.2.1.1.1.0");
 
-        Assert.assertEquals(snmpGetValue, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",snmpGetValue);
 
     }
 
@@ -100,9 +95,10 @@ public class SnmpV1UdpTestCase  {
     @Test
     public void snmpGetNextToString() throws IOException {
 
-        String snmpGetValue= snmpManager.snmpGetNext("1.3.6.1.2.1.1.1");
 
-        Assert.assertEquals(snmpGetValue, "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+        String snmpGetValue= snmpManager.snmpGetNext("1.3.6.1.2.1.1.5");
+
+        Assert.assertEquals("zeus.snmplabs.com",snmpGetValue);
 
     }
 
@@ -121,94 +117,12 @@ public class SnmpV1UdpTestCase  {
         PDU response = responseEvent.getResponse();
 
         VariableBinding vb1 = response.get(0);
-        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m",vb1.toValueString());
 
     }
 
 
 
 
-    /**
-     * <p>snmpGetNext.</p>
-     *
-     * @throws IOException if any.
-     */
-    @Test
-    public void AssertGetChangeIpAddress() throws IOException {
 
-        Map<String,String> conParams = new HashMap<String,String>();
-        conParams.put("ipAddress", "192.168.1.1");
-        conParams.put("snmpCommunity", "public");
-
-        OID oid = new OID("1.3.6.1.2.1.1.1.0");
-        OID oids[] = new OID[]{oid};
-
-        SnmpManager snmpManager1 = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader());
-        snmpManager1.init();
-        snmpManager1.setParameters(conParams);
-        ResponseEvent responseEvent =  snmpManager1.snmpGet(oids);
-
-        org.junit.Assert.assertEquals(responseEvent, null);
-        conParams.put("ipAddress", "195.218.195.228");
-
-        snmpManager1.setParameters(conParams);
-
-        ResponseEvent responseEvent2 =  snmpManager1.snmpGet(oids);
-
-
-        PDU response = responseEvent2.getResponse();
-
-        VariableBinding vb1 = response.get(0);
-        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
-
-
-    }
-
-
-    @Test
-    public void AssertGetChangeSnmpCommunity() throws IOException {
-
-        Map<String,String> conParams = new HashMap<String,String>();
-        conParams.put("ipAddress", "195.218.195.228");
-        conParams.put("snmpCommunity", "test123");
-
-        OID oid = new OID("1.3.6.1.2.1.1.1.0");
-        OID oids[] = new OID[]{oid};
-
-        SnmpManager snmpManager1 = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader());
-        snmpManager1.init();
-        snmpManager1.setParameters(conParams);
-        ResponseEvent responseEvent =  snmpManager1.snmpGet(oids);
-
-        org.junit.Assert.assertEquals(responseEvent, null);
-        conParams.put("snmpCommunity", "public");
-
-        snmpManager1.setParameters(conParams);
-
-        ResponseEvent responseEvent2 =   snmpManager1.snmpGet(oids);
-
-
-        PDU response = responseEvent2.getResponse();
-
-        VariableBinding vb1 = response.get(0);
-        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
-    }
-
-    @Test
-    public void snmpWalk() throws MibLoaderException, ParserConfigurationException, SAXException, XPathExpressionException, IOException, XpathException {
-        String oids = "system,host,ifEntry";
-
-
-        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(TestResources.getMibLoaderHolder().getLoader(), snmpManager.snmpWalk(oids.split(",")));
-
-
-        String xml = xmlPrinter.printTreeAsXML(true);
-
-        String xpath = "/root/iso/org/dod/internet/mgmt/mib-2/system/sysName/value";
-        Document doc = XMLUnit.buildControlDocument(xml);
-        XpathEngine engine = XMLUnit.newXpathEngine();
-        String value = engine.evaluate(xpath, doc);
-        Assert.assertEquals(value, "zeus.snmplabs.com");
-
-    }
 }

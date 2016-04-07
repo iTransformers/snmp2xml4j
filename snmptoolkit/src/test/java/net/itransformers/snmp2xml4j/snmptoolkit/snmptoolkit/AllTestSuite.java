@@ -30,6 +30,7 @@ import org.junit.runners.Suite;
 
    SnmpManagerTests.class,
    SnmpV1UdpTestCase.class,
+   SnmpV1UdpChangeParams.class,
    SnmpV2UdpTestCase.class,
    SnmpV3UdpAuthNoPrivTestCase.class,
    SnmpV3UdpNoAuthNoPrivTestCase.class,
