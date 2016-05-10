@@ -110,7 +110,9 @@ public abstract class SnmpManager {
 
 
 
-
+    public void closeSnmp() throws IOException {
+            snmp.close();
+    }
 
     /**
      * <p>doInit.</p>
@@ -460,13 +462,11 @@ public abstract class SnmpManager {
     protected void fillTreeFromSNMP(Node root) throws IOException {
         CounterSupport.getInstance().addCounterListener(new DefaultCounterListener());
 //         AbstractTransportMapping transport = new DefaultUdpTransportMapping(localAddress);
-        try {
+
 //
             TableUtils tutils = new TableUtils(snmp, pduFactory);
             fillTreeFromSNMP(root, tutils);
-        } finally {
-            snmp.close();
-        }
+
     }
 
 
