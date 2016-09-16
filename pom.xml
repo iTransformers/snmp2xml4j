@@ -35,6 +35,10 @@
     </organization>
     <name>snmp2xml4j</name>
     <url>http://itransformers.net/snmp2xml4j</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
     <issueManagement>
         <url>https://github.com/iTransformers/snmp2xml4j/issues</url>
         <system>GitHub Issues</system>
