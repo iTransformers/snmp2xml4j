@@ -108,7 +108,9 @@ public class SnmpXmlPrinter {
             snmpSyntax =  determineSyntaxType(symbolType.getSyntax());
             SnmpAccess access = symbolType.getAccess();
             accessString = access.toString();
-            description = symbolType.getDescription().replaceAll("\\n"," ");
+            if (symbolType.getDescription()!=null) {
+                description = symbolType.getDescription().replaceAll("\\n", " ");
+            }
             units = symbolType.getUnits();
         } else if (null!=symbol && symbol.getType() instanceof ObjectIdentifierType){
             ObjectIdentifierType symbolType = (ObjectIdentifierType) symbol.getType();

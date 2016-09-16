@@ -27,7 +27,7 @@
 
     <groupId>net.itransformers</groupId>
     <artifactId>snmp2xml4j</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <description>snmp2xml4j is a tool for performing snmpwalks and outputting the result in xml</description>
     <organization>
         <name>iTransformers Labs</name>
@@ -35,6 +35,10 @@
     </organization>
     <name>snmp2xml4j</name>
     <url>http://itransformers.net/snmp2xml4j</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
     <issueManagement>
         <url>https://github.com/iTransformers/snmp2xml4j/issues</url>
         <system>GitHub Issues</system>
