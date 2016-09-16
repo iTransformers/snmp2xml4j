@@ -75,6 +75,7 @@ public class SnmpV1UdpTestCase  {
             Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
 
         }else {
+            assert responseEvent != null;
             Assert.assertEquals(responseEvent.getResponse(), null);
         }
 

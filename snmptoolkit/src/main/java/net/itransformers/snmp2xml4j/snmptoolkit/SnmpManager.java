@@ -587,7 +587,7 @@ public abstract class SnmpManager {
                 }
             }
         } else {
-            System.out.println("PDU response event is null");
+            logger.debug("PDU response event is null");
         }
 
 
@@ -607,7 +607,7 @@ public abstract class SnmpManager {
                 }
             }
         } else {
-            System.out.println("PDU response event is null");
+            logger.debug("PDU response event is null");
         }
        SnmpXmlPrinter xmlPrinter = new SnmpXmlPrinter(mibLoaderHolder.getLoader(),snmpUdpv3Manager.snmpWalk(new String[]{"system", "interfaces"}));
 
@@ -615,7 +615,7 @@ public abstract class SnmpManager {
        String xml = xmlPrinter.printTreeAsXML(true);
 
 
-        System.out.println(xml);
+        logger.trace(xml);
 
 
     }
