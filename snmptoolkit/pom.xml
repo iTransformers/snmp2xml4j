@@ -25,13 +25,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>snmptoolkit</artifactId>
-    <version>1.0.4</version><!--Change for new version-->
+    <version>1.0.5</version><!--Change for new version-->
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.4</version><!--Change for new version-->
+        <version>1.0.5</version><!--Change for new version-->
     </parent>
 
     <organization>
@@ -72,6 +71,11 @@
             <groupId>snmp</groupId>
             <artifactId>mibble-parser</artifactId>
             <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.itransformers</groupId>
+            <artifactId>mibs</artifactId>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>snmp</groupId>

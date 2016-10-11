@@ -27,9 +27,12 @@ import net.percederberg.mibble.Mib;
 import net.percederberg.mibble.MibLoader;
 import net.percederberg.mibble.MibLoaderException;
 import net.percederberg.mibble.MibValueSymbol;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * <p>MibLoaderHolder class.</p>
@@ -53,6 +56,32 @@ public class MibLoaderHolder {
 
 
 
+
+    public MibLoaderHolder(String mibDir,String miblist, boolean failOnError) throws IOException, MibLoaderException {
+        this.loader = new MibLoader();
+        loader.addResourceDir(mibDir);
+        String mibListPath =  mibDir + File.separator + miblist;
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream(miblist);
+        List<String> mibs = IOUtils.readLines(is, String.valueOf(StandardCharsets.UTF_8));
+
+        if (mibs == null) {
+            logger.error("Can not load mib files from dir: "+mibDir);
+            throw new IOException("Can not load mib files from dir: "+mibListPath);
+        }
+        for (String mib : mibs){
+            try {
+                loader.load(mib);
+            } catch (MibLoaderException mle) {
+                if (failOnError) {
+                    throw mle;
+                } else {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    mle.getLog().printTo(new PrintWriter(bos));
+                    logger.warn(new String(bos.toByteArray()));
+                }
+            }
+        }
+    }
 
     /**
      * <p>Constructor for MibLoaderHolder.</p>
@@ -161,7 +190,7 @@ public class MibLoaderHolder {
      * @throws java.io.IOException if any.
      * @throws net.percederberg.mibble.MibLoaderException if any.
      */
-    public static void main(String[] args) throws IOException, MibLoaderException {
+    public static void main1(String[] args) throws IOException, MibLoaderException {
         String oid = "1.3.6.1.4.1.2636.1.1.1.2.1";
         MibLoaderHolder holder = new MibLoaderHolder(new File("snmptoolkit/mibs"), false);
         System.out.println(holder.getSymbolByOid( "JUNIPER-CHASSIS-DEFINES-MIB", oid));
@@ -172,18 +201,10 @@ public class MibLoaderHolder {
      * @param args an array of {@link java.lang.String} objects.
      * @throws java.io.IOException if any.
      */
-    public static void main1(String[] args) throws IOException {
-        String[] mibFiles = new String[]{"CISCO-CDP-MIB"};
-        MibLoader loader = new MibLoader();
-        loader.addDir(new File("mibs"));
-        for (int i = 0; i < mibFiles.length; i++) {
-            try {
-                loader.load(mibFiles[i]);
-            } catch (MibLoaderException e) {
-                e.printStackTrace();
-                e.getLog().printTo(System.out);
-            }
-        }
+    public static void main(String[] args) throws IOException, MibLoaderException {
+        MibLoaderHolder loaderholder = new MibLoaderHolder("mibfiles/mibs","mibfiles/list/_list",false);
+
+        loaderholder.getLoader();
     }
 
     public void setLoader(MibLoader loader) {

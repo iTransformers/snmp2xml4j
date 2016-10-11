@@ -67,9 +67,9 @@ class CmdParser {
     }
 
     /**
-     * <p>printWalkUsage.</p>
+     * <p>printUsage.</p>
      *
-     * @param os
+     *
      * ADDRESS("a", 1),
      *    COMMUNITY("c", 1),
      *    VERSION("v", 1),
@@ -92,82 +92,19 @@ class CmdParser {
      *    PORT("P",0),
      *    OUTPUT_XML("f",0);
      */
-    public static void printWalkUsage(String os) {
-        if ("Windows".equalsIgnoreCase(os)) {
-            System.out.println("Usage: snmpwalk.bat -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
+    public static void printUsage() {
+
+            System.out.println("Usage: java -jar snmp2xml4j.jar -O <get|walk> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
                     "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
                     "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
-            System.out.println("Example v1/v2c: snmpwalk.bat -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
+            System.out.println("Example v1/v2c: java -jar snmp2xml4j.jar -O <get|walk>  -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
                     " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
-            System.out.println("Example v3c: snmpwalk.bat  -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
+            System.out.println("Example v3c: java -jar snmp2xml4j.jar -O <get|walk> -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
                     " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
-
-        } else {
-            System.out.println("Usage: snmpwalk.sh -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
-                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
-                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
-            System.out.println("Example v1/v2c: snmpwalk.sh -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
-            System.out.println("Example v3c: snmpwalk.sh -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, sysName\"");
-        }
-    }
-
-    /**
-     * <p>printGetUsage.</p>
-     * @param os -> Operating system
-     */
-    private static void printGetUsage(String os) {
-        if ("Windows".equalsIgnoreCase(os)){
-
-            System.out.println("snmpget.bat -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
-                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
-                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
-            System.out.println("Example v1/v2c: snmpget.bat -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.1\"");
-            System.out.println("Example v3c - Auth-noPriv: snmpget.bat -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
-            System.out.println("Example v3c - Auth-noPriv: snmpget.bat -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
-
-        }   else {
-            System.out.println("snmpget.sh -md <mibs_dir> -v <version> -a <address> -p <port> -pr <protocol> -c <community> " +
-                    "-u <security_name> -aa <auth-level> -A <auth_passphrare> -ap <auth_protocol> -pp <priv_protocol> -Y <priv_passphrase> "+
-                    "-t <timeout> -r <retries> -m <max_repetitions> [-f <output_file>] -o <oid_names>");
-            System.out.println("Example v1/v2c: snmpget.sh -md snmptoolkit/mibs -v 2c -a 195.218.195.228 -p 161 -pr udp -c public" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.1\"");
-            System.out.println("Example v3c - Auth-noPriv: snmpget.sh  -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
-            System.out.println("Example v3c - Auth-noPriv: snmpget.s -md snmptoolkit/mibs -v 3 -a 195.218.195.228 -p 161 -pr udp -aa AUTH_NOPRIV -u usr-md5-none -A authkey1 -ap MD5" +
-                    " -t 1000 -r 1 -m 100 -f out.xml -o \"sysDescr, 1.3.6.1.2.1.1.5\"");
-
-        }
-        //
     }
 
 
-    /**
-     * <p>printUsage.</p>
-     *
-     * @param operation a {@link java.lang.String} object.
-     */
-    public static void printUsage(String operation) {
-        String os;
-        if (OsUtils.isWindows()) {
-         os = "Windows";
-        }else {
-         os = "Unix";
-        }
-        if ("snmpGet".equalsIgnoreCase(operation)){
 
-            printGetUsage(os);
-        } else if ("walk".equalsIgnoreCase(operation)){
-            printWalkUsage(os);
-        } else if ("set".equalsIgnoreCase(operation)){
-            printSetUsage(os);
-        }
-    }
-    //TODO define set
-    private static void printSetUsage(String os) {
-    }
+
+
 }

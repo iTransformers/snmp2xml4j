@@ -27,7 +27,6 @@ import org.snmp4j.event.ResponseEvent;
 import org.snmp4j.security.SecurityLevel;
 import org.snmp4j.smi.VariableBinding;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,14 +42,15 @@ class Launcher {
     /**
      * <p>run.</p>
      *
-     * @param args an array of {@link java.lang.String} objects.
-     * @throws java.io.IOException if any.
-     * @throws net.percederberg.mibble.MibLoaderException if any.
+     * @param args an array of {@link String} objects.
+     * @throws IOException if any.
+     * @throws MibLoaderException if any.
      */
     public static  void run(String [] args) throws IOException, MibLoaderException {
         SnmpManager snmpManager = null;
 
         SnmpXmlPrinter snmpXmlPrinter;
+        MibLoaderHolder mibLoaderHolder = new MibLoaderHolder("mibfiles/mibs","mibfiles/list/_list",false);
 
         Map<CmdOptions, String> opts;
 
@@ -58,25 +58,18 @@ class Launcher {
             opts = CmdParser.parseCmd(args);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            CmdParser.printUsage("GET");
+            CmdParser.printUsage();
             return;
         }
 
         String operation = opts.get(CmdOptions.OPERATION);
         if (operation == null){
             System.out.println("Missing option \"-" + CmdOptions.OPERATION.getName()  +" Possible options are snmpGet,set,walk "+ "\"");
-            CmdParser.printUsage("GET");
+            CmdParser.printUsage();
             return;
 
         }
 
-        String mibDir = opts.get(CmdOptions.MIBS_DIR);
-        if (mibDir == null) {
-            System.out.println("Missing option \"-" + CmdOptions.MIBS_DIR.getName() + "\"");
-            CmdParser.printUsage(operation);
-            return;
-        }
-        MibLoaderHolder mibLoaderHolder = new MibLoaderHolder(new File(mibDir), false);
 
 
 
@@ -85,7 +78,7 @@ class Launcher {
         if (address != null) {
         } else {
             System.out.println("Missing option \"-" + CmdOptions.ADDRESS.getName()  +"\"");
-            CmdParser.printWalkUsage(operation);
+            CmdParser.printUsage();
             return;
         }
 
@@ -97,7 +90,7 @@ class Launcher {
                 portInt = Integer.parseInt(port);
             } catch (NumberFormatException nfe) {
                 System.out.println("Invalid parameter value for \"-" + CmdOptions.PORT + "\", int value is required");
-                CmdParser.printUsage(operation);
+                CmdParser.printUsage();
             }
         }
 
@@ -116,7 +109,7 @@ class Launcher {
                 timeoutInt = Integer.parseInt(timeout);
             } catch (NumberFormatException nfe) {
                 System.out.println("Invalid parameter value for \"-" + CmdOptions.TIMEOUT + "\", int value is required");
-                CmdParser.printUsage(operation);
+                CmdParser.printUsage();
             }
         } else {
             System.out.println("Using default timeout: 1000");
@@ -135,7 +128,7 @@ class Launcher {
                 retriesInt = Integer.parseInt(retries);
             } catch (NumberFormatException nfe) {
                 System.out.println("Invalid parameter value for \"-" + CmdOptions.RETRIES + "\", int value is required");
-                CmdParser.printWalkUsage(operation);
+                CmdParser.printUsage();
             }
         } else {
             System.out.println("Using default retries: 1");
@@ -149,7 +142,7 @@ class Launcher {
                 maxRepetitionsInt = Integer.parseInt(maxRepetitions);
             } catch (NumberFormatException nfe) {
                 System.out.println("Invalid parameter value for \"-" + CmdOptions.MAX_REPETITIONS + "\", int value is required");
-                CmdParser.printWalkUsage(operation);
+                CmdParser.printUsage();
             }
         } else {
             System.out.println("Using default maxRepetitions: 10");
@@ -159,7 +152,7 @@ class Launcher {
         if (version != null) {
         } else {
             System.out.println("Missing option \"-" + CmdOptions.VERSION.getName() + "\"");
-            CmdParser.printWalkUsage(operation);
+            CmdParser.printUsage();
             return;
         }
 
@@ -174,7 +167,7 @@ class Launcher {
 
                 }            } else {
                 System.out.println("Missing option \"-" + CmdOptions.COMMUNITY.getName() + "\"");
-                CmdParser.printWalkUsage(operation);
+                CmdParser.printUsage();
                 return;
             }
         } else if (version.equalsIgnoreCase("2") || version.equalsIgnoreCase("2c")){
@@ -189,7 +182,7 @@ class Launcher {
                 }
             } else {
                 System.out.println("Missing option \"-" + CmdOptions.COMMUNITY.getName() + "\"");
-                CmdParser.printUsage(operation);
+                CmdParser.printUsage();
                 return;
             }
         } else if (version.equalsIgnoreCase("3")){
@@ -205,7 +198,7 @@ class Launcher {
 
             } else {
                 System.out.println("Missing option \"-" + CmdOptions.SECURITY_NAME.getName() + "\"");
-                CmdParser.printUsage(operation);
+                CmdParser.printUsage();
                 return;
             }
 
@@ -218,7 +211,7 @@ class Launcher {
 
                     } else {
                         System.out.println("Missing option \"-" + CmdOptions.AUTH_PASSPHRASE.getName() + "\"");
-                        CmdParser.printUsage(operation);
+                        CmdParser.printUsage();
                         return;
                     }
 
@@ -226,7 +219,7 @@ class Launcher {
 
                     } else {
                         System.out.println("Missing option \"-" + CmdOptions.AUTH_PROTOCOL.getName() + "\"");
-                        CmdParser.printUsage(operation);
+                        CmdParser.printUsage();
                         return;
                     }
 
@@ -236,7 +229,7 @@ class Launcher {
 
                     } else {
                         System.out.println("Missing option \"-" + CmdOptions.AUTH_PASSPHRASE.getName() + "\"");
-                        CmdParser.printUsage(operation);
+                        CmdParser.printUsage();
                         return;
                     }
 
@@ -244,21 +237,21 @@ class Launcher {
 
                     } else {
                         System.out.println("Missing option \"-" + CmdOptions.AUTH_PROTOCOL.getName() + "\"");
-                        CmdParser.printUsage(operation);
+                        CmdParser.printUsage();
                         return;
                     }
                     if (privacyProtocol!=null){
 
                     } else {
                         System.out.println("Missing option \"-" + CmdOptions.PRIV_PROTOCOL.getName() + "\"");
-                        CmdParser.printUsage(operation);
+                        CmdParser.printUsage();
                         return;
                     }
                     if (privacyPassshare!=null){
 
                     } else {
                         System.out.println("Missing option \"-" + CmdOptions.PRIV_PASSPHRASE.getName() + "\"");
-                        CmdParser.printUsage(operation);
+                        CmdParser.printUsage();
                         return;
                     }
 
@@ -268,14 +261,14 @@ class Launcher {
 
                 } else {
                     System.out.println("Unrecognized \"-" + CmdOptions.AUTH_LEVEL + "\"");
-                    CmdParser.printUsage(operation);
+                    CmdParser.printUsage();
                     return;
                 }
 
 
             } else {
                 System.out.println("Missing option \"-" + CmdOptions.AUTH_LEVEL.getName() + "\"");
-                CmdParser.printUsage(operation);
+                CmdParser.printUsage();
                 return;
             }
 
@@ -303,7 +296,7 @@ class Launcher {
         String oids = opts.get(CmdOptions.OIDS);
         if (oids == null) {
             System.out.println("Missing option \"-" + CmdOptions.OIDS.getName());
-            CmdParser.printWalkUsage(operation);
+            CmdParser.printUsage();
             return;
         }
 
@@ -319,7 +312,7 @@ class Launcher {
 
             outputXml(opts, xml);
 
-        }else if (operation.equalsIgnoreCase("snmpGet")) {
+        }else if (operation.equalsIgnoreCase("get")) {
             ResponseEvent responseEvent = snmpManager.snmpGet(includesList);
 
             PDU response;

@@ -27,7 +27,7 @@
 
     <groupId>net.itransformers</groupId>
     <artifactId>snmp2xml4j</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <description>snmp2xml4j is a tool for performing snmpwalks and outputting the result in xml</description>
     <organization>
         <name>iTransformers Labs</name>
@@ -86,7 +86,8 @@
 
     <modules>
         <module>snmptoolkit</module>
-        <module>distribution</module>
+        <module>snmp2xml4j-bundle</module>
+        <module>mibs</module>
     </modules>
 
 
@@ -115,30 +116,28 @@
     <build>
         <plugins>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>distribution/snmp2xmlAssembly.xml</descriptor>
-                        <!--descriptor>distribution/bgpPeeringMap.xml</descriptor-->
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <!-- this is used for inheritance merges -->
-                        <phase>package</phase>
-                        <!-- bind to the packaging phase -->
+
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-shade-plugin</artifactId>-->
+                <!--<version>2.4.3</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<id>snmp2xml4j</id>-->
                         <!--<goals>-->
-                        <!--<goal>single</goal>-->
+                            <!--<goal>shade</goal>-->
                         <!--</goals>-->
-                    </execution>
-
-                </executions>
-
-            </plugin>
+                        <!--<configuration>-->
+                            <!--<transformers>-->
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+                                    <!--<mainClass>net.itransformers.snmp2xml4j.snmptoolkit.Launcher</mainClass>-->
+                                <!--</transformer>-->
+                            <!--</transformers>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -202,13 +201,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
+
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>aggregate</id>
                         <goals>
+                            <goal>aggregate</goal>
                             <goal>jar</goal>
+
                         </goals>
                     </execution>
+
                 </executions>
             </plugin>
             <!--<plugin>-->

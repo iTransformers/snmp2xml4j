@@ -36,7 +36,7 @@ public class TestResources extends ExternalResource {
 
     static {
         try {
-            mibLoaderHolder = new MibLoaderHolder(new File("mibs"), false);
+            mibLoaderHolder = new MibLoaderHolder("mibfiles/mibs","mibfiles/list/_list",false);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (MibLoaderException e) {
