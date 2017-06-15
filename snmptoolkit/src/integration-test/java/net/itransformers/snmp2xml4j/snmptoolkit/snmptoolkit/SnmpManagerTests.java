@@ -45,7 +45,7 @@ public class SnmpManagerTests {
     @Test(expected=NullPointerException.class)
     public void getSymbolFromMibByOid() throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpUdpV1Manager(null, "195.218.195.228", "public", 1, 1000, 65535,10, 161);
+        SnmpManager snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
         snmpManager.init();
         snmpManager.getSymbolFromMibByOid("system","sysName");
 
@@ -54,7 +54,7 @@ public class SnmpManagerTests {
     @Test
     public void AssertSymbolFromMibByOid() throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535,10, 161);
+        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
         snmpManager.init();
         String symbol = snmpManager.getSymbolFromMibByOid("SNMPv2-MIB","1.3.6.1.2.1.1.5");
 
@@ -69,7 +69,7 @@ public class SnmpManagerTests {
     @Test
     public void AssertSymbolFromMibByOidOnUnknownOid() throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535,10, 161);
+        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
         snmpManager.init();
         String oidName = snmpManager.getSymbolFromMibByOid("SNMPv2-MIB","1.3.6.1.2.1.1.5.11");
 
@@ -81,7 +81,7 @@ public class SnmpManagerTests {
     @Test
     public void AssertNullOnSymbolFromMibByOidFromUnknownMib() throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 1, 1000, 65535,10, 161);
+        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
         snmpManager.init();
         String oid = snmpManager.getSymbolFromMibByOid("system","sysName");
 
@@ -124,7 +124,7 @@ public class SnmpManagerTests {
 
         Map<String,String> conParams = new HashMap<String,String>();
         conParams.put("ipAddress","192.168.1.1");
-        conParams.put("snmpCommunity","public");
+        conParams.put("snmpCommunity","netTransformer-r");
         conParams.put("timeout","illegalTimeout");
         OID oid = new OID("1.3.6.1.2.1.1.1");
 
@@ -140,7 +140,7 @@ public class SnmpManagerTests {
 
         Map<String,String> conParams = new HashMap<String,String>();
         conParams.put("ipAddress","192.168.1.1");
-        conParams.put("snmpCommunity","public");
+        conParams.put("snmpCommunity","netTransformer-r");
         conParams.put("retries","illegalTimeout");
         OID oid = new OID("1.3.6.1.2.1.1.1");
 
@@ -158,7 +158,7 @@ public class SnmpManagerTests {
 
         Map<String,String> conParams = new HashMap<String,String>();
         conParams.put("ipAddress","192.168.1.1");
-        conParams.put("snmpCommunity","public");
+        conParams.put("snmpCommunity","netTransformer-r");
 
         OID oid = new OID("1.3.6.1.2.1.1.1");
         OID oids[] = new OID[]{oid};
@@ -177,7 +177,7 @@ public class SnmpManagerTests {
 
         Map<String,String> conParams = new HashMap<String,String>();
         conParams.put("ipAddress","192.168.1.1");
-        conParams.put("snmpCommunity","public");
+        conParams.put("snmpCommunity","netTransformer-r");
 
         OID oid = new OID("1.3.6.1.2.1.1.1");
         OID oids[] = new OID[]{oid};

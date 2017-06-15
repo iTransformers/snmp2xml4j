@@ -43,6 +43,7 @@
         <url>https://github.com/iTransformers/snmp2xml4j/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
+
     <developers>
         <developer>
             <id>niau</id>
@@ -113,6 +114,12 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}</directory>
+            </resource>
+
+        </resources>
         <plugins>
 
             <plugin>
@@ -185,19 +192,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -270,17 +265,17 @@
             <url>http://repo.itransformers.net/repos</url>
         </repository>
 
-        <!-- tcljava is provided by SpringSource -->
-        <!--<repository>-->
-            <!--<id>jfrogrepo-libs-release-local</id>-->
-            <!--<name>jfrogrepo-libs-releases</name>-->
-            <!--<url>http://193.19.172.133:24280/artifactory/libs-release-local</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-            <!--<id>jfrogrepo-ext-release-local</id>-->
-            <!--<name>jfrogrepo-ext-releases</name>-->
-            <!--<url>http://193.19.172.133:24280/artifactory/ext-release-local</url>-->
-        <!--</repository>-->
+         <!--tcljava is provided by SpringSource-->
+        <repository>
+            <id>jfrogrepo-libs-release-local</id>
+            <name>jfrogrepo-releases</name>
+            <url>http://repos.itransformers.net:8081/artifactory/libs-release-local</url>
+        </repository>
+        <repository>
+            <id>jfrogrepo-ext-release-local</id>
+            <name>jfrogrepo-releases</name>
+            <url>http://repos.itransformers.net:8081/artifactory/ext-release-local</url>
+        </repository>
 
         <!--<repository>-->
             <!--<snapshots>-->
@@ -291,5 +286,6 @@
             <!--<url>http://jcenter.bintray.com</url>-->
         <!--</repository>-->
     </repositories>
+
 
 </project>

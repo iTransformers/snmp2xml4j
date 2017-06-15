@@ -36,7 +36,10 @@ public class TestResources extends ExternalResource {
 
     static {
         try {
-            mibLoaderHolder = new MibLoaderHolder(new File("mibs"), false);
+            String basedir = (String) System.getProperties().get("basedir");
+            System.out.println(basedir);
+            File mibsPath = new File("mibs");
+            mibLoaderHolder = new MibLoaderHolder(mibsPath, false);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (MibLoaderException e) {

@@ -32,11 +32,11 @@ import org.junit.runners.Suite;
    SnmpV1UdpTestCase.class,
    SnmpV1UdpChangeParams.class,
    SnmpV2UdpTestCase.class,
-   SnmpV3UdpAuthNoPrivTestCase.class,
-   SnmpV3UdpNoAuthNoPrivTestCase.class,
-   SnmpV3UdpAuthPrivTestCase.class,
-   SnmpV3UdpAuthPrivDESTestCase.class,
-   MainClassTestCase.class
+//   SnmpV3UdpAuthNoPrivTestCase.class,
+//   SnmpV3UdpNoAuthNoPrivTestCase.class,
+//   SnmpV3UdpAuthPrivTestCase.class,
+//   SnmpV3UdpAuthPrivDESTestCase.class,
+//   MainClassTestCase.class
 
 })
 

@@ -1,5 +1,5 @@
 /*
- * SnmpV1UdpChangeParams.java
+ * SnmpV2UdpTestCase.java
  *
  * This work is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -21,14 +21,14 @@
 
 package net.itransformers.snmp2xml4j.snmptoolkit.snmptoolkit;
 
+import junit.framework.Assert;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpManager;
-import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV1Manager;
+import net.itransformers.snmp2xml4j.snmptoolkit.SnmpUdpV2Manager;
 import net.itransformers.snmp2xml4j.snmptoolkit.SnmpXmlPrinter;
 import net.percederberg.mibble.MibLoaderException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.XpathEngine;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.snmp4j.PDU;
@@ -41,94 +41,66 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Created by niau on 4/7/16.
+ * Created by niau on 3/11/16.
+ *
+ * @author niau
+ * @version $Id: $Id
+ * @since 1.0
  */
-public class SnmpV1UdpChangeParams {
-    /**
-     * <p>prepareSettings.</p>
-     *
-     *
-     */
-
-
-
+public class SnmpV2UdpTestCase {
     private static SnmpManager snmpManager = null;
 
+
+    /**
+     * <p>prepareSettings.</p>
+     */
     @BeforeClass
     public static void prepareSettings() throws IOException, MibLoaderException {
 
-        snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "195.218.195.228", "public", 3, 2000, 65535,10, 161);
+        snmpManager = new SnmpUdpV2Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 3, 1000, 65535, 10, 161);
         snmpManager.init();
 
     }
+
     /**
-     * <p>snmpGetNext.</p>
+     * <p>snmpGet.</p>
      *
-     * @throws IOException if any.
+     * @throws java.io.IOException if any.
      */
     @Test
-    public void AssertGetChangeIpAddress() throws IOException {
-
-        Map<String,String> conParams = new HashMap<String,String>();
-        conParams.put("ipAddress", "192.168.1.1");
-        conParams.put("snmpCommunity", "public");
+    public void snmpGet() throws IOException {
 
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};
+        ResponseEvent responseEvent = snmpManager.snmpGet(oids);
 
-        SnmpManager snmpManager1 = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader());
-        snmpManager1.init();
-        snmpManager1.setParameters(conParams);
-        ResponseEvent responseEvent =  snmpManager1.snmpGet(oids);
-
-        org.junit.Assert.assertEquals(responseEvent, null);
-        conParams.put("ipAddress", "195.218.195.228");
-
-        snmpManager1.setParameters(conParams);
-
-        ResponseEvent responseEvent2 =  snmpManager1.snmpGet(oids);
-
-
-        PDU response = responseEvent2.getResponse();
+        PDU response = responseEvent.getResponse();
 
         VariableBinding vb1 = response.get(0);
-        Assert.assertEquals("SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m", vb1.toValueString());
+        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
 
 
     }
 
-
+    /**
+     * <p>snmpGetNext.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     @Test
-    public void AssertGetChangeSnmpCommunity() throws IOException {
+    public void snmpGetNext() throws IOException {
 
-        Map<String,String> conParams = new HashMap<String,String>();
-        conParams.put("ipAddress", "195.218.195.228");
-        conParams.put("snmpCommunity", "test123");
-
-        OID oid = new OID("1.3.6.1.2.1.1.1.0");
+        OID oid = new OID("1.3.6.1.2.1.1.1");
         OID oids[] = new OID[]{oid};
+        ResponseEvent responseEvent = snmpManager.snmpGetNext(oids);
 
-        SnmpManager snmpManager1 = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader());
-        snmpManager1.init();
-        snmpManager1.setParameters(conParams);
-        ResponseEvent responseEvent =  snmpManager1.snmpGet(oids);
-
-        org.junit.Assert.assertEquals(responseEvent, null);
-        conParams.put("snmpCommunity", "public");
-
-        snmpManager1.setParameters(conParams);
-
-        ResponseEvent responseEvent2 =   snmpManager1.snmpGet(oids);
-
-
-        PDU response = responseEvent2.getResponse();
+        PDU response = responseEvent.getResponse();
 
         VariableBinding vb1 = response.get(0);
         Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+
     }
 
     @Test
@@ -149,3 +121,4 @@ public class SnmpV1UdpChangeParams {
 
     }
 }
+

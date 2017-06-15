@@ -54,7 +54,7 @@ public class SnmpTcpV3Manager extends SnmpManager {
     protected String authenticationProtocol;
     protected String privacyProtocol;
     protected String privacyProtocolPassShare;
-    protected TcpAddress tcpAddress;
+    TcpAddress tcpAddress;
 
 
 

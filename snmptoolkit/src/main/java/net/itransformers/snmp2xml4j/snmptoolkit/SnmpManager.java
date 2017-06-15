@@ -153,11 +153,13 @@ public abstract class SnmpManager {
      * @param conParams a {@link java.util.Map} object.
      */
     public void setParameters(Map<String, String> conParams) {
-        this.retries = convertStringToIntParam("retries", conParams.get("retries"), 3);
-        this.timeout = convertStringToIntParam("timeout", conParams.get("timeout"), 1000);
-        this.maxSizeRequestPDU = convertStringToIntParam("maxSizeRequestPDU", conParams.get("maxSizeRequestPDU"),1000);
-        this.maxRepetitions = convertStringToIntParam("maxRepetitions", conParams.get("maxRepetitions"), 10);
-        doSetParameters(conParams);
+        if (conParams!=null) {
+            this.retries = convertStringToIntParam("retries", conParams.get("retries"), 3);
+            this.timeout = convertStringToIntParam("timeout", conParams.get("timeout"), 1000);
+            this.maxSizeRequestPDU = convertStringToIntParam("maxSizeRequestPDU", conParams.get("maxSizeRequestPDU"), 1000);
+            this.maxRepetitions = convertStringToIntParam("maxRepetitions", conParams.get("maxRepetitions"), 10);
+            doSetParameters(conParams);
+        }
     }
 
     /**
