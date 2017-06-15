@@ -1,5 +1,5 @@
 node{
-        docker.image('maven:alpine').inside {
+       // docker.image('maven:alpine').inside {
             stage('Preparation') {    // Maven installation declared in the Jenkins "Global Tool Configuration"
                 git url: 'https://github.com/iTransformers/snmp2xml4j'
             }
@@ -9,7 +9,7 @@ node{
                         // Maven settings and global settings can also be defined in Jenkins Global Tools Configuration
                         mavenSettingsConfig: 'my-maven-settings',
                         mavenLocalRepo: '.repository')
-        }
+       // }
             stage('Unit test'){
                 sh "mvn clean test"
             }
