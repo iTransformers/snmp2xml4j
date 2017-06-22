@@ -31,10 +31,12 @@ node {
             mavenSettingsConfig: '5dd72332-5e11-4907-84e9-8c3e00747634',
             mavenLocalRepo: '.repository') {
 
-        //Enable and fix a broken unit test
-//        stage('Unit test') {
-//            sh "mvn clean test"
-//        }
+        stage('Unit test') {
+            sh "mvn clean test"
+        }
+
+        // Enable and fix a broken functional test
+
         stage('Integration test') {
             sh "mvn test -P functional-test"
         }
