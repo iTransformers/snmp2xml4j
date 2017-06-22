@@ -9,7 +9,7 @@ node{
                         // Maven settings and global settings can also be defined in Jenkins Global Tools Configuration
                         mavenSettingsConfig: '5dd72332-5e11-4907-84e9-8c3e00747634',
                         mavenLocalRepo: '.repository')
-       // }
+
             stage('Unit test'){
                 sh "mvn clean test"
             }
@@ -19,6 +19,8 @@ node{
             stage('Package'){
                 sh "mvn package -DskipTests=true"
             }
+
+           }
 
 
         // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe reports and FindBugs reports
