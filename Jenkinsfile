@@ -20,7 +20,7 @@
  */
 
 node{
-     //   docker.image('maven:alpine').inside {
+      docker.image('maven:alpine').inside {
             stage('Preparation') {    // Maven installation declared in the Jenkins "Global Tool Configuration"
                 git url: 'https://github.com/iTransformers/snmp2xml4j'
             }
@@ -41,7 +41,7 @@ node{
                 sh "mvn package -DskipTests=true"
             }
 
-     //      }
+           }
 
 
 
