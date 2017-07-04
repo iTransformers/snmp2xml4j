@@ -55,7 +55,7 @@ node() {
 
     stage('Push image') {
         echo "pushing image";
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                docker.withRegistry('https://registry.hub.docker.com', '15887ad0-0df2-4b81-b7f7-96b1dc0dbaf4') {
             snmp2xml4j.push("${env.BUILD_NUMBER}")
             snmp2xml4j.push("latest")
         }
