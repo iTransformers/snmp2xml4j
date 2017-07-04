@@ -87,7 +87,6 @@
 
     <modules>
         <module>snmptoolkit</module>
-        <module>distribution</module>
     </modules>
 
 

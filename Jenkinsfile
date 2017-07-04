@@ -19,11 +19,12 @@
  * Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
  */
 
-node {
-   // docker.image('maven:alpine').inside {
+node() {
+    docker.image('maven:alpine').inside {
         stage('Preparation') {    // Maven installation declared in the Jenkins "Global Tool Configuration"
             git url: 'https://github.com/iTransformers/snmp2xml4j'
         }
+
         withMaven(
                 maven: 'M3',
                 // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
@@ -37,15 +38,16 @@ node {
 
             // Enable and fix a broken functional test
 
-//            stage('Integration test') {
-//                sh "mvn test -P functional-test"
-//            }
             stage('Package') {
                 sh "mvn package -DskipTests=true"
             }
 
+            stage('Functional test') {
+                sh "mvn test -P functional-test"
+            }
+
         }
-  //  }
+ }
 
     stage('Build image') {
         /* This builds the actual image; synonymous to
@@ -57,11 +59,7 @@ node {
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
          * For this example, we're using a Volkswagen-type approach ;-) */
-
-        snmp2xml4j.inside {
-            sh "ls -l /opt/snmp2xml4j/bin"
-            sh 'echo "Tests passed"'
-        }
+        sh "docker run -ti   itransformers/snmp2xml4j:1.0 -O walk -v 2c -a 193.19.175.129 -p 161 -pr udp -c netTransformer-r -t 1000 -r 1 -m 100 -o 'sysDescr, sysName'"
     }
 
     stage('Push image') {
@@ -70,10 +68,10 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         echo "pushing image";
-        //        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-//            snmp2xml4j.push("${env.BUILD_NUMBER}")
-//            snmp2xml4j.push("latest")
-//        }
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            snmp2xml4j.push("${env.BUILD_NUMBER}")
+            snmp2xml4j.push("latest")
+        }
     }
 
 
