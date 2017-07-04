@@ -88,6 +88,7 @@
 
     <modules>
         <module>snmptoolkit</module>
+        <module>snmp2xml4j-bundle</module>
     </modules>
 
 
