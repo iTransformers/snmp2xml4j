@@ -39,6 +39,9 @@
         <url>http://itransformers.net</url>
     </organization>
     <url>http://itransformers.net/snmp2xml4j</url>
+    <properties>
+        <baseDir>${parent.basedir}</baseDir>
+    </properties>
     <developers>
         <developer>
             <id>niau</id>

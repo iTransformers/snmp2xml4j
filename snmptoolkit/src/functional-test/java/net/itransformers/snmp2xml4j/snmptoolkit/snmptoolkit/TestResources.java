@@ -36,9 +36,14 @@ public class TestResources extends ExternalResource {
 
     static {
         try {
-            String basedir = (String) System.getProperties().get("basedir");
-            System.out.println(basedir);
-            File mibsPath = new File("mibs");
+            String basedir = (String) System.getProperties().get("baseDir");
+            if (basedir==null) {
+                System.out.println("Basedir not set! Setting it to "+new File(".").getAbsolutePath());
+                basedir = ".";
+            }else {
+                System.out.println(basedir);
+            }
+            File mibsPath = new File(basedir,"mibs");
             mibLoaderHolder = new MibLoaderHolder(mibsPath, false);
         } catch (IOException e) {
             e.printStackTrace();

@@ -77,11 +77,16 @@
 //        OID oid = new OID("1.3.6.1.2.1.1.1.0");
 //        OID oids[] = new OID[]{oid};
 //        ResponseEvent responseEvent = snmpManager.snmpGet(oids);
+//        PDU response;
+//        if (responseEvent!=null) {
+//             response = responseEvent.getResponse();
+//            VariableBinding vb1 = response.get(0);
+//            Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
+//        }  else{
+//          Assert.assertEquals(true,false);
+//        }
 //
-//        PDU response = responseEvent.getResponse();
 //
-//        VariableBinding vb1 = response.get(0);
-//        Assert.assertEquals(vb1.toValueString(), "SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m");
 //
 //
 //
