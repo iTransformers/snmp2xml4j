@@ -26,21 +26,24 @@ node() {
         git url: 'https://github.com/iTransformers/snmp2xml4j'
     }
 
-    stage('Unit test') {
-        sh "mvn clean test"
+    withMaven(maven: 'M3', mavenSettingsConfig: '55234634-bcc4-4034-9a07-a1df766290f5') {
+
+
+        stage('Unit test') {
+            sh "mvn clean test"
+        }
+
+        // Enable and fix a broken functional test
+
+        stage('Package') {
+            sh "mvn package -DskipTests=true"
+        }
+
+        stage('Functional test') {
+            sh "mvn test -P functional-test"
+        }
+
     }
-
-    // Enable and fix a broken functional test
-
-    stage('Package') {
-        sh "mvn package -DskipTests=true"
-    }
-
-    stage('Functional test') {
-        sh "mvn test -P functional-test"
-    }
-
-
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
