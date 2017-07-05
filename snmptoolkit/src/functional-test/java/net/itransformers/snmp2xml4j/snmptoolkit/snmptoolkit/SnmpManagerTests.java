@@ -45,7 +45,7 @@ public class SnmpManagerTests {
     @Test(expected=NullPointerException.class)
     public void getSymbolFromMibByOid() throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
+        SnmpManager snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-aaa", 1, 1000, 65535,10, 161);
         snmpManager.init();
         snmpManager.getSymbolFromMibByOid("system","sysName");
 
@@ -54,7 +54,7 @@ public class SnmpManagerTests {
     @Test
     public void AssertSymbolFromMibByOid() throws IOException, MibLoaderException {
 
-        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
+        SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-aaa", 1, 1000, 65535,10, 161);
         snmpManager.init();
         String symbol = snmpManager.getSymbolFromMibByOid("SNMPv2-MIB","1.3.6.1.2.1.1.5");
 
@@ -79,7 +79,7 @@ public class SnmpManagerTests {
     }
 
     @Test
-    public void AssertNullOnSymbolFromMibByOidFromUnknownMib() throws IOException, MibLoaderException {
+    public void     AssertNullOnSymbolFromMibByOidFromUnknownMib() throws IOException, MibLoaderException {
 
         SnmpManager snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
         snmpManager.init();

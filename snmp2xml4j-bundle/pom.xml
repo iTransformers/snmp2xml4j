@@ -114,6 +114,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
