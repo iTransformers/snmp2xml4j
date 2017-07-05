@@ -43,7 +43,7 @@ node() {
         //withMaven(maven: 'M3', mavenSettingsConfig: '55234634-bcc4-4034-9a07-a1df766290f5');
 
         // Tool name from Jenkins configuration
-        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
+        rtMaven.deployer releaseRepo: 'ext-release-local', snapshotRepo: 'ext-snapshot-local', server: server
         rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
         rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
 
@@ -82,17 +82,7 @@ node() {
     }
 
 
-    stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-        snmp2xml4j = docker.build("itransformers/snmp2xml4j")
-    }
 
-
-    stage('Test image') {
-
-        sh "docker run -i   itransformers/snmp2xml4j:latest -O walk -v 2c -a 193.19.175.150 -p 161 -pr udp -c netTransformer-aaa -t 1000 -r 1 -m 100 -o 'sysDescr, sysName'"
-    }
 
     stage('Release') {
       //  rtMaven.deployer.deployArtifacts = true
@@ -105,14 +95,18 @@ node() {
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
     }
-
-    stage('Push image') {
+    stage('Docker') {
+        /* This builds the actual image; synonymous to
+         * docker build on the command line */
+        echo "building an image"
+        snmp2xml4j = docker.build("itransformers/snmp2xml4j")
+        echo "testing the image";
+        sh "docker run -i   itransformers/snmp2xml4j:latest -O walk -v 2c -a 193.19.175.150 -p 161 -pr udp -c netTransformer-aaa -t 1000 -r 1 -m 100 -o 'sysDescr, sysName'"
         echo "pushing image";
         docker.withRegistry('https://registry.hub.docker.com', '15887ad0-0df2-4b81-b7f7-96b1dc0dbaf4') {
             snmp2xml4j.push("${env.BUILD_NUMBER}")
             snmp2xml4j.push("latest")
         }
-
 
     }
 
@@ -121,18 +115,22 @@ node() {
                 //Mandatory parameters
                 'buildName'          : buildInfo.name,
                 'buildNumber'        : buildInfo.number,
-                'targetRepo'         : 'libs-release-local',
+                'targetRepo'         : 'ext-release-local',
 
                 //Optional parameters
                 'comment'            : 'this is the promotion comment',
-                'sourceRepo'         : 'libs-snapshot-local',
-                'status'             : 'Released',
+                'sourceRepo'         : 'ext-snapshot-local',
+                'status'  Area           : 'Released',
                 'includeDependencies': true,
                 'failFast'           : true,
                 'copy'               : true
         ]
+        try{
         // Promote build
-        server.promote promotionConfig
+            server.promote promotionConfig
+        }catch (all){
+            echo "Promotion failed..."
+        }
 
     }
 
