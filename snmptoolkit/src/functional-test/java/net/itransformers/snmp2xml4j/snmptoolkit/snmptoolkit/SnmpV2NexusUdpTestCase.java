@@ -59,7 +59,7 @@ public class SnmpV2NexusUdpTestCase {
     @BeforeClass
     public static void prepareSettings() throws IOException, MibLoaderException {
 
-        snmpManager = new SnmpUdpV2Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 3, 1000, 65535, 10, 161);
+        snmpManager = new SnmpUdpV2Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-aaaa", 1, 1000, 65535, 10, 161);
         snmpManager.init();
 
     }

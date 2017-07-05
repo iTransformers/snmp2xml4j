@@ -19,6 +19,7 @@
  * Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
  */
 
+
 node() {
     def snmp2xml4j;
 
@@ -58,12 +59,49 @@ node() {
         sh "docker run -ti   itransformers/snmp2xml4j:latest -O walk -v 2c -a 193.19.175.129 -p 161 -pr udp -c netTransformer-r -t 1000 -r 1 -m 100 -o 'sysDescr, sysName'"
     }
 
+    state ('Release-candidate'){
+
+
+        def server = Artifactory.server '819081409@1432230914724'
+        def buildInfo = Artifactory.newBuildInfo()
+        buildInfo.name="snmp2xml4j-build"
+        buildInfo.env.capture = true
+        buildInfo.retention maxBuilds: 10
+        buildInfo.retention maxDays: 7
+        buildInfo.retention maxBuilds: 10, maxDays: 7, doNotDiscardBuilds: ["3", "4"], deleteBuildArtifacts: true
+        server.upload(artifactoryUploadDsl, buildInfo)
+        server.publishBuildInfo(buildInfo)
+
+        def promotionConfig = [
+                // Mandatory parameters
+                'buildName'          : buildInfo.name,
+                'buildNumber'        : buildInfo.number,
+                'targetRepo'         : 'libs-release-local',
+
+                // Optional parameters
+                'comment'            : 'this is the promotion comment',
+                'sourceRepo'         : 'libs-snapshot-local',
+                'status'             : 'Released',
+                'includeDependencies': true,
+                'copy'               : true,
+                // 'failFast' is true by default.
+                // Set it to false, if you don't want the promotion to abort upon receiving the first error.
+                'failFast'           : true
+        ]
+
+        server.addInteractivePromotion server: server, promotionConfig: promotionConfig, displayName: "Promote me please"
+
+    }
+
     stage('Push image') {
         echo "pushing image";
                 docker.withRegistry('https://registry.hub.docker.com', '15887ad0-0df2-4b81-b7f7-96b1dc0dbaf4') {
             snmp2xml4j.push("${env.BUILD_NUMBER}")
             snmp2xml4j.push("latest")
         }
+
+
+
     }
 
 

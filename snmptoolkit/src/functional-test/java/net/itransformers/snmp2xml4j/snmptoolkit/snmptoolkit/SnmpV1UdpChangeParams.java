@@ -61,7 +61,7 @@ public class SnmpV1UdpChangeParams {
     @BeforeClass
     public static void prepareSettings() throws IOException, MibLoaderException {
 
-        snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-r", 3, 2000, 65535,10, 161);
+        snmpManager = new SnmpUdpV1Manager(TestResources.getMibLoaderHolder().getLoader(), "193.19.175.150", "netTransformer-aaaa", 3, 2000, 65535,10, 161);
         snmpManager.init();
 
     }
@@ -75,7 +75,7 @@ public class SnmpV1UdpChangeParams {
 
         Map<String,String> conParams = new HashMap<String,String>();
         conParams.put("ipAddress", "192.168.1.1");
-        conParams.put("snmpCommunity", "netTransformer-r");
+        conParams.put("snmpCommunity", "netTransformer-aaaa");
 
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};
@@ -107,7 +107,7 @@ public class SnmpV1UdpChangeParams {
 
         Map<String,String> conParams = new HashMap<String,String>();
         conParams.put("ipAddress", "193.19.175.150");
-        conParams.put("snmpCommunity", "test123");
+        conParams.put("snmpCommunity", "netTransformer-aaaa");
 
         OID oid = new OID("1.3.6.1.2.1.1.1.0");
         OID oids[] = new OID[]{oid};

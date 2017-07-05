@@ -1,6 +1,6 @@
 # Dockerfile
 
-FROM  java
+FROM java
 
 MAINTAINER  Nikolay Milovanov <nmil@itransformers.net>
 
