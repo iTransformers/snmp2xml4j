@@ -59,7 +59,7 @@ node() {
         sh "docker run -i   itransformers/snmp2xml4j:latest -O walk -v 2c -a 193.19.175.129 -p 161 -pr udp -c netTransformer-r -t 1000 -r 1 -m 100 -o 'sysDescr, sysName'"
     }
 
-    state ('Release-candidate'){
+    stage ('Release-candidate'){
 
 
         def server = Artifactory.server '819081409@1432230914724'
