@@ -22,8 +22,10 @@
 node() {
     def snmp2xml4j;
 
-    stage('Preparation') {    // Maven installation declared in the Jenkins "Global Tool Configuration"
+    stage('Preparation') {
         git url: 'https://github.com/iTransformers/snmp2xml4j'
+        sh "ls -l";
+        sh "df -h"
     }
 
     withMaven(maven: 'M3', mavenSettingsConfig: '55234634-bcc4-4034-9a07-a1df766290f5') {

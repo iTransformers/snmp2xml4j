@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ pom.xml
+  ~
+  ~ This work is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published
+  ~ by the Free Software Foundation; either version 2 of the License,
+  ~ or (at your option) any later version.
+  ~
+  ~ This work is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+  ~ USA
+  ~
+  ~ Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>snmp2xml4j-bundle</artifactId>
+    <version>1.0.5</version><!--Change for new version-->
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>net.itransformers</groupId>
+        <artifactId>snmp2xml4j</artifactId>
+        <version>1.0.5</version><!--Change for new version-->
+    </parent>
+    <organization>
+        <name>iTransformers Labs</name>
+        <url>http://itransformers.net</url>
+    </organization>
+    <url>http://itransformers.net/snmp2xml4j</url>
+    <developers>
+        <developer>
+            <id>niau</id>
+            <name>Nikolay Milovanov</name>
+            <email>nmil@itransformers.net</email>
+            <url>http://niau.org</url>
+            <organization>iTransformers Labs</organization>
+            <organizationUrl>http://itransformers.net</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Sofia</timezone>
+        </developer>
+        <developer>
+            <id>vasil-yordanov</id>
+            <name>Vasil Yordanov</name>
+            <email>vasil.yordanov@gmail.com</email>
+            <organization>iTransformers Labs</organization>
+            <organizationUrl>http://itransformers.net</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Sofia</timezone>
+        </developer>
+    </developers>
+    <!-- NOTE: These dependency declarations are only required to sort this project to the
+         end of the line in the multimodule build.
+
+         Since we only include the child1 module in our assembly, we only need to ensure this
+         distribution project builds AFTER that one...
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>net.itransformers</groupId>
+            <artifactId>mibs</artifactId>
+            <version>1.0.5</version><!--Change for new version-->
+        </dependency>
+
+        <dependency>
+            <groupId>net.itransformers</groupId>
+            <artifactId>snmptoolkit</artifactId>
+            <version>1.0.5</version><!--Change for new version-->
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <id>snmp2xml4j</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>net.itransformers.snmp2xml4j.snmptoolkit.MainClass</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                            <goals>
+                                <goal>aggregate</goal>
+                                <goal>jar</goal>
+
+                            </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+
+        </plugins>
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>/distribution/version-properties</directory>-->
+                <!--<filtering>true</filtering>-->
+            <!--</resource>-->
+        <!--</resources>-->
+    </build>
+
+</project>
