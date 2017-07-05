@@ -13,7 +13,7 @@ public class SnmpManagerTest {
     @Before
     public void setUp() throws Exception {
 
-         snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-aa", 1, 1000, 65535,10, 161);
+         snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-аaa", 1, 1000, 65535,10, 161);
         snmpManager.init();
 
 
