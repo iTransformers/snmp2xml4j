@@ -24,6 +24,8 @@ node() {
     def server;
     def buildInfo;
     def rtMaven;
+    def version;
+    def devVersion;
 
     def snmp2xml4j;
 
@@ -46,6 +48,9 @@ node() {
         rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
 
         buildInfo = Artifactory.newBuildInfo()
+        buildInfo.env.capture = true
+        buildInfo.retention maxBuilds: 10
+        buildInfo.retention maxDays: 7
     }
 
 
@@ -89,10 +94,15 @@ node() {
         sh "docker run -i   itransformers/snmp2xml4j:latest -O walk -v 2c -a 193.19.175.129 -p 161 -pr udp -c netTransformer-aaa -t 1000 -r 1 -m 100 -o 'sysDescr, sysName'"
     }
 
-    stage('Deploy') {
-
+    stage('Release') {
+      //  rtMaven.deployer.deployArtifacts = true
         rtMaven.deployer.deployArtifacts buildInfo
+
+        //rtMaven.run pom: 'pom.xml', goals: "-DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize release:prepare release:perform -B", buildInfo: buildInfo
+
     }
+
+    sh "${mvnHome}/bin/mvn "
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
     }
