@@ -1,12 +1,7 @@
 package net.itransformers.snmp2xml4j.snmptoolkit;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-
-
-import static org.junit.Assert.*;
 
 /**
  * Created by cpt2nmi on 15.6.2017 г..
@@ -18,7 +13,7 @@ public class SnmpManagerTest {
     @Before
     public void setUp() throws Exception {
 
-         snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-r", 1, 1000, 65535,10, 161);
+         snmpManager = new SnmpUdpV1Manager(null, "193.19.175.150", "netTransformer-aa", 1, 1000, 65535,10, 161);
         snmpManager.init();
 
 
