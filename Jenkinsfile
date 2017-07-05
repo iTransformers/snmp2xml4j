@@ -131,10 +131,11 @@ node() {
                 'failFast'           : true,
                 'copy'               : true
         ]
+        // Promote build
+        server.promote promotionConfig
+
     }
 
-    // Promote build
-    server.promote promotionConfig
 
 
 }
