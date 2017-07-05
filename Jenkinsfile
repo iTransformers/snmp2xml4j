@@ -117,5 +117,24 @@ node() {
 
     }
 
+    stage 'Promotion'
+    def promotionConfig = [
+            //Mandatory parameters
+            'buildName'          : buildInfo.name,
+            'buildNumber'        : buildInfo.number,
+            'targetRepo'         : 'libs-release-local',
+
+            //Optional parameters
+            'comment'            : 'this is the promotion comment',
+            'sourceRepo'         : 'libs-snapshot-local',
+            'status'             : 'Released',
+            'includeDependencies': true,
+            'failFast'           : true,
+            'copy'               : true
+    ]
+
+    // Promote build
+    server.promote promotionConfig
+
 
 }
