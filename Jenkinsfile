@@ -120,7 +120,7 @@ node() {
                 //Optional parameters
                 'comment'            : 'this is the promotion comment',
                 'sourceRepo'         : 'ext-snapshot-local',
-                'status'  Area           : 'Released',
+                'status'             : 'Released',
                 'includeDependencies': true,
                 'failFast'           : true,
                 'copy'               : true
