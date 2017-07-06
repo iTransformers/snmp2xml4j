@@ -122,7 +122,7 @@ node() {
                 'sourceRepo'         : 'ext-snapshot-local',
                 'status'             : 'Released',
                 'includeDependencies': true,
-                'failFast'           : true,
+                'failFast'           : false,
                 'copy'               : true
         ]
         try{
