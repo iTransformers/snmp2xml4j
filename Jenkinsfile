@@ -45,7 +45,7 @@ node() {
     String dockerFlag=params.docker;
 
 
-    BRANCH_NAME = "1.0.5-work"
+
     stage('Preparation') {
         checkout([$class           : 'GitSCM', branches: [[name: "*/${BRANCH_NAME}"]],
                   userRemoteConfigs: [[url: "https://github.com/iTransformers/snmp2xml4j.git"]]])
@@ -70,7 +70,7 @@ node() {
         pom = readMavenPom file: 'pom.xml'
 
         version = pom.version;
-        releaseVersion = version.replace("-SNAPSHOT", ".${currentBuild.number}")
+        relVersion = version.replace("-SNAPSHOT", ".${currentBuild.number}")
 
     }
 
