@@ -104,7 +104,7 @@ node() {
 
 
     stage('Release') {
-        if (release == 'YES') {
+        if (params.release == 'YES') {
             rtMaven.deployer.deployArtifacts = true
             //  rtMaven.deployer.deployArtifacts buildInfo
             rtMaven.run pom: 'pom.xml', goals: "-DreleaseVersion=${version} -DdevelopmentVersion=${relVersion} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize release:prepare release:perform -B", buildInfo: buildInfo
@@ -121,7 +121,7 @@ node() {
     }
     stage('Docker') {
 
-        if (docker == 'YES') {
+        if (params.docker == 'YES') {
             /* This builds the actual image; synonymous to
              * docker build on the command line */
             env.BUNDLE_JAR_NAME = "snmp2xml4j-bundle-" + version + ".jar"
@@ -142,7 +142,7 @@ node() {
 
     stage('Promotion') {
 
-        if (release == 'YES') {
+        if (params.release == 'YES') {
             //If we have artefactory pro ;)
             def promotionConfig = [
                     //Mandatory parameters
