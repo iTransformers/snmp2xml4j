@@ -82,9 +82,13 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <scm>
-        <url>https://github.com/iTransformers/snmp2xml4j</url>
+        <url>https://github.com/iTransformers/snmp2xml4j.git</url>
+        <connection>scm:git:ssh://git@github.com/iTransformers/snmp2xml4j.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/iTransformers/snmp2xml4j.git</developerConnection>
     </scm>
+
 
     <modules>
         <module>snmptoolkit</module>
