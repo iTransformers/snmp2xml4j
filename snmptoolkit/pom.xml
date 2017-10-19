@@ -25,11 +25,11 @@
 
     <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>snmptoolkit</artifactId>
-    <version>1.0.7-SNAPSHOT</version><!--Change for new version-->
+    <version>1.0.7</version><!--Change for new version-->
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.7-SNAPSHOT</version><!--Change for new version-->
+        <version>1.0.7</version><!--Change for new version-->
     </parent>
 
     <organization>
