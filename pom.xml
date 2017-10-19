@@ -20,14 +20,12 @@
   ~ Copyright (c) 2010-2016 iTransformers Labs. All rights reserved.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.itransformers</groupId>
     <artifactId>snmp2xml4j</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
     <description>snmp2xml4j is a tool for performing snmpwalks and outputting the result in xml</description>
     <organization>
         <name>iTransformers Labs</name>
@@ -87,7 +85,8 @@
         <url>https://github.com/iTransformers/snmp2xml4j.git</url>
         <connection>scm:git:ssh://git@github.com/iTransformers/snmp2xml4j.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/iTransformers/snmp2xml4j.git</developerConnection>
-    </scm>
+      <tag>snmp2xml4j-1.0.5</tag>
+  </scm>
 
 
     <modules>
