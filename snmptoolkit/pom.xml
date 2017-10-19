@@ -25,11 +25,11 @@
 
     <groupId>net.itransformers.snmp2xml4j</groupId>
     <artifactId>snmptoolkit</artifactId>
-    <version>1.0.7-SNAPSHOT</version><!--Change for new version-->
+    <version>1.0.7</version><!--Change for new version-->
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.7-SNAPSHOT</version><!--Change for new version-->
+        <version>1.0.7</version><!--Change for new version-->
     </parent>
 
     <organization>
@@ -135,19 +135,19 @@
                     <!--<threadCount>5</threadCount>-->
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-source-plugin</artifactId>-->
+                <!--<version>3.0.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>attach-sources</id>-->
+                        <!--<goals>-->
+                            <!--<goal>jar-no-fork</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
