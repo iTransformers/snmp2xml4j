@@ -24,13 +24,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>snmp2xml4j-bundle</artifactId>
-    <version>1.0.7-SNAPSHOT</version><!--Change for new version-->
+    <version>1.0.7</version><!--Change for new version-->
     <packaging>jar</packaging>
 
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.7-SNAPSHOT</version><!--Change for new version-->
+        <version>1.0.7</version><!--Change for new version-->
     </parent>
     <organization>
         <name>iTransformers Labs</name>
@@ -86,30 +86,32 @@
     <build>
         <plugins>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <id>snmp2xml4j</id>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>net.itransformers.snmp2xml4j.snmptoolkit.MainClass</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-shade-plugin</artifactId>-->
+                <!--<version>2.4.3</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<id>snmp2xml4j</id>-->
+                        <!--<goals>-->
+                            <!--<goal>shade</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<transformers>-->
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+                                    <!--<mainClass>net.itransformers.snmp2xml4j.snmptoolkit.MainClass</mainClass>-->
+                                <!--</transformer>-->
+                            <!--</transformers>-->
 
-                </configuration>
-            </plugin>
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+
+
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
