@@ -119,9 +119,9 @@
     </dependencies>
     <build>
         <resources>
-            <resource>
-                <directory>${project.basedir}</directory>
-            </resource>
+            <!--<resource>-->
+                <!--<directory>${project.basedir}</directory>-->
+            <!--</resource>-->
 
         </resources>
         <plugins>
