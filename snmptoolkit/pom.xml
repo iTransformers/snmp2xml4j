@@ -169,7 +169,14 @@
                 </executions>
             </plugin>
         </plugins>
-
+              <resources>
+                  <resource>
+                      <directory>${project.basedir}</directory>
+                      <excludes>
+                          <exclude>snmptoolkit/target/*</exclude>
+                      </excludes>
+                  </resource>
+              </resources>
     </build>
     <profiles>
         <profile>
