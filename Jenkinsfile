@@ -41,8 +41,11 @@ node() {
     def relVersion;
     def snmp2xml4j;
     def pom;
+    String relFlag=params.release;
+    String dockerFlag=params.docker;
 
-    BRANCH_NAME = "1.0.5-work"
+
+
     stage('Preparation') {
         checkout([$class           : 'GitSCM', branches: [[name: "*/${BRANCH_NAME}"]],
                   userRemoteConfigs: [[url: "https://github.com/iTransformers/snmp2xml4j.git"]]])
@@ -67,12 +70,9 @@ node() {
         pom = readMavenPom file: 'pom.xml'
 
         version = pom.version;
-        releaseVersion = version.replace("-SNAPSHOT", ".${currentBuild.number}")
-
+        relVersion = version.replace("-SNAPSHOT", ".${currentBuild.number}")
 
     }
-
-
 
     stage('Unit test') {
 //      sh "mvn clean test"
@@ -104,7 +104,7 @@ node() {
 
 
     stage('Release') {
-        if ("YES".equals(params.release.toString())) {
+        if (relFlag == 'YES') {
             rtMaven.deployer.deployArtifacts = true
             //  rtMaven.deployer.deployArtifacts buildInfo
             rtMaven.run pom: 'pom.xml', goals: "-DreleaseVersion=${version} -DdevelopmentVersion=${relVersion} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize release:prepare release:perform -B", buildInfo: buildInfo
@@ -121,7 +121,7 @@ node() {
     }
     stage('Docker') {
 
-        if ("YES".equals(params.docker.toString())) {
+        if (dockerFlag == 'YES') {
             /* This builds the actual image; synonymous to
              * docker build on the command line */
             env.BUNDLE_JAR_NAME = "snmp2xml4j-bundle-" + version + ".jar"
@@ -142,7 +142,7 @@ node() {
 
     stage('Promotion') {
 
-        if ("YES".equals(params.release.toString())) {
+        if (relFlag == 'YES') {
             //If we have artefactory pro ;)
             def promotionConfig = [
                     //Mandatory parameters
