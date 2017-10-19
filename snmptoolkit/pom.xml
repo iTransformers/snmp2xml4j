@@ -72,17 +72,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>snmp</groupId>
-            <artifactId>mibble-parser</artifactId>
-            <version>2.9.2</version>
+            <groupId>net.percederberg.mibble</groupId>
+            <artifactId>mibble</artifactId>
+            <version>2.9.3</version>
         </dependency>
+
+
         <dependency>
-            <groupId>snmp</groupId>
-            <artifactId>mibble-mibs</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>snmp</groupId>
+            <groupId>net.percederberg.grammatica</groupId>
             <artifactId>grammatica</artifactId>
             <version>1.5</version>
         </dependency>
