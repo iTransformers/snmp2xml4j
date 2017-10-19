@@ -216,58 +216,39 @@
         </plugins>
 
     </build>
-    <distributionManagement>
-        <repository>
-            <id>jfrogrepo</id>
-            <name>jfrogrepo-releases</name>
-            <url>http://193.19.172.133:24280/artifactory/ext-release-local</url>
-        </repository>
-            <snapshotRepository>
-                <id>jfrogrepo</id>
-                <name>jfrogrepo-snapshots</name>
-                <url>http://repos.itransformers.net:8081/artifactory/ext-snapshot-local</url>
-            </snapshotRepository>
-    </distributionManagement>
     <!--<distributionManagement>-->
-        <!--<snapshotRepository>-->
-            <!--<id>ossrh</id>-->
-            <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-        <!--</snapshotRepository>-->
         <!--<repository>-->
-            <!--<id>ossrh</id>-->
-            <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+            <!--<id>jfrogrepo</id>-->
+            <!--<name>jfrogrepo-releases</name>-->
+            <!--<url>http://193.19.172.133:24280/artifactory/ext-release-local</url>-->
         <!--</repository>-->
-
-
+            <!--<snapshotRepository>-->
+                <!--<id>jfrogrepo</id>-->
+                <!--<name>jfrogrepo-snapshots</name>-->
+                <!--<url>http://repos.itransformers.net:8081/artifactory/ext-snapshot-local</url>-->
+            <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+
+
+    </distributionManagement>
 
     <repositories>
         <repository>
-            <id>iTransformers Repo</id>
-            <name>repo</name>
-            <url>http://repo.itransformers.net/repos</url>
+            <id>OpenNMs</id>
+            <name>OpenNMS repo</name>
+            <url>http://repo.opennms.org/maven2</url>
         </repository>
 
-         <!--tcljava is provided by SpringSource-->
-        <repository>
-            <id>jfrogrepo-libs-release-local</id>
-            <name>jfrogrepo-releases</name>
-            <url>http://repos.itransformers.net:8081/artifactory/libs-release-local</url>
-        </repository>
-        <repository>
-            <id>jfrogrepo-ext-release-local</id>
-            <name>jfrogrepo-releases</name>
-            <url>http://repos.itransformers.net:8081/artifactory/ext-release-local</url>
-        </repository>
 
-        <!--<repository>-->
-            <!--<snapshots>-->
-                <!--<enabled>false</enabled>-->
-            <!--</snapshots>-->
-            <!--<id>central</id>-->
-            <!--<name>bintray</name>-->
-            <!--<url>http://jcenter.bintray.com</url>-->
-        <!--</repository>-->
     </repositories>
 
 
