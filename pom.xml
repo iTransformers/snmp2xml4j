@@ -25,7 +25,7 @@
 
     <groupId>net.itransformers</groupId>
     <artifactId>snmp2xml4j</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
     <description>snmp2xml4j is a tool for performing snmpwalks and outputting the result in xml</description>
     <organization>
         <name>iTransformers Labs</name>
@@ -85,13 +85,13 @@
         <url>https://github.com/iTransformers/snmp2xml4j.git</url>
         <connection>scm:git:ssh://git@github.com/iTransformers/snmp2xml4j.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/iTransformers/snmp2xml4j.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>snmp2xml4j-1.0.7</tag>
   </scm>
 
 
     <modules>
         <module>snmptoolkit</module>
-        <module>snmp2xml4j-bundle</module>
+        <!--<module>snmp2xml4j-bundle</module>-->
     </modules>
 
 
@@ -194,7 +194,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
