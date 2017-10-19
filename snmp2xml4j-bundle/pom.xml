@@ -24,13 +24,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>snmp2xml4j-bundle</artifactId>
-    <version>1.0.5</version><!--Change for new version-->
+    <version>1.0.6-SNAPSHOT</version><!--Change for new version-->
     <packaging>jar</packaging>
 
     <parent>
         <groupId>net.itransformers</groupId>
         <artifactId>snmp2xml4j</artifactId>
-        <version>1.0.5</version><!--Change for new version-->
+        <version>1.0.6-SNAPSHOT</version><!--Change for new version-->
     </parent>
     <organization>
         <name>iTransformers Labs</name>
